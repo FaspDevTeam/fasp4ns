@@ -1,0 +1,90 @@
+%----------------------------------------------%
+% FASP4CUDA input parameters                   %
+% lines starting with % are comments           %
+% must have spaces around the equal sign "="   %
+%----------------------------------------------%
+
+workdir  = ./data/     % work directory, no more than 128 characters
+problem_num    = 6     % Problem number 
+print_level    = 3     % How much information to print out 
+output_type    = 0     % output_type: 0 Standard output | >0 File
+ 
+%----------------------------------------------%
+% parameters for iterative solvers             %
+%----------------------------------------------%
+
+solver_type  = 5      % Solver type:   | 3 MinRes | 4 GMRES | 5 FGMRES | 6 GCR
+
+precond_type   = 2     % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 SYM_TRI
+			% 		 
+
+stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
+
+itsolver_tol   = 1e-6   % Solver tolerance 
+
+itsolver_maxit = 100    % Maximal iteration number 
+
+%----------------------------------------------%
+% parameters for ILU preconditioners           %
+%----------------------------------------------%
+
+ILU_type       = 3      % 1 ILUs | 2 ILUt | 3 ILUk | 4 ILUtp 
+ILU_lfil       = 0      % the level of fill-in for ILU 
+ILU_relax      = 0.9    % add the dropped entries to diagnal by this relax parameter
+ILU_droptol    = 0.1    % the drop tolerence for ILU 
+ILU_permtol    = 0.001  % permutation toleration for ILUtp
+
+%----------------------------------------------%
+% parameters for Schwarz preconditioners       %
+%----------------------------------------------%
+
+Schwarz_mmsize           = 200    % max block size
+Schwarz_maxlvl           = 3      % level used to form blocks
+Schwarz_type             = 1      % 1 forward | 2 backward | 3 symmetric
+
+%----------------------------------------------%
+% parameters for AMG preconditioners           %
+%----------------------------------------------%
+
+AMG_type		 = UA     % C classic AMG | SA smoothed aggregation AMG | UA
+AMG_cycle_type		 = V    % V V-cycle | W W-cycle | A AMLI-cycle
+AMG_smoother             = GS    % JACOBI | L1_DIAG | GS
+AMG_smooth_order         = NO     % NO: natural order | CF: CF order
+AMG_levels               = 20    % max number of levels
+AMG_ILU_levels           = 0     % number of levels using ILU smoother
+AMG_schwarz_levels       = 0	  % number of levels using Schwarz smoother
+AMG_relaxation	         = 1.1   % over relaxation parameter for SOR smoother 
+AMG_presmooth_iter       = 1     % number of presmoothing
+AMG_postsmooth_iter      = 1     % number of postsmoothing
+AMG_coarse_dof           = 100   % max number of coarse degrees of freedom
+AMG_tol                  = 1e-8  % tolerance for AMG
+AMG_maxit                = 1     % number of AMG iterations
+AMG_coarse_scaling	 = OFF	 % switch of scaling of the coarse grid correction 
+AMG_amli_degree		 = 2	 % degree of the polynomial used by AMLI cycle
+
+%----------------------------------------------%
+% parameters for classical AMG method          %
+%----------------------------------------------%
+
+AMG_coarsening_type      = 4      % 1 Modified RS
+                                  % 3 Compatible Relaxation
+                                  % 4 Aggressive    
+AMG_interpolation_type   = 2      % 1 Direct | 2 Standard | 3 Energy-min
+AMG_strong_threshold     = 0.25  % strong threshold
+AMG_truncation_threshold = 0.4   % truncation threshold
+AMG_max_row_sum          = 0.9   % max row sum
+
+%----------------------------------------------%
+% parameters for smoothed aggregation AMG      %
+%----------------------------------------------%
+
+AMG_strong_coupled	 = 0.04  % strong coupled threshold
+AMG_max_aggregation	 = 100     % max size of each aggregation 
+AMG_tentative_smooth	 = 0.67   % smooth factor for smoothing the tentative prolongation
+AMG_smooth_filter	 = OFF   % switch for filtered matrix for smoothing
+
+%----------------------------------------------%
+% parameters for FGMRES/GCR method                  %
+%----------------------------------------------%
+
+itsolver_restart         = 20     % Restart number for GMRES
