@@ -44,7 +44,8 @@ int main (int argc, const char * argv[])
     Schwarz_param   schparam; // parameters for Schwarz
     //precond_ns_param sparam;
     //precond_ns_data  sprecdata;
-	fasp_param_init(inputfile,&inparam,&itparam,&amgparam,&iluparam,&schparam);
+    fasp_param_input(inputfile, &inparam);
+	fasp_param_init(&inparam,&itparam,&amgparam,&iluparam,&schparam);
     //fasp_ns_param_init(&inparam,&sparam, &sprecdata);
 	
 	// Set local parameters
