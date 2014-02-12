@@ -299,10 +299,10 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 //FINISHED:
 	// clean up memory
 	if (mgl) fasp_amg_data_free(mgl,&amgnsparam->param_v);
-    if (mgl_s) fasp_amg_data_free(mgl_s,&amgnsparam->param_p);
+    if (itparam->precond_p_type == 1){fasp_dvec_free(&diag_S);}
+    if (itparam->precond_p_type == 2) fasp_amg_data_free(mgl_s,&amgnsparam->param_p);
     
 	fasp_mem_free(precdata.w);
-	fasp_dvec_free(&diag_S);
     fasp_dvec_free(&res_p);
     fasp_dvec_free(&sol_p);
 	fasp_dcsr_free (&S);
