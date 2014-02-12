@@ -15,27 +15,11 @@
 int assemble(block_dCSRmat *ptr_A, dvector *ptr_b, int gridnum);
 
 
-/*-------- In file: init.c --------*/
-
-void fasp_precond_ns_param_init (precond_ns_param *sparam);
-
-void fasp_precond_ns_data_init (precond_ns_data *sprecdata);
-
-void fasp_precond_ns_param_set(precond_ns_param *sparam,
-                                   input_param *Input);
-
-void fasp_precond_ns_data_set (precond_ns_data *sprecdata,
-                                    input_param *Input);
-
-void fasp_ns_param_init(input_param *Input,
-                            precond_ns_param *sparam,
-                            precond_ns_data  *sprecdata);
-
 
 /*-------- In file: input.c --------*/
 
 void fasp_ns_param_input (char *filenm, 
-                          input_param *Input);
+                          input_ns_param *Input);
 
 
 /*-------- In file: io.c --------*/
@@ -64,15 +48,15 @@ int fasp_ns_solver_itsolver(block_dCSRmat *A,
                                dvector *b, 
                                dvector *x, 
                                precond *prec, 
-                               itsolver_param *itparam);
+                               itsolver_ns_param *itparam);
 
 int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
-                                        dvector *b,
-                                        dvector *x,
-                                        itsolver_param *itparam,
-                                        AMG_param *amgparam,
-                                        ILU_param *iluparam,
-                                        Schwarz_param *schparam);
+                                            dvector *b,
+                                            dvector *x,
+                                            itsolver_ns_param *itparam,
+                                            AMG_ns_param *amgparam,
+                                            ILU_param *iluparam,
+                                            Schwarz_param *schparam);
 
 INT fasp_solver_bdcsr_krylov_ns (block_dCSRmat *Mat, 
                                      dvector *b, 
@@ -96,7 +80,33 @@ int fasp_solver_bdcsr_pgcr (block_dCSRmat *A,
                             const int stop_type, 
                             const int restart);
 
+/*-------- In file: parameters.c --------*/
+void fasp_ns_param_init (input_ns_param *inparam,
+                         itsolver_ns_param *itsparam,
+                         AMG_ns_param *amgparam,
+                         ILU_param *iluparam,
+                         Schwarz_param *schparam);
 
+void fasp_ns_param_input_init (input_ns_param *inparam);
+
+void fasp_ns_param_amg_init (AMG_ns_param *amgparam);
+
+void fasp_ns_param_amg_set (AMG_ns_param *param,
+                            input_ns_param *inparam);
+
+void fasp_ns_param_solver_init(itsolver_ns_param *itsparam);
+
+void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
+                               input_ns_param *inparam);
+
+void fasp_ns_param_ilu_set (ILU_param *iluparam,
+                         input_ns_param *inparam);
+
+void fasp_ns_param_schwarz_set (Schwarz_param *schparam,
+                             input_ns_param *inparam);
+
+//void fasp_ns_amg_to_amg_param (AMG_param *param,
+//                               AMG_ns_param *inparam);
 /*-------- In file: precond_ns.c --------*/
 
 void fasp_precond_ns_bdiag (REAL *r, 

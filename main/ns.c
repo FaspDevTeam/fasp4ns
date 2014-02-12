@@ -37,15 +37,17 @@ int main (int argc, const char * argv[])
     
 	/** Step 0. Read input parameters */
 	char *inputfile = "ini/ns.dat";
-	input_param     inparam;  // parameters from input files
-	itsolver_param  itparam;  // parameters for itsolver
-	AMG_param       amgparam; // parameters for AMG
-	ILU_param       iluparam; // parameters for ILU
-    Schwarz_param   schparam; // parameters for Schwarz
+	input_ns_param     inparam;  // parameters from input files
+	itsolver_ns_param  itparam;  // parameters for itsolver
+	AMG_ns_param      amgparam; // parameters for AMG
+	ILU_param         iluparam; // parameters for ILU
+    Schwarz_param     schparam; // parameters for Schwarz
     //precond_ns_param sparam;
     //precond_ns_data  sprecdata;
-	fasp_param_init(inputfile,&inparam,&itparam,&amgparam,&iluparam,&schparam);
-    //fasp_ns_param_init(&inparam,&sparam, &sprecdata);
+    //fasp_param_input(inputfile,&inparam);
+    fasp_ns_param_input(inputfile,&inparam);
+    fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);
+	//fasp_param_init(inputfile,&inparam,&itparam,&amgparam,&iluparam,&schparam);
 	
 	// Set local parameters
 	const int print_level   = inparam.print_level;
@@ -85,7 +87,7 @@ int main (int argc, const char * argv[])
         char *fileB = "data/test_3/Matrix_B";
         char *fileC = "data/test_3/Matrix_C";
         char *filerhs= "data/test_3/RHS";
-        fasp_bdcsr_read_1(fileA,fileB,fileC,filerhs,&A,&b);
+        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     else if (problem_num == 4) {
         char *fileA = "data/test_4/Matrix_A";
@@ -99,7 +101,7 @@ int main (int argc, const char * argv[])
         char *fileB = "data/test_5/Matrix_B";
         char *fileC = "data/test_5/Matrix_C";
         char *filerhs= "data/test_5/RHS";
-        fasp_bdcsr_read_1(fileA,fileB,fileC,filerhs,&A,&b);
+        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     else if (problem_num == 6) {
         char *fileA = "data/test_6/Matrix_A";
@@ -119,16 +121,18 @@ int main (int argc, const char * argv[])
     }
     else if (problem_num == 10) {
         
-        char *fileA = "data/data4Xiaozhe/A0.mat";
-        char *fileB = "data/data4Xiaozhe/B0.mat";
-        char *fileBt = "data/data4Xiaozhe/Bt0.mat";
-        char *fileC = "data/data4Xiaozhe/C0.mat";
-        char *filerhs= "data/data4Xiaozhe/rhs0.dat";
+        char *fileA = "data/test_1/A.dat";
+        char *fileB = "data/test_1/B.dat";
+        char *fileBt = "data/test_1/Bt.dat";
+        char *fileC = "data/test_1/C.dat";
+        char *filerhs= "data/test_1/rhs.dat";
         
         fasp_dcoo_read(fileA,&RR);
         fasp_dcoo_read(fileBt,&RW);
         fasp_dcoo_read(fileB,&WR);
         fasp_dcoo_read(fileC,&WW);
+        
+        fasp_blas_dcsr_axm(&WW,1e+3);
         
         fasp_dvec_read(filerhs,&b);
         
@@ -145,6 +149,7 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileBt,&RW);
         fasp_dcoo_read(fileB,&WR);
         fasp_dcoo_read(fileC,&WW);
+        
         
         fasp_dvec_read(filerhs,&b);
         
@@ -216,7 +221,7 @@ int main (int argc, const char * argv[])
     
     // initial guess
 	fasp_dvec_alloc(b.row, &uh); fasp_dvec_set(b.row,&uh,0.0);
-
+    
     if (itsolver_type == 0) {
         dvector b_test, uh_test;
         int nrow = A.blocks[0]->row;
@@ -224,12 +229,13 @@ int main (int argc, const char * argv[])
         for (i = 0;i < nrow;i++)
             b_test.val[i] = b.val[i];
         fasp_dvec_alloc(nrow, &uh_test); fasp_dvec_set(nrow,&uh_test,0.0);
-		fasp_solver_amg(A.blocks[0], &b_test, &uh_test, &amgparam); 
+		fasp_solver_amg(A.blocks[0], &b_test, &uh_test, &(amgparam.param_v));
 	}
     else if (precond_type == PREC_DIAG){
         flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
     }
     else if ((precond_type == PREC_UP_TRI)|| (precond_type == PREC_UP_TRI)) {
+        
         flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
     }
     else {
