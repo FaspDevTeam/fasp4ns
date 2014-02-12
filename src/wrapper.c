@@ -200,15 +200,11 @@ void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
 	/** Step 0. Read input parameters */
 //        char *inputfile = "ini/ns.dat";
         char *inputfile = "fasp4ns.dat";
-	input_param     inparam;  // parameters from input files
-	itsolver_param  itparam;  // parameters for itsolver
-	AMG_param       amgparam; // parameters for AMG
-	ILU_param       iluparam; // parameters for ILU
-    Schwarz_param   schparam; // parameters for Schwarz
-    //precond_ns_param sparam;
-    //precond_ns_data  sprecdata;
-    fasp_param_input(inputfile, &inparam);
-	fasp_param_init(&inparam,&itparam,&amgparam,&iluparam,&schparam);
+	input_ns_param     inparam;  // parameters from input files
+	itsolver_ns_param  itparam;  // parameters for itsolver
+	AMG_ns_param      amgparam; // parameters for AMG
+	ILU_param         iluparam; // parameters for ILU
+    Schwarz_param     schparam; // parameters for Schwarz
     //fasp_ns_param_init(&inparam,&sparam, &sprecdata);
     
     // Set local parameters
