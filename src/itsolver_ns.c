@@ -292,6 +292,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 	
 	if (print_level>0) {
 		solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
+        printf(COLOR_RESET);
 		printf("Solver costs %f seconds.\n", solver_duration);	
 		printf("Total costs %f seconds.\n", setup_duration + solver_duration);
 	}
