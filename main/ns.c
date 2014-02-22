@@ -17,6 +17,8 @@
  *
  * This is the main function for test purpose.
  * Lu Wang
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
  */
 int main (int argc, const char * argv[]) 
 {
@@ -42,12 +44,9 @@ int main (int argc, const char * argv[])
 	AMG_ns_param      amgparam; // parameters for AMG
 	ILU_param         iluparam; // parameters for ILU
     Schwarz_param     schparam; // parameters for Schwarz
-    //precond_ns_param sparam;
-    //precond_ns_data  sprecdata;
-    //fasp_param_input(inputfile,&inparam);
+    
     fasp_ns_param_input(inputfile,&inparam);
     fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);
-	//fasp_param_init(inputfile,&inparam,&itparam,&amgparam,&iluparam,&schparam);
 	
 	// Set local parameters
 	const int print_level   = inparam.print_level;
@@ -110,15 +109,7 @@ int main (int argc, const char * argv[])
         char *filerhs= "data/test_6/RHS";
         fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
-	else if (problem_num == 20) {
-        char *fileA = "data/out/data_0/A11.dat";
-        char *fileB = "data/out/data_0/A12.dat";
-        char *fileC = "data/out/data_0/A21.dat";
-        char *fileD = "data/out/data_0/A22.dat";
-        char *filerhs= "data/out/data_0/b.dat";
-        char *filex0= "data/out/data_0/x.dat";
-        fasp_bdcsr_read_ruth(fileA,fileB,fileC,fileD,filerhs,filex0,&A,&b,&uh);
-    }
+	
     else if (problem_num == 10) {
         
         char *fileA = "data/test_1/A.dat";
@@ -202,6 +193,25 @@ int main (int argc, const char * argv[])
         fasp_dvec_read(filerhs,&b);
         
     }
+    
+    else if (problem_num == 20) {
+        char *fileA = "data/out/data_0/A11.dat";
+        char *fileB = "data/out/data_0/A12.dat";
+        char *fileC = "data/out/data_0/A21.dat";
+        char *fileD = "data/out/data_0/A22.dat";
+        char *filerhs= "data/out/data_0/b.dat";
+        char *filex0= "data/out/data_0/x.dat";
+        fasp_bdcsr_read_ruth(fileA,fileB,fileC,fileD,filerhs,filex0,&A,&b,&uh);
+    }
+    
+    else if (problem_num == 47) {
+        char *fileA = "data/3DUnstructuredFSI/Matrix_A";
+        char *fileB = "data/3DUnstructuredFSI/Matrix_B";
+        char *fileC = "data/3DUnstructuredFSI/Matrix_C";
+        char *filerhs= "data/3DUnstructuredFSI/RHS";
+        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+	}
+    
 	else {
 		printf("Error: No such a problem number %d\n", problem_num);
 		return -1;

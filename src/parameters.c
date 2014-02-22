@@ -32,6 +32,8 @@
  * \author Lu Wang
  * \date   2014/02/11
  *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_ns_param_init (input_ns_param *inparam,
                       itsolver_ns_param *itsparam,
@@ -72,6 +74,9 @@ void fasp_ns_param_init (input_ns_param *inparam,
  *
  * \author Lu Wang
  * \date   2014/01/1
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_ns_param_input_init (input_ns_param *inparam)
 {
@@ -93,18 +98,18 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
     inparam->restart                  = 25;
     
     // Velocity block parameters
-    inparam->solver_v_type             = SOLVER_CG;
-    inparam->precond_v_type            = PREC_AMG;
-    inparam->pre_v_tol                 = 1e-2;
-    inparam->pre_v_maxit               = 20;
-    inparam->pre_v_restart             = 20;
+    inparam->itsolver_type_v             = SOLVER_CG;
+    inparam->precond_type_v            = PREC_AMG;
+    inparam->pre_tol_v                 = 1e-2;
+    inparam->pre_maxit_v               = 20;
+    inparam->pre_restart_v             = 20;
     
-    // Velocity block parameters
-    inparam->solver_p_type             = SOLVER_CG;
-    inparam->precond_p_type            = PREC_AMG;
-    inparam->pre_p_tol                 = 1e-2;
-    inparam->pre_p_maxit               = 20;
-    inparam->pre_p_restart             = 20;
+    // Pressure block parameters
+    inparam->itsolver_type_p             = SOLVER_CG;
+    inparam->precond_type_p            = PREC_AMG;
+    inparam->pre_tol_p                 = 1e-2;
+    inparam->pre_maxit_p               = 20;
+    inparam->pre_restart_p             = 20;
     
     // ILU method parameters
     inparam->ILU_type                 = ILUk;
@@ -119,70 +124,70 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
 	inparam->Schwarz_type             = 1;
     
     // AMG method parameters
-    inparam->AMG_type                 = UA_AMG;
-    inparam->AMG_levels               = 20;
-    inparam->AMG_cycle_type           = V_CYCLE;
-    inparam->AMG_smoother             = SMOOTHER_GS;
-    inparam->AMG_smooth_order         = CF_ORDER;
-    inparam->AMG_presmooth_iter       = 2;
-    inparam->AMG_postsmooth_iter      = 2;
-    inparam->AMG_relaxation           = 1.0;
-    inparam->AMG_coarse_dof           = 500;
-    inparam->AMG_tol                  = 1e-4*inparam->itsolver_tol;
-    inparam->AMG_maxit                = 1;
-    inparam->AMG_ILU_levels           = 0;
-    inparam->AMG_schwarz_levels       = 0;
-    inparam->AMG_coarse_scaling       = OFF; // Require investigation --Chensong
-    inparam->AMG_amli_degree          = 1;
-    inparam->AMG_nl_amli_krylov_type  = 2;
+    inparam->AMG_type_v                 = UA_AMG;
+    inparam->AMG_levels_v               = 20;
+    inparam->AMG_cycle_type_v           = V_CYCLE;
+    inparam->AMG_smoother_v             = SMOOTHER_GS;
+    inparam->AMG_smooth_order_v         = CF_ORDER;
+    inparam->AMG_presmooth_iter_v       = 2;
+    inparam->AMG_postsmooth_iter_v      = 2;
+    inparam->AMG_relaxation_v           = 1.0;
+    inparam->AMG_coarse_dof_v           = 500;
+    inparam->AMG_tol_v                  = 1e-4*inparam->itsolver_tol;
+    inparam->AMG_maxit_v                = 1;
+    inparam->AMG_ILU_levels_v           = 0;
+    inparam->AMG_schwarz_levels_v       = 0;
+    inparam->AMG_coarse_scaling_v       = OFF; // Require investigation --Chensong
+    inparam->AMG_amli_degree_v          = 1;
+    inparam->AMG_nl_amli_krylov_type_v  = 2;
     
     // Classical AMG specific
-    inparam->AMG_coarsening_type      = 1;
-    inparam->AMG_interpolation_type   = 1;
-    inparam->AMG_max_row_sum          = 0.9;
-    inparam->AMG_strong_threshold     = 0.5;
-    inparam->AMG_truncation_threshold = 0.4;
-    inparam->AMG_aggressive_level     = 0;
-    inparam->AMG_aggressive_path      = 1;
+    inparam->AMG_coarsening_type_v      = 1;
+    inparam->AMG_interpolation_type_v   = 1;
+    inparam->AMG_max_row_sum_v          = 0.9;
+    inparam->AMG_strong_threshold_v     = 0.5;
+    inparam->AMG_truncation_threshold_v = 0.4;
+    inparam->AMG_aggressive_level_v     = 0;
+    inparam->AMG_aggressive_path_v      = 1;
     
     // Aggregation AMG specific
-    inparam->AMG_strong_coupled       = 0.08;
-    inparam->AMG_max_aggregation      = 9;
-    inparam->AMG_tentative_smooth     = 0.67;
-    inparam->AMG_smooth_filter        = ON;
+    inparam->AMG_strong_coupled_v       = 0.08;
+    inparam->AMG_max_aggregation_v      = 9;
+    inparam->AMG_tentative_smooth_v     = 0.67;
+    inparam->AMG_smooth_filter_v        = ON;
     
     // AMG method parameters
-    inparam->AMG_p_type                 = UA_AMG;
-    inparam->AMG_p_levels               = 20;
-    inparam->AMG_p_cycle_type           = V_CYCLE;
-    inparam->AMG_p_smoother             = SMOOTHER_GS;
-    inparam->AMG_p_smooth_order         = CF_ORDER;
-    inparam->AMG_p_presmooth_iter       = 2;
-    inparam->AMG_p_postsmooth_iter      = 2;
-    inparam->AMG_p_relaxation           = 1.0;
-    inparam->AMG_p_coarse_dof           = 500;
-    inparam->AMG_p_tol                  = 1e-4*inparam->itsolver_tol;
-    inparam->AMG_p_maxit                = 1;
-    inparam->AMG_p_ILU_levels           = 0;
-    inparam->AMG_p_schwarz_levels       = 0;
-    inparam->AMG_p_coarse_scaling       = OFF; // Require investigation --Chensong
-    inparam->AMG_p_amli_degree          = 1;
-    inparam->AMG_p_nl_amli_krylov_type  = 2;
+    inparam->AMG_type_p                = UA_AMG;
+    inparam->AMG_levels_p               = 20;
+    inparam->AMG_cycle_type_p           = V_CYCLE;
+    inparam->AMG_smoother_p             = SMOOTHER_GS;
+    inparam->AMG_smooth_order_p         = CF_ORDER;
+    inparam->AMG_presmooth_iter_p       = 2;
+    inparam->AMG_postsmooth_iter_p      = 2;
+    inparam->AMG_relaxation_p           = 1.0;
+    inparam->AMG_coarse_dof_p           = 500;
+    inparam->AMG_tol_p                  = 1e-4*inparam->itsolver_tol;
+    inparam->AMG_maxit_p                = 1;
+    inparam->AMG_ILU_levels_p           = 0;
+    inparam->AMG_schwarz_levels_p       = 0;
+    inparam->AMG_coarse_scaling_p       = OFF; // Require investigation --Chensong
+    inparam->AMG_amli_degree_p          = 1;
+    inparam->AMG_nl_amli_krylov_type_p  = 2;
     
     // Classical AMG specific
-    inparam->AMG_p_coarsening_type      = 1;
-    inparam->AMG_p_interpolation_type   = 1;
-    inparam->AMG_p_max_row_sum          = 0.9;
-    inparam->AMG_p_strong_threshold     = 0.5;
-    inparam->AMG_p_truncation_threshold = 0.4;
-    inparam->AMG_p_aggressive_level     = 0;
-    inparam->AMG_p_aggressive_path      = 1;
+    inparam->AMG_coarsening_type_p      = 1;
+    inparam->AMG_interpolation_type_p   = 1;
+    inparam->AMG_max_row_sum_p          = 0.9;
+    inparam->AMG_strong_threshold_p     = 0.5;
+    inparam->AMG_truncation_threshold_p = 0.4;
+    inparam->AMG_aggressive_level_p     = 0;
+    inparam->AMG_aggressive_path_p      = 1;
     
     // Aggregation AMG specific
-    inparam->AMG_p_strong_coupled       = 0.08;
-    inparam->AMG_p_max_aggregation      = 9;
-    inparam->AMG_p_tentative_smooth     = 0.67;
-    inparam->AMG_p_smooth_filter        = ON;
+    inparam->AMG_strong_coupled_p       = 0.08;
+    inparam->AMG_max_aggregation_p      = 9;
+    inparam->AMG_tentative_smooth_p     = 0.67;
+    inparam->AMG_smooth_filter_p        = ON;
 }
 
 /**
@@ -194,6 +199,9 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
  *
  * \author Lu Wang
  * \date   2014/02/11
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_ns_param_amg_init (AMG_ns_param *amgparam)
 {
@@ -299,115 +307,121 @@ void fasp_ns_param_amg_init (AMG_ns_param *amgparam)
  *
  * \author Lu Wang
  * \date   2014/02/11
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_ns_param_amg_set (AMG_ns_param *param,
                          input_ns_param *inparam)
 {
-    param->param_v.AMG_type    = inparam->AMG_type;
+    // iterative solver parameter for the velocity block
+    param->param_v.AMG_type    = inparam->AMG_type_v;
     param->param_v.print_level = inparam->print_level;
     
-    if (inparam->solver_v_type == SOLVER_AMG) {
-        param->param_v.maxit = inparam->itsolver_maxit;
-        param->param_v.tol   = inparam->itsolver_tol;
+    if (inparam->itsolver_type_v == SOLVER_AMG) {
+        param->param_v.maxit = inparam->pre_maxit_v;
+        param->param_v.tol   = inparam->pre_tol_v;
     }
-    else if (inparam->solver_v_type == SOLVER_FMG) {
-        param->param_v.maxit = inparam->itsolver_maxit;
-        param->param_v.tol   = inparam->itsolver_tol;
+    else if (inparam->itsolver_type_v == SOLVER_FMG) {
+        param->param_v.maxit = inparam->pre_maxit_v;
+        param->param_v.tol   = inparam->pre_tol_v;
     }
     else {
-        param->param_v.maxit = inparam->AMG_maxit;
-        param->param_v.tol   = inparam->AMG_tol;
+        param->param_v.maxit = inparam->AMG_maxit_v;
+        param->param_v.tol   = inparam->AMG_tol_v;
     }
     
-    param->param_v.max_levels           = inparam->AMG_levels;
-    param->param_v.cycle_type           = inparam->AMG_cycle_type;
-    param->param_v.smoother             = inparam->AMG_smoother;
-    param->param_v.smooth_order         = inparam->AMG_smooth_order;
-    param->param_v.relaxation           = inparam->AMG_relaxation;
-    param->param_v.polynomial_degree    = inparam->AMG_polynomial_degree;
-    param->param_v.presmooth_iter       = inparam->AMG_presmooth_iter;
-    param->param_v.postsmooth_iter      = inparam->AMG_postsmooth_iter;
-    param->param_v.coarse_dof           = inparam->AMG_coarse_dof;
-    param->param_v.coarse_scaling       = inparam->AMG_coarse_scaling;
-    param->param_v.amli_degree          = inparam->AMG_amli_degree;
+    param->param_v.max_levels           = inparam->AMG_levels_v;
+    param->param_v.cycle_type           = inparam->AMG_cycle_type_v;
+    param->param_v.smoother             = inparam->AMG_smoother_v;
+    param->param_v.smooth_order         = inparam->AMG_smooth_order_v;
+    param->param_v.relaxation           = inparam->AMG_relaxation_v;
+    param->param_v.polynomial_degree    = inparam->AMG_polynomial_degree_v;
+    param->param_v.presmooth_iter       = inparam->AMG_presmooth_iter_v;
+    param->param_v.postsmooth_iter      = inparam->AMG_postsmooth_iter_v;
+    param->param_v.coarse_dof           = inparam->AMG_coarse_dof_v;
+    param->param_v.coarse_scaling       = inparam->AMG_coarse_scaling_v;
+    param->param_v.amli_degree          = inparam->AMG_amli_degree_v;
     param->param_v.amli_coef            = NULL;
-    param->param_v.nl_amli_krylov_type  = inparam->AMG_nl_amli_krylov_type;
+    param->param_v.nl_amli_krylov_type  = inparam->AMG_nl_amli_krylov_type_v;
     
-    param->param_v.coarsening_type      = inparam->AMG_coarsening_type;
-    param->param_v.interpolation_type   = inparam->AMG_interpolation_type;
-    param->param_v.strong_threshold     = inparam->AMG_strong_threshold;
-    param->param_v.truncation_threshold = inparam->AMG_truncation_threshold;
-    param->param_v.max_row_sum          = inparam->AMG_max_row_sum;
-    param->param_v.aggressive_level     = inparam->AMG_aggressive_level;
-    param->param_v.aggressive_path      = inparam->AMG_aggressive_path;
+    param->param_v.coarsening_type      = inparam->AMG_coarsening_type_v;
+    param->param_v.interpolation_type   = inparam->AMG_interpolation_type_v;
+    param->param_v.strong_threshold     = inparam->AMG_strong_threshold_v;
+    param->param_v.truncation_threshold = inparam->AMG_truncation_threshold_v;
+    param->param_v.max_row_sum          = inparam->AMG_max_row_sum_v;
+    param->param_v.aggressive_level     = inparam->AMG_aggressive_level_v;
+    param->param_v.aggressive_path      = inparam->AMG_aggressive_path_v;
     
-    param->param_v.strong_coupled       = inparam->AMG_strong_coupled;
-    param->param_v.max_aggregation      = inparam->AMG_max_aggregation;
-    param->param_v.tentative_smooth     = inparam->AMG_tentative_smooth;
-    param->param_v.smooth_filter        = inparam->AMG_smooth_filter;
+    param->param_v.strong_coupled       = inparam->AMG_strong_coupled_v;
+    param->param_v.max_aggregation      = inparam->AMG_max_aggregation_v;
+    param->param_v.tentative_smooth     = inparam->AMG_tentative_smooth_v;
+    param->param_v.smooth_filter        = inparam->AMG_smooth_filter_v;
     
-    // pressure block AMG parameters
-    param->param_p.AMG_type    = inparam->AMG_p_type;
-    param->param_p.print_level = inparam->print_level;
-    
-    if (inparam->solver_p_type == SOLVER_AMG) {
-        param->param_p.maxit = inparam->pre_p_maxit;
-        param->param_p.tol   = inparam->pre_p_tol;
-    }
-    else if (inparam->solver_p_type == SOLVER_FMG) {
-        param->param_p.maxit = inparam->pre_p_maxit;
-        param->param_p.tol   = inparam->pre_p_tol;
-    }
-    else {
-        param->param_p.maxit = inparam->AMG_p_maxit;
-        param->param_p.tol   = inparam->AMG_p_tol;
-    }
-    
-    param->param_p.max_levels          = inparam->AMG_p_levels;
-    param->param_p.cycle_type          = inparam->AMG_p_cycle_type;
-    param->param_p.smoother            = inparam->AMG_p_smoother;
-    param->param_p.smooth_order        = inparam->AMG_p_smooth_order;
-    param->param_p.relaxation          = inparam->AMG_p_relaxation;
-    param->param_p.polynomial_degree   = inparam->AMG_p_polynomial_degree;
-    param->param_p.presmooth_iter      = inparam->AMG_p_presmooth_iter;
-    param->param_p.postsmooth_iter     = inparam->AMG_p_postsmooth_iter;
-    param->param_p.coarse_dof          = inparam->AMG_p_coarse_dof;
-    param->param_p.coarse_scaling      = inparam->AMG_p_coarse_scaling;
-    param->param_p.amli_degree         = inparam->AMG_p_amli_degree;
-    param->param_p.amli_coef           = NULL;
-    param->param_p.nl_amli_krylov_type = inparam->AMG_p_nl_amli_krylov_type;
-    
-    param->param_p.coarsening_type     = inparam->AMG_p_coarsening_type;
-    param->param_p.interpolation_type  = inparam->AMG_p_interpolation_type;
-    param->param_p.strong_threshold    = inparam->AMG_p_strong_threshold;
-    param->param_p.truncation_threshold= inparam->AMG_p_truncation_threshold;
-    param->param_p.max_row_sum         = inparam->AMG_p_max_row_sum;
-    param->param_p.aggressive_level    = inparam->AMG_p_aggressive_level;
-    param->param_p.aggressive_path     = inparam->AMG_p_aggressive_path;
-    
-    param->param_p.strong_coupled      = inparam->AMG_p_strong_coupled;
-    param->param_p.max_aggregation     = inparam->AMG_p_max_aggregation;
-    param->param_p.tentative_smooth    = inparam->AMG_p_tentative_smooth;
-    param->param_p.smooth_filter       = inparam->AMG_p_smooth_filter;
-    
-    param->param_v.ILU_levels           = inparam->AMG_ILU_levels;
+    param->param_v.ILU_levels           = inparam->AMG_ILU_levels_v;
     param->param_v.ILU_type             = inparam->ILU_type;
     param->param_v.ILU_lfil             = inparam->ILU_lfil;
     param->param_v.ILU_droptol          = inparam->ILU_droptol;
     param->param_v.ILU_relax            = inparam->ILU_relax;
     param->param_v.ILU_permtol          = inparam->ILU_permtol;
-    param->param_v.schwarz_levels       = inparam->AMG_schwarz_levels;
+    param->param_v.schwarz_levels       = inparam->AMG_schwarz_levels_v;
 	param->param_v.schwarz_mmsize       = inparam->Schwarz_mmsize;
 	param->param_v.schwarz_maxlvl       = inparam->Schwarz_maxlvl;
 	param->param_v.schwarz_type         = inparam->Schwarz_type;
+
     
-    param->param_p.ILU_levels           = inparam->AMG_p_ILU_levels;
+    // iterative solver parameter for the pressure block
+    param->param_p.AMG_type    = inparam->AMG_type_p;
+    param->param_p.print_level = inparam->print_level;
+    
+    if (inparam->itsolver_type_p == SOLVER_AMG) {
+        param->param_p.maxit = inparam->pre_maxit_p;
+        param->param_p.tol   = inparam->pre_tol_p;
+    }
+    else if (inparam->itsolver_type_p == SOLVER_FMG) {
+        param->param_p.maxit = inparam->pre_maxit_p;
+        param->param_p.tol   = inparam->pre_tol_p;
+    }
+    else {
+        param->param_p.maxit = inparam->AMG_maxit_p;
+        param->param_p.tol   = inparam->AMG_tol_p;
+    }
+    
+    param->param_p.max_levels          = inparam->AMG_levels_p;
+    param->param_p.cycle_type          = inparam->AMG_cycle_type_p;
+    param->param_p.smoother            = inparam->AMG_smoother_p;
+    param->param_p.smooth_order        = inparam->AMG_smooth_order_p;
+    param->param_p.relaxation          = inparam->AMG_relaxation_p;
+    param->param_p.polynomial_degree   = inparam->AMG_polynomial_degree_p;
+    param->param_p.presmooth_iter      = inparam->AMG_presmooth_iter_p;
+    param->param_p.postsmooth_iter     = inparam->AMG_postsmooth_iter_p;
+    param->param_p.coarse_dof          = inparam->AMG_coarse_dof_p;
+    param->param_p.coarse_scaling      = inparam->AMG_coarse_scaling_p;
+    param->param_p.amli_degree         = inparam->AMG_amli_degree_p;
+    param->param_p.amli_coef           = NULL;
+    param->param_p.nl_amli_krylov_type = inparam->AMG_nl_amli_krylov_type_p;
+    
+    param->param_p.coarsening_type     = inparam->AMG_coarsening_type_p;
+    param->param_p.interpolation_type  = inparam->AMG_interpolation_type_p;
+    param->param_p.strong_threshold    = inparam->AMG_strong_threshold_p;
+    param->param_p.truncation_threshold= inparam->AMG_truncation_threshold_p;
+    param->param_p.max_row_sum         = inparam->AMG_max_row_sum_p;
+    param->param_p.aggressive_level    = inparam->AMG_aggressive_level_p;
+    param->param_p.aggressive_path     = inparam->AMG_aggressive_path_p;
+    
+    param->param_p.strong_coupled      = inparam->AMG_strong_coupled_p;
+    param->param_p.max_aggregation     = inparam->AMG_max_aggregation_p;
+    param->param_p.tentative_smooth    = inparam->AMG_tentative_smooth_p;
+    param->param_p.smooth_filter       = inparam->AMG_smooth_filter_p;
+    
+    
+    param->param_p.ILU_levels           = inparam->AMG_ILU_levels_p;
     param->param_p.ILU_type             = inparam->ILU_type;
     param->param_p.ILU_lfil             = inparam->ILU_lfil;
     param->param_p.ILU_droptol          = inparam->ILU_droptol;
     param->param_p.ILU_relax            = inparam->ILU_relax;
     param->param_p.ILU_permtol          = inparam->ILU_permtol;
-    param->param_p.schwarz_levels       = inparam->AMG_p_schwarz_levels;
+    param->param_p.schwarz_levels       = inparam->AMG_schwarz_levels_p;
 	param->param_p.schwarz_mmsize       = inparam->Schwarz_mmsize;
 	param->param_p.schwarz_maxlvl       = inparam->Schwarz_maxlvl;
 	param->param_p.schwarz_type         = inparam->Schwarz_type;
@@ -524,6 +538,8 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
  *
  * \author Lu Wang
  * \date   2014/02/11
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
  */
 
 void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
@@ -536,19 +552,21 @@ void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
 	itsparam->restart       = 20;
 	itsparam->print_level   = 0;
     
-    itsparam->solver_v_type = SOLVER_CG;
-	itsparam->precond_v_type= PREC_AMG;
-	itsparam->pre_v_maxit   = 20;
-	itsparam->pre_v_tol     = 1e-2;
-	itsparam->pre_v_restart = 20;
-	itsparam->v_print_level = 0;
+    // iterative solver parameter for the velocity block
+    itsparam->itsolver_type_v = SOLVER_CG;
+	itsparam->precond_type_v  = PREC_AMG;
+	itsparam->pre_maxit_v     = 20;
+	itsparam->pre_tol_v       = 1e-2;
+	itsparam->pre_restart_v   = 20;
+	itsparam->print_level_v   = 0;
     
-    itsparam->solver_p_type = SOLVER_CG;
-	itsparam->precond_p_type= PREC_AMG;
-	itsparam->pre_p_maxit   = 20;
-	itsparam->pre_p_tol     = 1e-2;
-	itsparam->pre_p_restart = 20;
-	itsparam->p_print_level = 0;
+    // iterative solver parameter for the pressure block
+    itsparam->itsolver_type_p = SOLVER_CG;
+	itsparam->precond_type_p  = PREC_AMG;
+	itsparam->pre_maxit_p     = 20;
+	itsparam->pre_tol_p       = 1e-2;
+	itsparam->pre_restart_p   = 20;
+	itsparam->print_level_p   = 0;
 }
 
 /**
@@ -561,6 +579,8 @@ void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
  *
  * \author Lu Wang
  * \date   2014/02/11
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
  */
 void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
                                input_ns_param *inparam)
@@ -570,47 +590,43 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     itsparam->precond_type   = inparam->precond_type;
     itsparam->stop_type      = inparam->stop_type;
     itsparam->restart        = inparam->restart;
+   
+    itsparam->tol   = inparam->itsolver_tol;
+    itsparam->maxit = inparam->itsolver_maxit;
     
-    if (itsparam->itsolver_type == SOLVER_AMG) {
-        itsparam->tol   = inparam->AMG_tol;
-        itsparam->maxit = inparam->AMG_maxit;
+    // iterative solver parameter for the velocity block
+    itsparam->itsolver_type_v  = inparam->itsolver_type_v;
+    itsparam->precond_type_v   = inparam->precond_type_v;
+    itsparam->pre_restart_v        = inparam->pre_restart_v;
+    
+    if (itsparam->itsolver_type_v == SOLVER_AMG) {
+        itsparam->pre_tol_v   = inparam->AMG_tol_v;
+        itsparam->pre_maxit_v = inparam->AMG_maxit_v;
     }
     else {
-        itsparam->tol   = inparam->itsolver_tol;
-        itsparam->maxit = inparam->itsolver_maxit;
+        itsparam->pre_tol_v   = inparam->pre_tol_v;
+        itsparam->pre_maxit_v = inparam->pre_maxit_v;
     }
     
-    itsparam->solver_v_type  = inparam->solver_v_type;
-    itsparam->precond_v_type   = inparam->precond_v_type;
-    itsparam->pre_v_restart        = inparam->pre_v_restart;
+    // iterative solver parameter for the pressure block
+    itsparam->itsolver_type_p  = inparam->itsolver_type_p;
+    itsparam->precond_type_p   = inparam->precond_type_p;
+    itsparam->pre_restart_p        = inparam->pre_restart_p;
     
-    if (itsparam->solver_v_type == SOLVER_AMG) {
-        itsparam->pre_v_tol   = inparam->AMG_tol;
-        itsparam->pre_v_maxit = inparam->AMG_maxit;
-    }
-    else {
-        itsparam->pre_v_tol   = inparam->pre_v_tol;
-        itsparam->pre_v_maxit = inparam->pre_v_maxit;
-    }
-    
-    itsparam->solver_p_type  = inparam->solver_p_type;
-    itsparam->precond_p_type   = inparam->precond_p_type;
-    itsparam->pre_p_restart        = inparam->pre_p_restart;
-    
-    if (itsparam->solver_p_type == SOLVER_AMG) {
-        itsparam->pre_p_tol   = inparam->AMG_p_tol;
-        itsparam->pre_p_maxit = inparam->AMG_p_maxit;
+    if (itsparam->itsolver_type_p == SOLVER_AMG) {
+        itsparam->pre_tol_p   = inparam->AMG_tol_p;
+        itsparam->pre_maxit_p = inparam->AMG_maxit_p;
     }
     else {
-        itsparam->pre_p_tol   = inparam->pre_p_tol;
-        itsparam->pre_p_maxit = inparam->pre_p_maxit;
+        itsparam->pre_tol_p   = inparam->pre_tol_p;
+        itsparam->pre_maxit_p = inparam->pre_maxit_p;
     }
     if (itsparam->print_level > 2)
-    { itsparam->v_print_level = itsparam->print_level-3;}
-    else {itsparam->v_print_level = 0;}
+    { itsparam->print_level_v = itsparam->print_level-3;}
+    else {itsparam->print_level_v = 0;}
     if (itsparam->print_level > 3)
-    { itsparam->p_print_level = itsparam->print_level-4;}
-    else {itsparam->p_print_level = 0;}
+    { itsparam->print_level_p = itsparam->print_level-4;}
+    else {itsparam->print_level_p = 0;}
     
 }
 

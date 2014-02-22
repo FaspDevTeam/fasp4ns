@@ -23,7 +23,9 @@ void velocity_solver(dvector *b,
  *
  * \author Xiozhe Hu, Lu Wang
  * \date 10/20/2013
+ *
  * \note modified by Lu Wang on 02/12/2014
+ * \note Xiaozhe Hu modified on 02/21/2014
  *
  */
 void fasp_precond_ns_bdiag (REAL *r, 
@@ -46,19 +48,20 @@ void fasp_precond_ns_bdiag (REAL *r,
 	//! Solve velocity
     //-------------------
     //! prepare	AMG preconditioner
-    AMG_data *mgl = predata->mgl_data;
-    AMG_param *amgparam = predata->param_v;
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
     itsolver_param *itparam_v = predata->itsolver_param_v;
     
-    precond_data pcdata;
-    fasp_param_amg_to_prec(&pcdata,amgparam);
-	pcdata.max_levels = mgl[0].num_levels;
-	pcdata.mgl_data = predata->mgl_data;
-	precond pc; pc.data = &pcdata;
-	pc.fct = fasp_precond_amg;
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v, amgparam_v);
+	pcdata_v.max_levels = mgl_v[0].num_levels;
+	pcdata_v.mgl_data = predata->mgl_data_v;
+	precond pc_v; pc_v.data = &pcdata_v;
+	pc_v.fct = fasp_precond_amg;
     
     if(itparam_v->print_level > 0) printf(COLOR_RESET "\n");
-    fasp_solver_dcsr_pvfgmres(&mgl[0].A, &rv, &zv, &pc, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    
     //-------------------------
 	//! Solve Schur complement
     //-------------------------
@@ -72,18 +75,19 @@ void fasp_precond_ns_bdiag (REAL *r,
     }
     else if (itparam_p->precond_type == 2){
         //! prepare  AMG preconditioner for S
-        AMG_data *mgl_s = predata->mgl_data_p;
+        AMG_data *mgl_p = predata->mgl_data_p;
         AMG_param *amgparam_p = predata->param_p;
         
-        precond_data pcdatap;
-        fasp_param_amg_to_prec(&pcdatap,amgparam_p);
-        pcdatap.max_levels = mgl_s[0].num_levels;
-        pcdatap.mgl_data = predata->mgl_data_p;
-        precond pcp; pcp.data = &pcdatap;
-        pcp.fct = fasp_precond_amg;
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_s[0].A, &rs, &zs, &pcp, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
+    
     if(itparam_v->print_level > 0)
         printf(COLOR_GREEN "\n");
 
@@ -100,6 +104,8 @@ void fasp_precond_ns_bdiag (REAL *r,
  * \date 10/20/2013
  *
  * \note modified by Lu Wang on 02/11/2014
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
  */
 void fasp_precond_ns_low_btri (REAL *r,
                                   REAL *z, 
@@ -112,8 +118,8 @@ void fasp_precond_ns_low_btri (REAL *r,
 	double	*tempr = predata->w;		
     
 	//! prepare	AMG preconditioner
-	AMG_data *mgl = predata->mgl_data;
-    AMG_param *amgparam = predata->param_v;
+	AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
     itsolver_param *itparam_v = predata->itsolver_param_v;
 
     dvector rv; rv.row = colA; rv.val = r;
@@ -128,16 +134,16 @@ void fasp_precond_ns_low_btri (REAL *r,
     //-------------------
 	//! Solve velocity
     //-------------------
-    precond_data pcdata;
-    fasp_param_amg_to_prec(&pcdata,amgparam);
-	pcdata.max_levels = mgl[0].num_levels;
-	pcdata.mgl_data = predata->mgl_data;
-	precond pc; pc.data = &pcdata;
-	pc.fct = fasp_precond_amg;
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+	pcdata_v.max_levels = mgl_v[0].num_levels;
+	pcdata_v.mgl_data = predata->mgl_data_v;
+	precond pc_v; pc_v.data = &pcdata_v;
+	pc_v.fct = fasp_precond_amg;
     
     if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl[0].A, &rv, &zv, &pc, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
     
     /*
     dCSRmat tmpA;
@@ -165,17 +171,17 @@ void fasp_precond_ns_low_btri (REAL *r,
     }
     else if (itparam_p->precond_type == 2){
         //! prepare  AMG preconditioner for S
-        AMG_data *mgl_s = predata->mgl_data_p;
+        AMG_data *mgl_p = predata->mgl_data_p;
         AMG_param *amgparam_p = predata->param_p;
      
-        precond_data pcdatap;
-        fasp_param_amg_to_prec(&pcdatap,amgparam_p);
-        pcdatap.max_levels = mgl_s[0].num_levels;
-        pcdatap.mgl_data = predata->mgl_data_p;
-        precond pcp; pcp.data = &pcdatap;
-        pcp.fct = fasp_precond_amg;
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
     
-        fasp_solver_dcsr_pvfgmres(&mgl_s[0].A, &rs, &zs, &pcp, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     
     //dCSRmat tmpA;
@@ -200,6 +206,9 @@ void fasp_precond_ns_low_btri (REAL *r,
  * \date 10/20/2013
  *
  * \note modified by Lu Wang on 02/12/2014
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_precond_ns_up_btri (REAL *r,
                               REAL *z,
@@ -235,17 +244,17 @@ void fasp_precond_ns_up_btri (REAL *r,
     }
     else if (itparam_p->precond_type == 2){
         //! prepare  AMG preconditioner for S
-        AMG_data *mgl_s = predata->mgl_data_p;
+        AMG_data *mgl_p = predata->mgl_data_p;
         AMG_param *amgparam_p = predata->param_p;
         
-        precond_data pcdatap;
-        fasp_param_amg_to_prec(&pcdatap,amgparam_p);
-        pcdatap.max_levels = mgl_s[0].num_levels;
-        pcdatap.mgl_data = predata->mgl_data_p;
-        precond pcp; pcp.data = &pcdatap;
-        pcp.fct = fasp_precond_amg;
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_s[0].A, &rs, &zs, &pcp, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     
     //-------------------
@@ -257,23 +266,24 @@ void fasp_precond_ns_up_btri (REAL *r,
 	//! Solve velocity
     //-------------------
     //! prepare	AMG preconditioner
-	AMG_data *mgl = predata->mgl_data;
-    AMG_param *amgparam = predata->param_v;
+	AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
     itsolver_param *itparam_v = predata->itsolver_param_v;
     
-    precond_data pcdata;
-    fasp_param_amg_to_prec(&pcdata,amgparam);
-	pcdata.max_levels = mgl[0].num_levels;
-	pcdata.mgl_data = predata->mgl_data;
-	precond pc; pc.data = &pcdata;
-	pc.fct = fasp_precond_amg;
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+	pcdata_v.max_levels = mgl_v[0].num_levels;
+	pcdata_v.mgl_data = predata->mgl_data_v;
+	precond pc_v; pc_v.data = &pcdata_v;
+	pc_v.fct = fasp_precond_amg;
     
-    fasp_solver_dcsr_pvfgmres(&mgl[0].A, &rv, &zv, &pc, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
     
 	//! restore r
 	fasp_array_cp(col, tempr, r);
 }
 
+#if 0
 /**
  * \fn void fasp_precond_ns_sym_btri (double *r, double *z, void *data)
  * \brief upper block diagonal preconditioning for ns equation
@@ -283,6 +293,9 @@ void fasp_precond_ns_up_btri (REAL *r,
  *
  * \author Xiozhe Hu, Lu Wang
  * \date 10/20/2013
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  *
  */
 void fasp_precond_ns_sym_btri (REAL *r,
@@ -495,6 +508,7 @@ void fasp_precond_ns_lsc (REAL *r,
 	//! restore r
 	fasp_array_cp(col, tempr, r);
 }
+#endif 
 
 /*---------------------------------*/
 /*--        End of File          --*/

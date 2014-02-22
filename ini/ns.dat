@@ -1,52 +1,32 @@
 %----------------------------------------------%
-% FASP4CUDA input parameters                   %
+% FASP4NS input parameters                     %
 % lines starting with % are comments           %
 % must have spaces around the equal sign "="   %
 %----------------------------------------------%
 
 workdir  = ./data/     % work directory, no more than 128 characters
-problem_num    = 10     % Problem number 
+problem_num    = 47     % Problem number 
 print_level    = 3     % How much information to print out 
 			% 6: check convergence for velocity block
 			% 7: check convergence for velocity and pressure block
 output_type    = 0     % output_type: 0 Standard output | >0 File
- 
+
 %----------------------------------------------%
-% parameters for iterative solvers             %
+% parameters for solvers for whole system      %
 %----------------------------------------------%
 
-solver_type  = 5      % Solver type:   | 3 MinRes | 4 GMRES | 5 FGMRES | 6 GCR
+solver_type    = 5      % Solver type:   | 3 MinRes | 4 GMRES | 5 FGMRES | 6 GCR
 precond_type   = 2     % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 SYM_TRI
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
 itsolver_tol   = 1e-6   % Solver tolerance 
 itsolver_maxit = 100    % Maximal iteration number 
 
 %----------------------------------------------%
-% parameters for velocity block                %
+% parameters for FGMRES/GCR method             %
 %----------------------------------------------%
-solver_v_type  = 6        % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
-                          % 5 vGMRes | 6 vFGMRes
-			  %--------------------------------------
-                          % 21 AMG Solver | 22 FMG Solver |
-                          %--------------------------------------
-                          % 31 SuperLU | 32 UMFPACK | 33 MUMPS
-precond_v_type     = 2    % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_v_tol     = 1e-1 % Solver tolerance
-itsolver_v_maxit   = 100  % Maximal iteration number
-itsolver_v_restart = 20   % Restart number for GMRES
-%----------------------------------------------%
-% parameters for pressure block                %
-%----------------------------------------------%
-solver_p_type  = 6        % Solver type:   1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
-                          % 5 vGMRes | 6 vFGMRes
-			  %--------------------------------------
-                          % 21 AMG Solver
-                          %--------------------------------------
-                          % 32 UMFPACK
-precond_p_type   = 2      % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_p_tol   = 1e-1   % Solver tolerance 
-itsolver_p_maxit = 100    % Maximal iteration number
-itsolver_p_restart = 20   % Restart number for GMRES
+
+itsolver_restart         = 30     % Restart number for GMRES
+
 %----------------------------------------------%
 % parameters for ILU preconditioners           %
 %----------------------------------------------%
@@ -65,95 +45,131 @@ Schwarz_mmsize           = 200    % max block size
 Schwarz_maxlvl           = 3      % level used to form blocks
 Schwarz_type             = 1      % 1 forward | 2 backward | 3 symmetric
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %----------------------------------------------%
-% parameters for AMG for velocity block        %
+% parameters for the velocity block
 %----------------------------------------------%
 
-AMG_type		 = UA     % C classic AMG | SA smoothed aggregation AMG | UA unsmoothed aggregation
-AMG_cycle_type		 = V    % V V-cycle | W W-cycle | A AMLI-cycle | NA Nonlinear AMLI-cycleA
-AMG_smoother             = GS    % GS | JACOBI | SGS SOR | SSOR | 
+%----------------------------------------------%
+% parameters for iterative solver (velocity)   %
+%----------------------------------------------%
+solver_type_v  	   = 5        % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
+                          % 5 vGMRes | 6 vFGMRes
+			  %--------------------------------------
+                          % 21 AMG Solver | 22 FMG Solver |
+                          %--------------------------------------
+                          % 31 SuperLU | 32 UMFPACK | 33 MUMPS
+precond_type_v     = 2    % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
+itsolver_tol_v     = 1e-1 % Solver tolerance
+itsolver_maxit_v   = 30  % Maximal iteration number
+itsolver_restart_v = 30   % Restart number for GMRES
+
+
+%----------------------------------------------%
+% parameters for AMG (velocity)                %
+%----------------------------------------------%
+AMG_type_v		   = UA     % C classic AMG | SA smoothed aggregation AMG | UA unsmoothed aggregation
+AMG_cycle_type_v		 = V    % V V-cycle | W W-cycle | A AMLI-cycle | NA Nonlinear AMLI-cycleA
+AMG_smoother_v             = GS    % GS | JACOBI | SGS SOR | SSOR | 
                                  % GSOR | SGSOR | POLY | L1DIAG | CG
-AMG_smooth_order         = NO     % NO: natural order | CF: CF order
-AMG_levels               = 5    % max number of levels
-AMG_ILU_levels           = 0     % number of levels using ILU smoother
-AMG_schwarz_levels       = 0	  % number of levels using Schwarz smoother
-AMG_relaxation	         = 1.1   % over relaxation parameter for SOR smoother 
-AMG_presmooth_iter       = 1     % number of presmoothing
-AMG_postsmooth_iter      = 1     % number of postsmoothing
-AMG_coarse_dof           = 100   % max number of coarse degrees of freedom
-AMG_tol                  = 1e-8  % tolerance for AMG
-AMG_maxit                = 1     % number of AMG iterations
-AMG_coarse_scaling	 = OFF	 % switch of scaling of the coarse grid correction 
-AMG_amli_degree		 = 2	 % degree of the polynomial used by AMLI cycle
-AMG_nl_amli_krylov_type  = 6	 % Krylov method in NLAMLI cycle: 6 FGMRES | 7 GCG
+AMG_smooth_order_v         = NO     % NO: natural order | CF: CF order
+AMG_levels_v               = 20    % max number of levels
+AMG_ILU_levels_v           = 0     % number of levels using ILU smoother
+AMG_schwarz_levels_v       = 0	  % number of levels using Schwarz smoother
+AMG_relaxation_v	   = 1.1   % over relaxation parameter for SOR smoother 
+AMG_presmooth_iter_v       = 1     % number of presmoothing
+AMG_postsmooth_iter_v      = 1     % number of postsmoothing
+AMG_coarse_dof_v           = 100   % max number of coarse degrees of freedom
+AMG_tol_v                  = 1e-8  % tolerance for AMG
+AMG_maxit_v                = 1     % number of AMG iterations
+AMG_coarse_scaling_v	   = OFF	 % switch of scaling of the coarse grid correction 
+AMG_amli_degree_v          = 2	 % degree of the polynomial used by AMLI cycle
+AMG_nl_amli_krylov_type_v  = 6	 % Krylov method in NLAMLI cycle: 6 FGMRES | 7 GCG
 
 %------------------------------------------------%
-% parameters for classical AMG for velocity block%
+% parameters for classical AMG (velocity)        %
 %------------------------------------------------%
 
-AMG_coarsening_type      = 3      % 1 Modified RS
+AMG_coarsening_type_v      = 1      % 1 Modified RS
                                   % 3 Compatible Relaxation
                                   % 4 Aggressive    
-AMG_interpolation_type   = 3      % 1 Direct | 2 Standard | 3 Energy-min
-AMG_strong_threshold     = 0.25  % strong threshold
-AMG_truncation_threshold = 0.4   % truncation threshold
-AMG_max_row_sum          = 0.9   % max row sum
+AMG_interpolation_type_v   = 2      % 1 Direct | 2 Standard | 3 Energy-min
+AMG_strong_threshold_v     = 0.25  % strong threshold
+AMG_truncation_threshold_v = 0.4   % truncation threshold
+AMG_max_row_sum_v          = 0.9   % max row sum
 
 %----------------------------------------------%
-% parameters for smoothed aggregation AMG velocity block%
+% parameters for smoothed aggregation AMG (velocity)%
 %----------------------------------------------%
 
-AMG_strong_coupled	 = 0.08  % strong coupled threshold
-AMG_max_aggregation	 = 100     % max size of each aggregation 
-AMG_tentative_smooth	 = 0.67   % smooth factor for smoothing the tentative prolongation
-AMG_smooth_filter	 = OFF   % switch for filtered matrix for smoothing
+AMG_strong_coupled_v	 = 0.00    % strong coupled threshold
+AMG_max_aggregation_v	 = 100     % max size of each aggregation 
+AMG_tentative_smooth_v	 = 0.67    % smooth factor for smoothing the tentative prolongation
+AMG_smooth_filter_v	 = OFF     % switch for filtered matrix for smoothing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %----------------------------------------------%
-% parameters for AMG for pressure block        %
+% parameters for the pressure block
 %----------------------------------------------%
 
-AMG_p_type		 = UA   % C classic AMG 
+%----------------------------------------------%
+% parameters for iterative solver (pressure)   %
+%----------------------------------------------%
+solver_type_p  = 5        % Solver type:   1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
+                          % 5 vGMRes | 6 vFGMRes
+			  %--------------------------------------
+                          % 21 AMG Solver
+                          %--------------------------------------
+                          % 32 UMFPACK
+precond_type_p   = 1      % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
+itsolver_tol_p   = 1e-1   % Solver tolerance 
+itsolver_maxit_p = 100    % Maximal iteration number
+itsolver_restart_p = 100   % Restart number for GMRES
+
+
+%----------------------------------------------%
+% parameters for AMG (pressure)                %
+%----------------------------------------------%
+
+AMG_type_p		 = UA   % C classic AMG 
 			        % SA smoothed aggregation AMG 
 				% UA unsmoothed aggregation
-AMG_p_cycle_type	 = V    % V V-cycle | W W-cycle | A AMLI-cycle | NA Nonlinear AMLI-cycleA
-AMG_p_smoother           = GS   % GS | JACOBI | SGS SOR | SSOR | 
+AMG_cycle_type_p	 = V    % V V-cycle | W W-cycle | A AMLI-cycle | NA Nonlinear AMLI-cycleA
+AMG_smoother_p           = GS   % GS | JACOBI | SGS SOR | SSOR | 
                                 % GSOR | SGSOR | POLY | L1DIAG | CG
-AMG_p_smooth_order       = NO   % NO: natural order | CF: CF order
-AMG_p_levels             = 5    % max number of levels
-AMG_p_ILU_levels         = 0    % number of levels using ILU smoother
-AMG_p_schwarz_levels     = 0	% number of levels using Schwarz smoother
-AMG_p_relaxation	 = 1.1  % over relaxation parameter for SOR smoother 
-AMG_p_presmooth_iter     = 1    % number of presmoothing
-AMG_p_postsmooth_iter    = 1    % number of postsmoothing
-AMG_p_coarse_dof         = 100  % max number of coarse degrees of freedom
-AMG_p_tol                = 1e-8 % tolerance for AMG
-AMG_p_maxit              = 1    % number of AMG iterations
-AMG_p_coarse_scaling	 = OFF	% switch of scaling of the coarse grid correction 
-AMG_p_amli_degree	 = 2	% degree of the polynomial used by AMLI cycle
+AMG_smooth_order_p       = NO   % NO: natural order | CF: CF order
+AMG_levels_p             = 20    % max number of levels
+AMG_ILU_levels_p         = 0    % number of levels using ILU smoother
+AMG_schwarz_levels_p     = 0	% number of levels using Schwarz smoother
+AMG_relaxation_p	 = 1.1  % over relaxation parameter for SOR smoother 
+AMG_presmooth_iter_p     = 1    % number of presmoothing
+AMG_postsmooth_iter_p    = 1    % number of postsmoothing
+AMG_coarse_dof_p         = 100  % max number of coarse degrees of freedom
+AMG_tol_p                = 1e-8 % tolerance for AMG
+AMG_maxit_p              = 1    % number of AMG iterations
+AMG_coarse_scaling_p	 = OFF	% switch of scaling of the coarse grid correction 
+AMG_amli_degree_p	 = 2	% degree of the polynomial used by AMLI cycle
 
-%！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！%
-% parameters for classical AMG for pressure block%
+%----------------------------------------------%
+% parameters for classical AMG (pressure)      %
 %----------------------------------------------%
 
-AMG_p_coarsening_type      = 3      % 1 Modified RS
+AMG_coarsening_type_p      = 1      % 1 Modified RS
                                   % 3 Compatible Relaxation
                                   % 4 Aggressive    
-AMG_p_interpolation_type   = 3      % 1 Direct | 2 Standard | 3 Energy-min
-AMG_p_strong_threshold     = 0.25  % strong threshold
-AMG_p_truncation_threshold = 0.4   % truncation threshold
-AMG_p_max_row_sum          = 0.9   % max row sum
+AMG_interpolation_type_p   = 2      % 1 Direct | 2 Standard | 3 Energy-min
+AMG_strong_threshold_p     = 0.25  % strong threshold
+AMG_truncation_threshold_p = 0.4   % truncation threshold
+AMG_max_row_sum_p          = 0.9   % max row sum
 
 %----------------------------------------------%
-% parameters for smoothed aggregation AMG pressure block%
+% parameters forsmoothed aggregation AMG (pressure) %
 %----------------------------------------------%
 
-AMG_p_strong_coupled	 = 0.08  % strong coupled threshold
-AMG_p_max_aggregation	 = 100   % max size of each aggregation 
-AMG_p_tentative_smooth	 = 0.67  % smooth factor for smoothing the tentative prolongation
-AMG_p_smooth_filter	 = OFF   % switch for filtered matrix for smoothing
+AMG_strong_coupled_p	 = 0.08  % strong coupled threshold
+AMG_max_aggregation_p	 = 100   % max size of each aggregation 
+AMG_tentative_smooth_p	 = 0.67  % smooth factor for smoothing the tentative prolongation
+AMG_smooth_filter_p	 = OFF   % switch for filtered matrix for smoothing
 
-%----------------------------------------------%
-% parameters for FGMRES/GCR method%
-%----------------------------------------------%
-
-itsolver_restart         = 20     % Restart number for GMRES

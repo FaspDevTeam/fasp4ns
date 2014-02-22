@@ -6,6 +6,8 @@
 
 /*! \file fasp4ns.h
  *  \brief Main header file for FASP4NS package
+ *
+ * \note: modified by Xiaozhe Hu on Feb. 21, 2014
  */ 
 #include "messages_ns.h"
 #include "fasp.h"
@@ -23,7 +25,14 @@
  * \note This is needed for the AMG solver/preconditioner.
  */
 typedef struct {
+    /*---------------------------------------------------*/
+    /* AMG parameters for the velocity block */
+    /*---------------------------------------------------*/
     AMG_param param_v;
+    
+    /*---------------------------------------------------*/
+    /* AMG parameters for the pressure block  */
+    /*---------------------------------------------------*/
     AMG_param param_p;
 } AMG_ns_param;
 
@@ -241,6 +250,9 @@ typedef struct {
  */
 typedef struct {
 	
+    /*---------------------------------------------------*/
+    /* iteartive solver parameters for the whole system  */
+    /*---------------------------------------------------*/
 	SHORT itsolver_type; /**< solver type: see message.h */
 	SHORT precond_type;  /**< preconditioner type: see message.h */
 	SHORT stop_type;     /**< stopping criteria type */
@@ -249,19 +261,25 @@ typedef struct {
 	INT   restart;       /**< number of steps for restarting: for GMRES etc */
 	SHORT print_level;   /**< print level: 0--10 */
     
-    SHORT solver_v_type; /**< solver type: see message.h */
-	SHORT precond_v_type;  /**< preconditioner type: see message.h */
-	INT   pre_v_maxit;         /**< max number of iterations */
-	REAL  pre_v_tol;           /**< convergence tolerance */
-	INT   pre_v_restart;       /**< number of steps for restarting: for GMRES etc */
-	SHORT v_print_level;   /**< print level: 0--10 */
+    /*------------------------------------------------------*/
+    /* iteartive solver parameters for the velocity block  */
+    /*------------------------------------------------------*/
+    SHORT itsolver_type_v; /**< solver type: see message.h */
+	SHORT precond_type_v;  /**< preconditioner type: see message.h */
+	INT   pre_maxit_v;         /**< max number of iterations */
+	REAL  pre_tol_v;           /**< convergence tolerance */
+	INT   pre_restart_v;       /**< number of steps for restarting: for GMRES etc */
+	SHORT print_level_v;   /**< print level: 0--10 */
     
-    SHORT solver_p_type; /**< solver type: see message.h */
-	SHORT precond_p_type;  /**< preconditioner type: see message.h */
-	INT   pre_p_maxit;         /**< max number of iterations */
-	REAL  pre_p_tol;           /**< convergence tolerance */
-	INT   pre_p_restart;       /**< number of steps for restarting: for GMRES etc */
-	SHORT p_print_level;   /**< print level: 0--10 */
+    /*-----------------------------------------------------*/
+    /* iteartive solver parameters for the pressure block  */
+    /*-----------------------------------------------------*/
+    SHORT itsolver_type_p; /**< solver type: see message.h */
+	SHORT precond_type_p;  /**< preconditioner type: see message.h */
+	INT   pre_maxit_p;         /**< max number of iterations */
+	REAL  pre_tol_p;           /**< convergence tolerance */
+	INT   pre_restart_p;       /**< number of steps for restarting: for GMRES etc */
+	SHORT print_level_p;   /**< print level: 0--10 */
     
 	
 } itsolver_ns_param; /**< Parameters for iterative solvers */
@@ -291,14 +309,41 @@ typedef struct precond_ns_data {
 	//! size of A, B, and whole matrix
 	int colA, colB, col;
 	
-	double beta;
+	double beta;  /** what is this? -- Xiaozhe */
 	
-	AMG_data *mgl_data; /**< AMG data for velocity block */
+    /*---------------------------------------------------*/
+    /* AMG data for the velocity block  */
+    /*---------------------------------------------------*/
+	AMG_data *mgl_data_v; /**< AMG data for velocity block */
+    
+    /*---------------------------------------------------*/
+    /* AMG data for the pressure block  */
+    /*---------------------------------------------------*/
     AMG_data *mgl_data_p; /**< AMG data for presure block */
+    
+    /*---------------------------------------------------*/
+    /* AMG parameters for the velocity block */
+    /*---------------------------------------------------*/
     AMG_param *param_v;
+    
+    /*---------------------------------------------------*/
+    /* AMG paramters for the pressure block  */
+    /*---------------------------------------------------*/
     AMG_param *param_p;
+    
+    /*---------------------------------------------------*/
+    /* Iterative solver paramters for the velocity block  */
+    /*---------------------------------------------------*/
     itsolver_param *itsolver_param_v;
+    
+    /*---------------------------------------------------*/
+    /* Iterative solver parameters for the pressure block */
+    /*---------------------------------------------------*/
     itsolver_param *itsolver_param_p;
+    
+    /*---------------------------------------------------*/
+    /* AMG param  (Do we need this anymore? --Xiaozhe) */
+    /*---------------------------------------------------*/
 	//! print level in AMG preconditioner
 	int print_level;
 	//! max number of AMG levels
@@ -324,6 +369,9 @@ typedef struct precond_ns_data {
     
     int AMG_tol;
     
+    /*---------------------------------------------------*/
+    /* Extra data */
+    /*---------------------------------------------------*/
 	dCSRmat *M; /**< mass matrix for pressure*/
 	dvector *diag_M; /**< diagonal of mass matrix M */ 
     dCSRmat *B; /**<  matrix B*/	
@@ -336,6 +384,7 @@ typedef struct precond_ns_data {
     dvector *sp; /**< sol for pressure */
     ILU_data *LU_S; /**< LU date for schur */
     Schwarz_data *schwarz_S;
+    
 	//! temporary work space
 	double *w; /**<  temporary work space for other usage */
 	double *w1;
@@ -360,7 +409,9 @@ typedef struct {
 	char workdir[256];   /**< working directory for data files */
 	INT  problem_num;    /**< problem number to solve */
 	
+    /*---------------------------------------------------*/
 	// parameters for iterative solvers
+    /*---------------------------------------------------*/
 	SHORT solver_type;   /**< type of iterative solvers */
 	SHORT precond_type;  /**< type of preconditioner for iterative solvers */
 	SHORT stop_type;     /**< type of stopping criteria for iterative solvers */
@@ -368,98 +419,111 @@ typedef struct {
 	INT itsolver_maxit;  /**< maximal number of iterations for iterative solvers */
 	INT restart;         /**< restart number used in GMRES */
 	
-    //parameters for the block preconditioner
-    SHORT solver_v_type;   /**< type of velocity block */
-    SHORT precond_v_type;  /**< type of preconditioner for velocity block */
-    REAL pre_v_tol;   /**< tolerance for velocity block */
-	INT  pre_v_maxit;  /**< maximal number for velocity block */
-	INT pre_v_restart;         /**< restart number for velocity block */
+    /*---------------------------------------------------*/
+    //parameters for the velocity block
+    /*---------------------------------------------------*/
+    SHORT itsolver_type_v;   /**< type of velocity block */
+    SHORT precond_type_v;  /**< type of preconditioner for velocity block */
+    REAL pre_tol_v;   /**< tolerance for velocity block */
+	INT  pre_maxit_v;  /**< maximal number for velocity block */
+	INT pre_restart_v;         /**< restart number for velocity block */
 
-    SHORT solver_p_type;   /**< type of pressure block */
-    SHORT precond_p_type;  /**< type of preconditioner for pressure block */
-    REAL pre_p_tol;   /**< tolerance for pressure block */
-	INT  pre_p_maxit;  /**< maximal number for pressure block */
-	INT pre_p_restart; /**< restart number for pressure block */
+    /*---------------------------------------------------*/
+	// parameters for AMG for the velocity block
+    /*---------------------------------------------------*/
+	SHORT AMG_type_v;                /**< Type of AMG */
+	SHORT AMG_levels_v;              /**< maximal number of levels */
+	SHORT AMG_cycle_type_v;          /**< type of cycle */
+	SHORT AMG_smoother_v;            /**< type of smoother */
+	SHORT AMG_smooth_order_v;        /**< order for smoothers */
+	REAL AMG_relaxation_v;           /**< over-relaxation parameter for SOR */
+    SHORT AMG_polynomial_degree_v;   /**< degree of the polynomial smoother */
+	SHORT AMG_presmooth_iter_v;      /**< number of presmoothing */
+	SHORT AMG_postsmooth_iter_v;     /**< number of postsmoothing */
+	INT AMG_coarse_dof_v;	           /**< minimal coarsest level dof */
+	REAL AMG_tol_v;                  /**< tolerance for AMG if used as preconditioner */
+	INT AMG_maxit_v;                 /**< number of iterations for AMG used as preconditioner */
+	SHORT AMG_ILU_levels_v;          /**< how many levels use ILU smoother */
+	SHORT AMG_coarse_scaling_v;      /**< switch of scaling of the coarse grid correction */
+	SHORT AMG_amli_degree_v;         /**< degree of the polynomial used by AMLI cycle */
+    SHORT AMG_nl_amli_krylov_type_v; /**< type of krylov method used by nonlinear AMLI cycle */
+    INT AMG_schwarz_levels_v;        /**< number of levels use schwarz smoother */
+	
+	// parameters for classical AMG
+	SHORT AMG_coarsening_type_v;     /**< coarsening type */
+	SHORT AMG_interpolation_type_v;  /**< interpolation type */
+	REAL AMG_strong_threshold_v;     /**< strong threshold for coarsening */
+	REAL AMG_truncation_threshold_v; /**< truncation factor for interpolation */
+	REAL AMG_max_row_sum_v;          /**< maximal row sum */
+    INT AMG_aggressive_level_v;      /**< number of levels use aggressive coarsening */
+    INT AMG_aggressive_path_v;       /**< number of paths used to determine strongly coupled C-set */
+	
+	//  parameters for smoothed aggregation AMG
+	REAL AMG_strong_coupled_v;       /**< strong coupled threshold for aggregate */
+	INT AMG_max_aggregation_v;       /**< max size of each aggregate */
+	REAL AMG_tentative_smooth_v;     /**< relaxation factor for smoothing the tentative prolongation */
+	SHORT AMG_smooth_filter_v;       /**< use filterfor smoothing the tentative prolongation or not */
     
+    /*---------------------------------------------------*/
+    //parameters for the pressure block
+    /*---------------------------------------------------*/
+    SHORT itsolver_type_p;   /**< type of pressure block */
+    SHORT precond_type_p;  /**< type of preconditioner for pressure block */
+    REAL pre_tol_p;   /**< tolerance for pressure block */
+	INT  pre_maxit_p;  /**< maximal number for pressure block */
+	INT pre_restart_p; /**< restart number for pressure block */
+    
+    /*---------------------------------------------------*/
+	// parameters for AMG for the pressure block
+    /*---------------------------------------------------*/
+	SHORT AMG_type_p;                /**< Type of AMG */
+	SHORT AMG_levels_p;              /**< maximal number of levels */
+	SHORT AMG_cycle_type_p;          /**< type of cycle */
+	SHORT AMG_smoother_p;            /**< type of smoother */
+	SHORT AMG_smooth_order_p;        /**< order for smoothers */
+	REAL AMG_relaxation_p;           /**< over-relaxation parameter for SOR */
+    SHORT AMG_polynomial_degree_p;   /**< degree of the polynomial smoother */
+	SHORT AMG_presmooth_iter_p;      /**< number of presmoothing */
+	SHORT AMG_postsmooth_iter_p;     /**< number of postsmoothing */
+	INT AMG_coarse_dof_p;	           /**< minimal coarsest level dof */
+	REAL AMG_tol_p;                  /**< tolerance for AMG if used as preconditioner */
+	INT AMG_maxit_p;                 /**< number of iterations for AMG used as preconditioner */
+	SHORT AMG_ILU_levels_p;          /**< how many levels use ILU smoother */
+	SHORT AMG_coarse_scaling_p;      /**< switch of scaling of the coarse grid correction */
+	SHORT AMG_amli_degree_p;         /**< degree of the polynomial used by AMLI cycle */
+    SHORT AMG_nl_amli_krylov_type_p; /**< type of krylov method used by nonlinear AMLI cycle */
+    INT AMG_schwarz_levels_p;        /**< number of levels use schwarz smoother */
+	
+	// parameters for classical AMG
+	SHORT AMG_coarsening_type_p;     /**< coarsening type */
+	SHORT AMG_interpolation_type_p;  /**< interpolation type */
+	REAL AMG_strong_threshold_p;     /**< strong threshold for coarsening */
+	REAL AMG_truncation_threshold_p; /**< truncation factor for interpolation */
+	REAL AMG_max_row_sum_p;          /**< maximal row sum */
+    INT AMG_aggressive_level_p;      /**< number of levels use aggressive coarsening */
+    INT AMG_aggressive_path_p;       /**< number of paths used to determine strongly coupled C-set */
+	
+	//  parameters for smoothed aggregation AMG
+	REAL AMG_strong_coupled_p;       /**< strong coupled threshold for aggregate */
+	INT AMG_max_aggregation_p;       /**< max size of each aggregate */
+	REAL AMG_tentative_smooth_p;     /**< relaxation factor for smoothing the tentative prolongation */
+	SHORT AMG_smooth_filter_p;       /**< use filterfor smoothing the tentative prolongation or not */
+    
+    /*---------------------------------------------------*/
 	//pamameters for ILU
+    /*---------------------------------------------------*/
 	SHORT ILU_type;      /**< ILU type for decomposition*/
 	INT ILU_lfil;        /**< level of fill-in */
 	REAL ILU_droptol;    /**< drop tolerance */
 	REAL ILU_relax;      /**< scaling factor: add the sum of dropped entries to diagnal */
 	REAL ILU_permtol;    /**< permutation tolerance */
     
+    /*---------------------------------------------------*/
     // parameter for Schwarz
+    /*---------------------------------------------------*/
 	INT Schwarz_mmsize;  /**< maximal block size */
 	INT Schwarz_maxlvl;  /**< maximal levels */
 	INT Schwarz_type;    /**< type of schwarz method */
-	
-	// parameters for AMG
-	SHORT AMG_type;                /**< Type of AMG */
-	SHORT AMG_levels;              /**< maximal number of levels */
-	SHORT AMG_cycle_type;          /**< type of cycle */
-	SHORT AMG_smoother;            /**< type of smoother */
-	SHORT AMG_smooth_order;        /**< order for smoothers */
-	REAL AMG_relaxation;           /**< over-relaxation parameter for SOR */
-    SHORT AMG_polynomial_degree;   /**< degree of the polynomial smoother */
-	SHORT AMG_presmooth_iter;      /**< number of presmoothing */
-	SHORT AMG_postsmooth_iter;     /**< number of postsmoothing */
-	INT AMG_coarse_dof;	           /**< minimal coarsest level dof */
-	REAL AMG_tol;                  /**< tolerance for AMG if used as preconditioner */
-	INT AMG_maxit;                 /**< number of iterations for AMG used as preconditioner */
-	SHORT AMG_ILU_levels;          /**< how many levels use ILU smoother */
-	SHORT AMG_coarse_scaling;      /**< switch of scaling of the coarse grid correction */
-	SHORT AMG_amli_degree;         /**< degree of the polynomial used by AMLI cycle */
-    SHORT AMG_nl_amli_krylov_type; /**< type of krylov method used by nonlinear AMLI cycle */
-    INT AMG_schwarz_levels;        /**< number of levels use schwarz smoother */
-	
-	// parameters for classical AMG
-	SHORT AMG_coarsening_type;     /**< coarsening type */
-	SHORT AMG_interpolation_type;  /**< interpolation type */
-	REAL AMG_strong_threshold;     /**< strong threshold for coarsening */
-	REAL AMG_truncation_threshold; /**< truncation factor for interpolation */
-	REAL AMG_max_row_sum;          /**< maximal row sum */
-    INT AMG_aggressive_level;      /**< number of levels use aggressive coarsening */
-    INT AMG_aggressive_path;       /**< number of paths used to determine strongly coupled C-set */
-	
-	//  parameters for smoothed aggregation AMG
-	REAL AMG_strong_coupled;       /**< strong coupled threshold for aggregate */
-	INT AMG_max_aggregation;       /**< max size of each aggregate */
-	REAL AMG_tentative_smooth;     /**< relaxation factor for smoothing the tentative prolongation */
-	SHORT AMG_smooth_filter;       /**< use filterfor smoothing the tentative prolongation or not */
-    
-    // parameters for AMG of pressure part
-	SHORT AMG_p_type;                /**< Type of AMG */
-	SHORT AMG_p_levels;              /**< maximal number of levels */
-	SHORT AMG_p_cycle_type;          /**< type of cycle */
-	SHORT AMG_p_smoother;            /**< type of smoother */
-	SHORT AMG_p_smooth_order;        /**< order for smoothers */
-	REAL AMG_p_relaxation;           /**< over-relaxation parameter for SOR */
-    SHORT AMG_p_polynomial_degree;   /**< degree of the polynomial smoother */
-	SHORT AMG_p_presmooth_iter;      /**< number of presmoothing */
-	SHORT AMG_p_postsmooth_iter;     /**< number of postsmoothing */
-	INT AMG_p_coarse_dof;	           /**< minimal coarsest level dof */
-	REAL AMG_p_tol;                  /**< tolerance for AMG if used as preconditioner */
-	INT AMG_p_maxit;                 /**< number of iterations for AMG used as preconditioner */
-	SHORT AMG_p_ILU_levels;          /**< how many levels use ILU smoother */
-	SHORT AMG_p_coarse_scaling;      /**< switch of scaling of the coarse grid correction */
-	SHORT AMG_p_amli_degree;         /**< degree of the polynomial used by AMLI cycle */
-    SHORT AMG_p_nl_amli_krylov_type; /**< type of krylov method used by nonlinear AMLI cycle */
-    INT AMG_p_schwarz_levels;        /**< number of levels use schwarz smoother */
-	
-	// parameters for classical AMG
-	SHORT AMG_p_coarsening_type;     /**< coarsening type */
-	SHORT AMG_p_interpolation_type;  /**< interpolation type */
-	REAL AMG_p_strong_threshold;     /**< strong threshold for coarsening */
-	REAL AMG_p_truncation_threshold; /**< truncation factor for interpolation */
-	REAL AMG_p_max_row_sum;          /**< maximal row sum */
-    INT AMG_p_aggressive_level;      /**< number of levels use aggressive coarsening */
-    INT AMG_p_aggressive_path;       /**< number of paths used to determine strongly coupled C-set */
-	
-	//  parameters for smoothed aggregation AMG
-	REAL AMG_p_strong_coupled;       /**< strong coupled threshold for aggregate */
-	INT AMG_p_max_aggregation;       /**< max size of each aggregate */
-	REAL AMG_p_tentative_smooth;     /**< relaxation factor for smoothing the tentative prolongation */
-	SHORT AMG_p_smooth_filter;       /**< use filterfor smoothing the tentative prolongation or not */
     
 } input_ns_param; /**< Input parameters */
 
