@@ -18,7 +18,7 @@ program ns
 
   !===> Read data A from file
 
-  open(unit=iufile,file='data/test_6/Matrix_A')
+  open(unit=iufile,file='data/test_2/Matrix_A')
 
   read(iufile,*) nA,nnzA
   allocate(ia(1:nA+1))
@@ -32,7 +32,7 @@ program ns
 
   !===> Read data B from file
 
-  open(unit=iufile,file='data/test_6/Matrix_B')
+  open(unit=iufile,file='data/test_2/Matrix_B')
 
   read(iufile,*) nB,nnzB
   allocate(ib(1:nB+1))
@@ -47,7 +47,7 @@ program ns
 
   !===> Read data C from file
 
-  open(unit=iufile,file='data/test_6/Matrix_C')
+  open(unit=iufile,file='data/test_2/Matrix_C')
 
   read(iufile,*) nC,nnzC
 
@@ -62,7 +62,7 @@ program ns
 
   !===> Read data rhs from file
 
-  open(unit=iufile,file='data/test_6/RHS')
+  open(unit=iufile,file='data/test_2/RHS')
   ntol = nA+nB
   allocate(rhs(1:ntol))
   read(iufile,*) (rhs(i),i=1,ntol)

@@ -14,6 +14,8 @@
 /*--      Public Functions       --*/
 /*---------------------------------*/
 
+#if 0
+
 /**
  * \fn void fasp_krylov_ns_ (INT *nA, INT *nnzA, INT *ia, INT *ja, REAL *aval, 
  *                               INT *nB, INT *nnzB, INT *ib, INT *jb, REAL *bval,
@@ -132,6 +134,8 @@ void fasp_fwrapper_krylov_ns_ (INT *nA,
 	fasp_solver_bdcsr_krylov_ns(&mat, &rhs, &sol, &itparam, &psparam, &psdata);
 }
 
+#endif
+
 /**
  * \fn void fasp_fwrapper_krylov_navier_stokes_ (INT *nA, INT *nnzA, INT *ia, INT *ja, REAL *aval, 
  *                               INT *nB, INT *nnzB, INT *ib, INT *jb, REAL *bval,
@@ -198,14 +202,16 @@ void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
     A.blocks[3] = &matC;
     
 	/** Step 0. Read input parameters */
-//        char *inputfile = "ini/ns.dat";
-        char *inputfile = "fasp4ns.dat";
+    char *inputfile = "ini/ns.dat";
+    //char *inputfile = "fasp4ns.dat";
 	input_ns_param     inparam;  // parameters from input files
 	itsolver_ns_param  itparam;  // parameters for itsolver
 	AMG_ns_param      amgparam; // parameters for AMG
 	ILU_param         iluparam; // parameters for ILU
     Schwarz_param     schparam; // parameters for Schwarz
-    //fasp_ns_param_init(&inparam,&sparam, &sprecdata);
+    
+    fasp_ns_param_input(inputfile,&inparam);
+    fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);
     
     // Set local parameters
 	const int print_level   = inparam.print_level;

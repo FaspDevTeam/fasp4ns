@@ -21,6 +21,10 @@
  *
  * \author Chensong Zhang
  * \date   09/29/2013
+ *
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 SHORT fasp_ns_param_check (input_ns_param *inparam)
 {
@@ -44,35 +48,64 @@ SHORT fasp_ns_param_check (input_ns_param *inparam)
         || inparam->Schwarz_mmsize<0
         || inparam->Schwarz_maxlvl<0
         || inparam->Schwarz_type<0
-        || inparam->AMG_type<=0
-        || inparam->AMG_type>3
-        || inparam->AMG_cycle_type<=0
-        || inparam->AMG_cycle_type>4
-        || inparam->AMG_levels<0
-        || inparam->AMG_ILU_levels<0
-        || inparam->AMG_coarse_dof<=0
-        || inparam->AMG_tol<0
-        || inparam->AMG_maxit<0
-        || inparam->AMG_coarsening_type<=0
-        || inparam->AMG_coarsening_type>4
-        || inparam->AMG_interpolation_type<0
-        || inparam->AMG_interpolation_type>5
-        || inparam->AMG_smoother<0
-        || inparam->AMG_smoother>20
-        || inparam->AMG_strong_threshold<0.0
-        || inparam->AMG_strong_threshold>0.9999
-        || inparam->AMG_truncation_threshold<0.0
-        || inparam->AMG_truncation_threshold>0.9999
-        || inparam->AMG_max_row_sum<0.0
-        || inparam->AMG_presmooth_iter<0
-        || inparam->AMG_postsmooth_iter<0
-        || inparam->AMG_amli_degree<0
-        || inparam->AMG_aggressive_level<0
-        || inparam->AMG_aggressive_path<0
-        || inparam->AMG_strong_coupled<0
-        || inparam->AMG_max_aggregation<=0
-        || inparam->AMG_tentative_smooth<0
-        || inparam->AMG_smooth_filter<0
+        || inparam->AMG_type_v<=0
+        || inparam->AMG_type_v>3
+        || inparam->AMG_cycle_type_v<=0
+        || inparam->AMG_cycle_type_v>4
+        || inparam->AMG_levels_v<0
+        || inparam->AMG_ILU_levels_v<0
+        || inparam->AMG_coarse_dof_v<=0
+        || inparam->AMG_tol_v<0
+        || inparam->AMG_maxit_v<0
+        || inparam->AMG_coarsening_type_v<=0
+        || inparam->AMG_coarsening_type_v>4
+        || inparam->AMG_interpolation_type_v<0
+        || inparam->AMG_interpolation_type_v>5
+        || inparam->AMG_smoother_v<0
+        || inparam->AMG_smoother_v>20
+        || inparam->AMG_strong_threshold_v<0.0
+        || inparam->AMG_strong_threshold_v>0.9999
+        || inparam->AMG_truncation_threshold_v<0.0
+        || inparam->AMG_truncation_threshold_v>0.9999
+        || inparam->AMG_max_row_sum_v<0.0
+        || inparam->AMG_presmooth_iter_v<0
+        || inparam->AMG_postsmooth_iter_v<0
+        || inparam->AMG_amli_degree_v<0
+        || inparam->AMG_aggressive_level_v<0
+        || inparam->AMG_aggressive_path_v<0
+        || inparam->AMG_strong_coupled_v<0
+        || inparam->AMG_max_aggregation_v<=0
+        || inparam->AMG_tentative_smooth_v<0
+        || inparam->AMG_smooth_filter_v<0
+        || inparam->AMG_type_p<=0
+        || inparam->AMG_type_p>3
+        || inparam->AMG_cycle_type_p<=0
+        || inparam->AMG_cycle_type_p>4
+        || inparam->AMG_levels_p<0
+        || inparam->AMG_ILU_levels_p<0
+        || inparam->AMG_coarse_dof_p<=0
+        || inparam->AMG_tol_p<0
+        || inparam->AMG_maxit_p<0
+        || inparam->AMG_coarsening_type_p<=0
+        || inparam->AMG_coarsening_type_p>4
+        || inparam->AMG_interpolation_type_p<0
+        || inparam->AMG_interpolation_type_p>5
+        || inparam->AMG_smoother_p<0
+        || inparam->AMG_smoother_p>20
+        || inparam->AMG_strong_threshold_p<0.0
+        || inparam->AMG_strong_threshold_p>0.9999
+        || inparam->AMG_truncation_threshold_p<0.0
+        || inparam->AMG_truncation_threshold_p>0.9999
+        || inparam->AMG_max_row_sum_p<0.0
+        || inparam->AMG_presmooth_iter_p<0
+        || inparam->AMG_postsmooth_iter_p<0
+        || inparam->AMG_amli_degree_p<0
+        || inparam->AMG_aggressive_level_p<0
+        || inparam->AMG_aggressive_path_p<0
+        || inparam->AMG_strong_coupled_p<0
+        || inparam->AMG_max_aggregation_p<=0
+        || inparam->AMG_tentative_smooth_p<0
+        || inparam->AMG_smooth_filter_p<0
         ) status = ERROR_INPUT_PAR;
     
     return status;
@@ -87,7 +120,10 @@ SHORT fasp_ns_param_check (input_ns_param *inparam)
  * \param Input     Input parameters
  *
  * \author Lu Wang
- * \date   03/15/2012
+ * \date   02/15/2012
+ *
+ * \note Xiaozhe Hu modified on 02/21/2014
+ *
  */
 void fasp_ns_param_input (char *filenm, 
                           input_ns_param *Input)
@@ -231,7 +267,7 @@ void fasp_ns_param_input (char *filenm,
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"solver_v_type")==0)
+        else if (strcmp(buffer,"solver_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -239,11 +275,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->solver_v_type = ibuff;
+			Input->itsolver_type_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"precond_v_type")==0)
+        else if (strcmp(buffer,"precond_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -251,11 +287,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->precond_v_type = ibuff;
+			Input->precond_type_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"itsolver_v_tol")==0)
+		else if (strcmp(buffer,"itsolver_tol_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -263,11 +299,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_v_tol = dbuff;
+			Input->pre_tol_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"itsolver_v_maxit")==0)
+		else if (strcmp(buffer,"itsolver_maxit_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -275,11 +311,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_v_maxit = ibuff;
+			Input->pre_maxit_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 
-        else if (strcmp(buffer,"itsolver_v_restart")==0)
+        else if (strcmp(buffer,"itsolver_restart_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -287,11 +323,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_v_restart = ibuff;
+			Input->pre_restart_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
         
-        else if (strcmp(buffer,"solver_p_type")==0)
+        else if (strcmp(buffer,"solver_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -299,11 +335,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->solver_p_type = ibuff;
+			Input->itsolver_type_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"precond_p_type")==0)
+        else if (strcmp(buffer,"precond_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -311,11 +347,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->precond_p_type = ibuff;
+			Input->precond_type_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"itsolver_p_tol")==0)
+		else if (strcmp(buffer,"itsolver_tol_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -323,11 +359,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_p_tol = dbuff;
+			Input->pre_tol_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"itsolver_p_maxit")==0)
+		else if (strcmp(buffer,"itsolver_maxit_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -335,11 +371,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_p_maxit = ibuff;
+			Input->pre_maxit_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
         
-        else if (strcmp(buffer,"itsolver_p_restart")==0)
+        else if (strcmp(buffer,"itsolver_restart_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -347,34 +383,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->pre_p_restart = ibuff;
+			Input->pre_restart_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
         
-		else if (strcmp(buffer,"AMG_ILU_levels")==0)
-		{
-			val = fscanf(fp,"%s",buffer);
-			if (val!=1 || strcmp(buffer,"=")!=0) {
-				status = ERROR_INPUT_PAR; break;
-			}
-			val = fscanf(fp,"%d",&ibuff);
-			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_ILU_levels = ibuff;
-			wall = fgets(buffer,500,fp); // skip rest of line
-		}
-		else if (strcmp(buffer,"AMG_schwarz_levels")==0)
-		{
-			val = fscanf(fp,"%s",buffer);
-			if (val!=1 || strcmp(buffer,"=")!=0) {
-				status = ERROR_INPUT_PAR; break;
-			}
-			val = fscanf(fp,"%d",&ibuff);
-			if (val!=1) { status = SUCCESS; break; }
-			Input->AMG_schwarz_levels = ibuff;
-			fgets(buffer,500,fp); // skip rest of line
-		}
-        
-		else if (strcmp(buffer,"itsolver_restart")==0)
+        else if (strcmp(buffer,"itsolver_restart")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -385,8 +398,32 @@ void fasp_ns_param_input (char *filenm,
 			Input->restart = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
+        
+		else if (strcmp(buffer,"AMG_ILU_levels_v")==0)
+		{
+			val = fscanf(fp,"%s",buffer);
+			if (val!=1 || strcmp(buffer,"=")!=0) {
+				status = ERROR_INPUT_PAR; break;
+			}
+			val = fscanf(fp,"%d",&ibuff);
+			if (val!=1) { status = ERROR_INPUT_PAR; break; }
+			Input->AMG_ILU_levels_v = ibuff;
+			wall = fgets(buffer,500,fp); // skip rest of line
+		}
+		else if (strcmp(buffer,"AMG_schwarz_levels_v")==0)
+		{
+			val = fscanf(fp,"%s",buffer);
+			if (val!=1 || strcmp(buffer,"=")!=0) {
+				status = ERROR_INPUT_PAR; break;
+			}
+			val = fscanf(fp,"%d",&ibuff);
+			if (val!=1) { status = SUCCESS; break; }
+			Input->AMG_schwarz_levels_v = ibuff;
+			fgets(buffer,500,fp); // skip rest of line
+		}
+        
 		
-		else if (strcmp(buffer,"AMG_type")==0)
+		else if (strcmp(buffer,"AMG_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -396,17 +433,17 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"C")==0)||(strcmp(buffer,"c")==0))
-				Input->AMG_type = CLASSIC_AMG;
+				Input->AMG_type_v = CLASSIC_AMG;
 			else if ((strcmp(buffer,"SA")==0)||(strcmp(buffer,"sa")==0))
-				Input->AMG_type = SA_AMG;
+				Input->AMG_type_v = SA_AMG;
             else if ((strcmp(buffer,"UA")==0)||(strcmp(buffer,"ua")==0))
-				Input->AMG_type = UA_AMG;
+				Input->AMG_type_v = UA_AMG;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_strong_coupled")==0)
+		else if (strcmp(buffer,"AMG_strong_coupled_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -414,11 +451,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_strong_coupled = dbuff;
+			Input->AMG_strong_coupled_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_max_aggregation")==0)
+		else if (strcmp(buffer,"AMG_max_aggregation_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -426,11 +463,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_max_aggregation = ibuff;
+			Input->AMG_max_aggregation_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_tentative_smooth")==0)
+		else if (strcmp(buffer,"AMG_tentative_smooth_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -438,11 +475,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_tentative_smooth = dbuff;
+			Input->AMG_tentative_smooth_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_smooth_filter")==0)
+		else if (strcmp(buffer,"AMG_smooth_filter_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -453,18 +490,18 @@ void fasp_ns_param_input (char *filenm,
 			
 			if ((strcmp(buffer,"ON")==0)||(strcmp(buffer,"on")==0)||
                 (strcmp(buffer,"On")==0)||(strcmp(buffer,"oN")==0))
-				Input->AMG_smooth_filter = ON;
+				Input->AMG_smooth_filter_v = ON;
 			else if ((strcmp(buffer,"OFF")==0)||(strcmp(buffer,"off")==0)||
                      (strcmp(buffer,"ofF")==0)||(strcmp(buffer,"oFf")==0)||
                      (strcmp(buffer,"Off")==0)||(strcmp(buffer,"oFF")==0)||
                      (strcmp(buffer,"OfF")==0)||(strcmp(buffer,"OFf")==0))
-				Input->AMG_smooth_filter = OFF;
+				Input->AMG_smooth_filter_v = OFF;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_coarse_scaling")==0)
+		else if (strcmp(buffer,"AMG_coarse_scaling_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -475,18 +512,18 @@ void fasp_ns_param_input (char *filenm,
 			
 			if ((strcmp(buffer,"ON")==0)||(strcmp(buffer,"on")==0)||
                 (strcmp(buffer,"On")==0)||(strcmp(buffer,"oN")==0))
-				Input->AMG_coarse_scaling = ON;
+				Input->AMG_coarse_scaling_v = ON;
 			else if ((strcmp(buffer,"OFF")==0)||(strcmp(buffer,"off")==0)||
                      (strcmp(buffer,"ofF")==0)||(strcmp(buffer,"oFf")==0)||
                      (strcmp(buffer,"Off")==0)||(strcmp(buffer,"oFF")==0)||
                      (strcmp(buffer,"OfF")==0)||(strcmp(buffer,"OFf")==0))
-				Input->AMG_coarse_scaling = OFF;
+				Input->AMG_coarse_scaling_v = OFF;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_levels")==0)
+		else if (strcmp(buffer,"AMG_levels_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -494,11 +531,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_levels = ibuff;
+			Input->AMG_levels_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_tol")==0)
+		else if (strcmp(buffer,"AMG_tol_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -506,11 +543,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_tol = dbuff;
+			Input->AMG_tol_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_maxit")==0)
+		else if (strcmp(buffer,"AMG_maxit_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -518,11 +555,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_maxit = ibuff;
+			Input->AMG_maxit_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_coarse_dof")==0)
+		else if (strcmp(buffer,"AMG_coarse_dof_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -530,11 +567,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_coarse_dof = ibuff;
+			Input->AMG_coarse_dof_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_cycle_type")==0)
+		else if (strcmp(buffer,"AMG_cycle_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -544,19 +581,19 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"V")==0)||(strcmp(buffer,"v")==0))
-				Input->AMG_cycle_type = V_CYCLE;
+				Input->AMG_cycle_type_v = V_CYCLE;
 			else if ((strcmp(buffer,"W")==0)||(strcmp(buffer,"w")==0))
-				Input->AMG_cycle_type = W_CYCLE;
+				Input->AMG_cycle_type_v = W_CYCLE;
 			else if ((strcmp(buffer,"A")==0)||(strcmp(buffer,"a")==0))
-				Input->AMG_cycle_type = AMLI_CYCLE;
+				Input->AMG_cycle_type_v = AMLI_CYCLE;
             else if ((strcmp(buffer,"NA")==0)||(strcmp(buffer,"na")==0))
-				Input->AMG_cycle_type = NL_AMLI_CYCLE; 
+				Input->AMG_cycle_type_v = NL_AMLI_CYCLE;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_smoother")==0)
+		else if (strcmp(buffer,"AMG_smoother_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -566,31 +603,31 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"JACOBI")==0)||(strcmp(buffer,"jacobi")==0))
-				Input->AMG_smoother = SMOOTHER_JACOBI;
+				Input->AMG_smoother_v = SMOOTHER_JACOBI;
 			else if ((strcmp(buffer,"GS")==0)||(strcmp(buffer,"gs")==0))
-				Input->AMG_smoother = SMOOTHER_GS;
+				Input->AMG_smoother_v = SMOOTHER_GS;
 			else if ((strcmp(buffer,"SGS")==0)||(strcmp(buffer,"sgs")==0))
-				Input->AMG_smoother = SMOOTHER_SGS;
+				Input->AMG_smoother_v = SMOOTHER_SGS;
 			else if ((strcmp(buffer,"CG")==0)||(strcmp(buffer,"cg")==0))
-				Input->AMG_smoother = SMOOTHER_CG;				
+				Input->AMG_smoother_v = SMOOTHER_CG;
 			else if ((strcmp(buffer,"SOR")==0)||(strcmp(buffer,"sor")==0))
-				Input->AMG_smoother = SMOOTHER_SOR;
+				Input->AMG_smoother_v = SMOOTHER_SOR;
 			else if ((strcmp(buffer,"SSOR")==0)||(strcmp(buffer,"ssor")==0))
-				Input->AMG_smoother = SMOOTHER_SSOR;
+				Input->AMG_smoother_v = SMOOTHER_SSOR;
 			else if ((strcmp(buffer,"GSOR")==0)||(strcmp(buffer,"gsor")==0))
-				Input->AMG_smoother = SMOOTHER_GSOR;
+				Input->AMG_smoother_v = SMOOTHER_GSOR;
 			else if ((strcmp(buffer,"SGSOR")==0)||(strcmp(buffer,"sgsor")==0))
-				Input->AMG_smoother = SMOOTHER_SGSOR;
+				Input->AMG_smoother_v = SMOOTHER_SGSOR;
 			else if ((strcmp(buffer,"POLY")==0)||(strcmp(buffer,"poly")==0))
-				Input->AMG_smoother = SMOOTHER_POLY;
+				Input->AMG_smoother_v = SMOOTHER_POLY;
 			else if ((strcmp(buffer,"L1_DIAG")==0)||(strcmp(buffer,"l1_diag")==0))
-				Input->AMG_smoother = SMOOTHER_L1DIAG;
+				Input->AMG_smoother_v = SMOOTHER_L1DIAG;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_smooth_order")==0) {
+        else if (strcmp(buffer,"AMG_smooth_order_v")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
@@ -599,15 +636,15 @@ void fasp_ns_param_input (char *filenm,
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
             
             if ((strcmp(buffer,"NO")==0)||(strcmp(buffer,"no")==0))
-                Input->AMG_smooth_order = NO_ORDER;
+                Input->AMG_smooth_order_v = NO_ORDER;
             else if ((strcmp(buffer,"CF")==0)||(strcmp(buffer,"cf")==0))
-                Input->AMG_smooth_order = CF_ORDER;
+                Input->AMG_smooth_order_v = CF_ORDER;
             else
             { status = ERROR_INPUT_PAR; break; }
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_coarsening_type")==0)
+		else if (strcmp(buffer,"AMG_coarsening_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -615,11 +652,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_coarsening_type = ibuff;
+			Input->AMG_coarsening_type_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_interpolation_type")==0)
+		else if (strcmp(buffer,"AMG_interpolation_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -627,33 +664,33 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_interpolation_type = ibuff;
+			Input->AMG_interpolation_type_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_aggressive_level")==0) {
+        else if (strcmp(buffer,"AMG_aggressive_level_v")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_aggressive_level = ibuff;
+            Input->AMG_aggressive_level_v = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-        else if (strcmp(buffer,"AMG_aggressive_path")==0) {
+        else if (strcmp(buffer,"AMG_aggressive_path_v")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_aggressive_path = ibuff;
+            Input->AMG_aggressive_path_v = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_presmooth_iter")==0)
+		else if (strcmp(buffer,"AMG_presmooth_iter_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -661,11 +698,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_presmooth_iter = ibuff;
+			Input->AMG_presmooth_iter_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_postsmooth_iter")==0)
+		else if (strcmp(buffer,"AMG_postsmooth_iter_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -673,11 +710,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_postsmooth_iter = ibuff;
+			Input->AMG_postsmooth_iter_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_relaxation")==0)
+		else if (strcmp(buffer,"AMG_relaxation_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -685,22 +722,22 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_relaxation=dbuff;
+			Input->AMG_relaxation_v=dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_polynomial_degree")==0) {
+        else if (strcmp(buffer,"AMG_polynomial_degree_v")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_polynomial_degree = ibuff;
+            Input->AMG_polynomial_degree_v = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_strong_threshold")==0)
+		else if (strcmp(buffer,"AMG_strong_threshold_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -708,11 +745,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_strong_threshold = dbuff;
+			Input->AMG_strong_threshold_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_truncation_threshold")==0)
+		else if (strcmp(buffer,"AMG_truncation_threshold_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -720,11 +757,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_truncation_threshold = dbuff;
+			Input->AMG_truncation_threshold_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_max_row_sum")==0)
+		else if (strcmp(buffer,"AMG_max_row_sum_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -732,11 +769,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_max_row_sum = dbuff;
+			Input->AMG_max_row_sum_v = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_amli_degree")==0)
+		else if (strcmp(buffer,"AMG_amli_degree_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -744,11 +781,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_amli_degree = ibuff;
+			Input->AMG_amli_degree_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
         
-        else if (strcmp(buffer,"AMG_nl_amli_krylov_type")==0)
+        else if (strcmp(buffer,"AMG_nl_amli_krylov_type_v")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -756,11 +793,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_nl_amli_krylov_type = ibuff;
+			Input->AMG_nl_amli_krylov_type_v = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_p_type")==0)
+        else if (strcmp(buffer,"AMG_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -770,17 +807,17 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"C")==0)||(strcmp(buffer,"c")==0))
-            Input->AMG_p_type = CLASSIC_AMG;
+            Input->AMG_type_p = CLASSIC_AMG;
 			else if ((strcmp(buffer,"SA")==0)||(strcmp(buffer,"sa")==0))
-            Input->AMG_p_type = SA_AMG;
+            Input->AMG_type_p = SA_AMG;
             else if ((strcmp(buffer,"UA")==0)||(strcmp(buffer,"ua")==0))
-            Input->AMG_p_type = UA_AMG;
+            Input->AMG_type_p = UA_AMG;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_strong_coupled")==0)
+		else if (strcmp(buffer,"AMG_strong_coupled_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -788,11 +825,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_strong_coupled = dbuff;
+			Input->AMG_strong_coupled_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_max_aggregation")==0)
+		else if (strcmp(buffer,"AMG_max_aggregation_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -800,11 +837,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_max_aggregation = ibuff;
+			Input->AMG_max_aggregation_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_tentative_smooth")==0)
+		else if (strcmp(buffer,"AMG_tentative_smooth_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -812,11 +849,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_tentative_smooth = dbuff;
+			Input->AMG_tentative_smooth_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_smooth_filter")==0)
+		else if (strcmp(buffer,"AMG_smooth_filter_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -827,18 +864,18 @@ void fasp_ns_param_input (char *filenm,
 			
 			if ((strcmp(buffer,"ON")==0)||(strcmp(buffer,"on")==0)||
                 (strcmp(buffer,"On")==0)||(strcmp(buffer,"oN")==0))
-            Input->AMG_p_smooth_filter = ON;
+            Input->AMG_smooth_filter_p = ON;
 			else if ((strcmp(buffer,"OFF")==0)||(strcmp(buffer,"off")==0)||
                      (strcmp(buffer,"ofF")==0)||(strcmp(buffer,"oFf")==0)||
                      (strcmp(buffer,"Off")==0)||(strcmp(buffer,"oFF")==0)||
                      (strcmp(buffer,"OfF")==0)||(strcmp(buffer,"OFf")==0))
-            Input->AMG_p_smooth_filter = OFF;
+            Input->AMG_smooth_filter_p = OFF;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_coarse_scaling")==0)
+		else if (strcmp(buffer,"AMG_coarse_scaling_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -849,18 +886,18 @@ void fasp_ns_param_input (char *filenm,
 			
 			if ((strcmp(buffer,"ON")==0)||(strcmp(buffer,"on")==0)||
                 (strcmp(buffer,"On")==0)||(strcmp(buffer,"oN")==0))
-            Input->AMG_p_coarse_scaling = ON;
+            Input->AMG_coarse_scaling_p = ON;
 			else if ((strcmp(buffer,"OFF")==0)||(strcmp(buffer,"off")==0)||
                      (strcmp(buffer,"ofF")==0)||(strcmp(buffer,"oFf")==0)||
                      (strcmp(buffer,"Off")==0)||(strcmp(buffer,"oFF")==0)||
                      (strcmp(buffer,"OfF")==0)||(strcmp(buffer,"OFf")==0))
-            Input->AMG_p_coarse_scaling = OFF;
+            Input->AMG_coarse_scaling_p = OFF;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_levels")==0)
+		else if (strcmp(buffer,"AMG_levels_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -868,11 +905,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_levels = ibuff;
+			Input->AMG_levels_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_tol")==0)
+		else if (strcmp(buffer,"AMG_tol_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -880,11 +917,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_tol = dbuff;
+			Input->AMG_tol_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_maxit")==0)
+		else if (strcmp(buffer,"AMG_maxit_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -892,11 +929,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_maxit = ibuff;
+			Input->AMG_maxit_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_coarse_dof")==0)
+		else if (strcmp(buffer,"AMG_coarse_dof_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -904,11 +941,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_coarse_dof = ibuff;
+			Input->AMG_coarse_dof_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_cycle_type")==0)
+		else if (strcmp(buffer,"AMG_cycle_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -918,19 +955,19 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"V")==0)||(strcmp(buffer,"v")==0))
-            Input->AMG_p_cycle_type = V_CYCLE;
+            Input->AMG_cycle_type_p = V_CYCLE;
 			else if ((strcmp(buffer,"W")==0)||(strcmp(buffer,"w")==0))
-            Input->AMG_p_cycle_type = W_CYCLE;
+            Input->AMG_cycle_type_p = W_CYCLE;
 			else if ((strcmp(buffer,"A")==0)||(strcmp(buffer,"a")==0))
-            Input->AMG_p_cycle_type = AMLI_CYCLE;
+            Input->AMG_cycle_type_p = AMLI_CYCLE;
             else if ((strcmp(buffer,"NA")==0)||(strcmp(buffer,"na")==0))
-            Input->AMG_p_cycle_type = NL_AMLI_CYCLE;
+            Input->AMG_cycle_type_p = NL_AMLI_CYCLE;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_smoother")==0)
+		else if (strcmp(buffer,"AMG_smoother_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -940,31 +977,31 @@ void fasp_ns_param_input (char *filenm,
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
 			
 			if ((strcmp(buffer,"JACOBI")==0)||(strcmp(buffer,"jacobi")==0))
-            Input->AMG_p_smoother = SMOOTHER_JACOBI;
+            Input->AMG_smoother_p = SMOOTHER_JACOBI;
 			else if ((strcmp(buffer,"GS")==0)||(strcmp(buffer,"gs")==0))
-            Input->AMG_p_smoother = SMOOTHER_GS;
+            Input->AMG_smoother_p = SMOOTHER_GS;
 			else if ((strcmp(buffer,"SGS")==0)||(strcmp(buffer,"sgs")==0))
-            Input->AMG_p_smoother = SMOOTHER_SGS;
+            Input->AMG_smoother_p = SMOOTHER_SGS;
 			else if ((strcmp(buffer,"CG")==0)||(strcmp(buffer,"cg")==0))
-            Input->AMG_p_smoother = SMOOTHER_CG;
+            Input->AMG_smoother_p = SMOOTHER_CG;
 			else if ((strcmp(buffer,"SOR")==0)||(strcmp(buffer,"sor")==0))
-            Input->AMG_p_smoother = SMOOTHER_SOR;
+            Input->AMG_smoother_p = SMOOTHER_SOR;
 			else if ((strcmp(buffer,"SSOR")==0)||(strcmp(buffer,"ssor")==0))
-            Input->AMG_p_smoother = SMOOTHER_SSOR;
+            Input->AMG_smoother_p = SMOOTHER_SSOR;
 			else if ((strcmp(buffer,"GSOR")==0)||(strcmp(buffer,"gsor")==0))
-            Input->AMG_p_smoother = SMOOTHER_GSOR;
+            Input->AMG_smoother_p = SMOOTHER_GSOR;
 			else if ((strcmp(buffer,"SGSOR")==0)||(strcmp(buffer,"sgsor")==0))
-            Input->AMG_p_smoother = SMOOTHER_SGSOR;
+            Input->AMG_smoother_p = SMOOTHER_SGSOR;
 			else if ((strcmp(buffer,"POLY")==0)||(strcmp(buffer,"poly")==0))
-            Input->AMG_p_smoother = SMOOTHER_POLY;
+            Input->AMG_smoother_p = SMOOTHER_POLY;
 			else if ((strcmp(buffer,"L1_DIAG")==0)||(strcmp(buffer,"l1_diag")==0))
-            Input->AMG_p_smoother = SMOOTHER_L1DIAG;
+            Input->AMG_smoother_p = SMOOTHER_L1DIAG;
 			else
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_p_smooth_order")==0) {
+        else if (strcmp(buffer,"AMG_smooth_order_p")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
@@ -973,15 +1010,15 @@ void fasp_ns_param_input (char *filenm,
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
             
             if ((strcmp(buffer,"NO")==0)||(strcmp(buffer,"no")==0))
-            Input->AMG_p_smooth_order = NO_ORDER;
+            Input->AMG_smooth_order_p = NO_ORDER;
             else if ((strcmp(buffer,"CF")==0)||(strcmp(buffer,"cf")==0))
-            Input->AMG_p_smooth_order = CF_ORDER;
+            Input->AMG_smooth_order_p = CF_ORDER;
             else
             { status = ERROR_INPUT_PAR; break; }
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_p_coarsening_type")==0)
+		else if (strcmp(buffer,"AMG_coarsening_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -989,11 +1026,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_coarsening_type = ibuff;
+			Input->AMG_coarsening_type_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_interpolation_type")==0)
+		else if (strcmp(buffer,"AMG_interpolation_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1001,33 +1038,33 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_interpolation_type = ibuff;
+			Input->AMG_interpolation_type_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_p_aggressive_level")==0) {
+        else if (strcmp(buffer,"AMG_aggressive_level_p")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_p_aggressive_level = ibuff;
+            Input->AMG_aggressive_level_p = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-        else if (strcmp(buffer,"AMG_p_aggressive_path")==0) {
+        else if (strcmp(buffer,"AMG_aggressive_path_p")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_p_aggressive_path = ibuff;
+            Input->AMG_aggressive_path_p = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_p_presmooth_iter")==0)
+		else if (strcmp(buffer,"AMG_presmooth_iter_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1035,11 +1072,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_presmooth_iter = ibuff;
+			Input->AMG_presmooth_iter_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_postsmooth_iter")==0)
+		else if (strcmp(buffer,"AMG_postsmooth_iter_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1047,11 +1084,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_postsmooth_iter = ibuff;
+			Input->AMG_postsmooth_iter_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_relaxation")==0)
+		else if (strcmp(buffer,"AMG_relaxation_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1059,22 +1096,22 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_relaxation=dbuff;
+			Input->AMG_relaxation_p=dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-        else if (strcmp(buffer,"AMG_p_polynomial_degree")==0) {
+        else if (strcmp(buffer,"AMG_polynomial_degree_p")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->AMG_p_polynomial_degree = ibuff;
+            Input->AMG_polynomial_degree_p = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-		else if (strcmp(buffer,"AMG_p_strong_threshold")==0)
+		else if (strcmp(buffer,"AMG_strong_threshold_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1082,11 +1119,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_strong_threshold = dbuff;
+			Input->AMG_strong_threshold_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_truncation_threshold")==0)
+		else if (strcmp(buffer,"AMG_truncation_threshold_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1094,11 +1131,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_truncation_threshold = dbuff;
+			Input->AMG_truncation_threshold_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_max_row_sum")==0)
+		else if (strcmp(buffer,"AMG_max_row_sum_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1106,11 +1143,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%lf",&dbuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_max_row_sum = dbuff;
+			Input->AMG_max_row_sum_p = dbuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 		
-		else if (strcmp(buffer,"AMG_p_amli_degree")==0)
+		else if (strcmp(buffer,"AMG_amli_degree_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1118,11 +1155,11 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_amli_degree = ibuff;
+			Input->AMG_amli_degree_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
         
-        else if (strcmp(buffer,"AMG_p_nl_amli_krylov_type")==0)
+        else if (strcmp(buffer,"AMG_nl_amli_krylov_type_p")==0)
 		{
 			val = fscanf(fp,"%s",buffer);
 			if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1130,7 +1167,7 @@ void fasp_ns_param_input (char *filenm,
 			}
 			val = fscanf(fp,"%d",&ibuff);
 			if (val!=1) { status = ERROR_INPUT_PAR; break; }
-			Input->AMG_p_nl_amli_krylov_type = ibuff;
+			Input->AMG_nl_amli_krylov_type_p = ibuff;
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
 
