@@ -44,7 +44,7 @@ int assemble(block_dCSRmat *ptr_A, dvector *ptr_b, int gridnum)
 	int IsExist=getGridInfo(&nodes, &elem, &bdnodes, &bdedges,gridnum);
 	if (IsExist==0) {
 		printf("Error: constructing grid fails!\n");
-		return RUN_FAIL;
+		return ERROR_UNKNOWN;
 	}
 
 }

@@ -136,7 +136,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 	// local variable
 	clock_t solver_start, solver_end, setup_start, setup_end;
 	double solver_duration, setup_duration;
-	int status=SUCCESS;
+	int status=FASP_SUCCESS;
         
     //------ setup phase ------//
     setup_start = clock();
@@ -356,7 +356,7 @@ INT fasp_solver_bdcsr_krylov_ns (block_dCSRmat *Mat,
 	// local variable
 	clock_t solver_start, solver_end, setup_start, setup_end;
 	REAL solver_duration, setup_duration;
-	INT status=SUCCESS;
+	INT status=FASP_SUCCESS;
 	
 	// initialize preconditioner 
 	prec.data = &precdata; 
