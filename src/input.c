@@ -28,7 +28,7 @@
  */
 SHORT fasp_ns_param_check (input_ns_param *inparam)
 {
-    SHORT status = SUCCESS;
+    SHORT status = FASP_SUCCESS;
     
     if ( inparam->problem_num<0
         || inparam->solver_type<0
@@ -131,7 +131,7 @@ void fasp_ns_param_input (char *filenm,
 	char     buffer[500]; // Note: max number of char for each line!
     char   * wall;
 	INT      val; 
-	SHORT    status = SUCCESS;
+	SHORT    status = FASP_SUCCESS;
     
 	// set default input parameters
 	fasp_ns_param_input_init(Input);
@@ -145,7 +145,7 @@ void fasp_ns_param_input (char *filenm,
 		exit(ERROR_OPEN_FILE);
 	}
     
-	while ( status == SUCCESS ) {
+	while ( status == FASP_SUCCESS ) {
 		INT   ibuff; 
 		REAL  dbuff;
 		char  sbuff[500];
@@ -417,7 +417,7 @@ void fasp_ns_param_input (char *filenm,
 				status = ERROR_INPUT_PAR; break;
 			}
 			val = fscanf(fp,"%d",&ibuff);
-			if (val!=1) { status = SUCCESS; break; }
+			if (val!=1) { status = FASP_SUCCESS; break; }
 			Input->AMG_schwarz_levels_v = ibuff;
 			fgets(buffer,500,fp); // skip rest of line
 		}

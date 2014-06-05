@@ -149,14 +149,14 @@ ns:
 # Clean up
 ########################################################################
 
-.PHONY : clean allclean help
+.PHONY : clean distclean help
 
 clean:
 	rm -f $(CSRCDIR)/*.o
 	rm -f $(FSRCDIR)/*.o
 	rm -f main/*.o
 
-allclean:
+distclean:
 	make clean
 	rm -f lib/*.a
 	rm -f *~ *.ex *.out
