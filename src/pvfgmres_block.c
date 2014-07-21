@@ -91,7 +91,8 @@
  *
  * \note
  *  based on Zhiyang Zhou's pvgmres.c
- */ 
+ */
+#if 0
 INT fasp_solver_bdcsr_pvfgmres (block_dCSRmat *A,
                                 dvector *b,
                                 dvector *x,
@@ -377,7 +378,7 @@ INT fasp_solver_bdcsr_pvfgmres (block_dCSRmat *A,
 	else if (status<0) return status;
 	else return iter;
 }
-
+#endif
 
 /*---------------------------------*/
 /*--        End of File          --*/

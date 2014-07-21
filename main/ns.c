@@ -23,8 +23,9 @@
 int main (int argc, const char * argv[]) 
 {
 	block_dCSRmat A;
-	dCSRmat RR,RW,WR,WW;
-	dvector b, uh; //xapp;
+	dCSRmat RR,RW,WR,WW, Acsr, Mp;
+	dvector b, uh, bcsr; //xapp;
+    ivector u_idx, p_idx;
 	int i,flag=0;
 	
     /** initialize block_dCSRmat **/
@@ -212,6 +213,160 @@ int main (int argc, const char * argv[])
         fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     
+    // --------------------------- //
+    //  Examples wih pressure mass
+    // --------------------------- //
+
+    else if (problem_num == 101) {
+        
+        char *fileA   = "data/P2P0-with-divdiv/set-1/Auu.dat";
+        char *fileB   = "data/P2P0-with-divdiv/set-1/Apu.dat";
+        char *fileBt  = "data/P2P0-with-divdiv/set-1/Aup.dat";
+        char *fileC   = "data/P2P0-with-divdiv/set-1/App.dat";
+        char *filerhs = "data/P2P0-with-divdiv/set-1/b.dat";
+        
+        char *fileMp   = "data/P2P0-with-divdiv/set-1/Mp.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        fasp_dcoo_read(fileC, A.blocks[3]);
+        
+        fasp_dcoo_read(fileMp, &Mp);
+        
+        fasp_dvec_read(filerhs,&b);
+        
+    }
+    
+    else if (problem_num == 102) {
+        
+        char *fileA   = "data/P2P0-with-divdiv/set-2/Auu.dat";
+        char *fileB   = "data/P2P0-with-divdiv/set-2/Apu.dat";
+        char *fileBt  = "data/P2P0-with-divdiv/set-2/Aup.dat";
+        char *fileC   = "data/P2P0-with-divdiv/set-2/App.dat";
+        char *filerhs = "data/P2P0-with-divdiv/set-2/b.dat";
+        
+        char *fileMp   = "data/P2P0-with-divdiv/set-2/Mp.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        fasp_dcoo_read(fileC, A.blocks[3]);
+        
+        fasp_dcoo_read(fileMp, &Mp);
+        
+        fasp_dvec_read(filerhs,&b);
+        
+    }
+    
+    else if (problem_num == 201) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-1/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-1/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-1/Mp.dat";
+
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-1/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-1/ISp.dat";
+
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+
+        
+    }
+    
+    else if (problem_num == 202) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-2/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-2/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-2/Mp.dat";
+        
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+        
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-2/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-2/ISp.dat";
+        
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+        
+        
+    }
+    
+    else if (problem_num == 203) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-3/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-3/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-3/Mp.dat";
+        
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+        
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-3/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-3/ISp.dat";
+        
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+        
+        
+    }
+    
 	else {
 		printf("Error: No such a problem number %d\n", problem_num);
 		return -1;
@@ -242,14 +397,37 @@ int main (int argc, const char * argv[])
 		fasp_solver_amg(A.blocks[0], &b_test, &uh_test, &(amgparam.param_v));
 	}
     else if (precond_type == PREC_DIAG){
-        flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        if (problem_num > 100 && problem_num < 200 ){
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else if ( problem_num > 200 ) {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        }
     }
     else if ((precond_type == PREC_UP_TRI)|| (precond_type == PREC_UP_TRI)) {
-        
-        flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        if (problem_num > 100 && problem_num < 200 ){
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else if ( problem_num > 200 ) {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        }
     }
     else {
-        flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        if (problem_num > 100 && problem_num < 200 ){
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else if ( problem_num > 200 ) {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+        }
+        else {
+            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+        }
     }
 	//for (i = 0;i < 4;i++)
     //    fasp_dcsr_free(&A.blocks[i]);
