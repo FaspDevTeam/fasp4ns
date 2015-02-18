@@ -52,7 +52,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
     
     if (iluparam) fasp_param_ilu_init(iluparam);
     
-    if (schparam) fasp_param_schwarz_init(schparam);
+    if (schparam) fasp_param_Schwarz_init(schparam);
     
     if (inparam) {
         if (itsparam) fasp_ns_param_solver_set(itsparam,inparam);
@@ -364,10 +364,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_v.ILU_droptol          = inparam->ILU_droptol;
     param->param_v.ILU_relax            = inparam->ILU_relax;
     param->param_v.ILU_permtol          = inparam->ILU_permtol;
-    param->param_v.schwarz_levels       = inparam->AMG_schwarz_levels_v;
-	param->param_v.schwarz_mmsize       = inparam->Schwarz_mmsize;
-	param->param_v.schwarz_maxlvl       = inparam->Schwarz_maxlvl;
-	param->param_v.schwarz_type         = inparam->Schwarz_type;
+    param->param_v.Schwarz_levels       = inparam->AMG_schwarz_levels_v;
+	param->param_v.Schwarz_mmsize       = inparam->Schwarz_mmsize;
+	param->param_v.Schwarz_maxlvl       = inparam->Schwarz_maxlvl;
+	param->param_v.Schwarz_type         = inparam->Schwarz_type;
 
     
     // iterative solver parameter for the pressure block
@@ -421,10 +421,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_p.ILU_droptol          = inparam->ILU_droptol;
     param->param_p.ILU_relax            = inparam->ILU_relax;
     param->param_p.ILU_permtol          = inparam->ILU_permtol;
-    param->param_p.schwarz_levels       = inparam->AMG_schwarz_levels_p;
-	param->param_p.schwarz_mmsize       = inparam->Schwarz_mmsize;
-	param->param_p.schwarz_maxlvl       = inparam->Schwarz_maxlvl;
-	param->param_p.schwarz_type         = inparam->Schwarz_type;
+    param->param_p.Schwarz_levels       = inparam->AMG_schwarz_levels_p;
+	param->param_p.Schwarz_mmsize       = inparam->Schwarz_mmsize;
+	param->param_p.Schwarz_maxlvl       = inparam->Schwarz_maxlvl;
+	param->param_p.Schwarz_type         = inparam->Schwarz_type;
     /*
      param->AMG_type    = inparam->AMG_type;
      param->print_level = inparam->print_level;
@@ -667,9 +667,9 @@ void fasp_ns_param_schwarz_set (Schwarz_param *schparam,
                              input_ns_param *inparam)
 {
     schparam->print_level    = inparam->print_level;
-    schparam->schwarz_type   = inparam->Schwarz_type;
-    schparam->schwarz_maxlvl = inparam->Schwarz_maxlvl;
-    schparam->schwarz_mmsize = inparam->Schwarz_mmsize;
+    schparam->Schwarz_type   = inparam->Schwarz_type;
+    schparam->Schwarz_maxlvl = inparam->Schwarz_maxlvl;
+    schparam->Schwarz_mmsize = inparam->Schwarz_mmsize;
 }
 
 

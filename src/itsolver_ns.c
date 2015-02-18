@@ -118,9 +118,9 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 	// parameters
 	const int print_level = itparam->print_level;
 	const int precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->schwarz_maxlvl;
-    const INT schwarz_type   = schparam->schwarz_type;
+    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
+    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
+    const INT schwarz_type   = schparam->Schwarz_type;
 	
 	// Navier-Stokes 4 by 4 matrix
 	dCSRmat *A  = Mat->blocks[0];
@@ -353,9 +353,9 @@ int fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass (block_dCSRmat *Ma
 	// parameters
 	const int print_level = itparam->print_level;
 	const int precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->schwarz_maxlvl;
-    const INT schwarz_type   = schparam->schwarz_type;
+    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
+    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
+    const INT schwarz_type   = schparam->Schwarz_type;
 	
 	// Navier-Stokes 4 by 4 matrix
 	dCSRmat *A  = Mat->blocks[0];
@@ -589,9 +589,9 @@ int fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass (
 	// parameters
 	const int print_level = itparam->print_level;
 	const int precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->schwarz_maxlvl;
-    const INT schwarz_type   = schparam->schwarz_type;
+    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
+    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
+    const INT schwarz_type   = schparam->Schwarz_type;
 	
 	// Navier-Stokes 4 by 4 matrix
 	dCSRmat *A  = Mat->blocks[0];
