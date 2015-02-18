@@ -367,6 +367,43 @@ int main (int argc, const char * argv[])
         
     }
     
+    // --------------------------- //
+    // MLS example
+    // --------------------------- //
+
+    else if (problem_num == 301) {
+        
+        char *fileA = "data/MLS/Stokes_fullMatrix.dat";
+        char *filerhs = "data/MLS/fasp_rhs.dat";
+        
+        fasp_dcoo_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        
+        int N = (Acsr.row-1)/3;
+        
+        u_idx.row = 2*N;
+        fasp_ivec_alloc(u_idx.row, &u_idx);
+        for (i=0;i<u_idx.row;i++) u_idx.val[i]=i;
+        p_idx.row = N+1;
+        fasp_ivec_alloc(p_idx.row, &p_idx);
+        for (i=0;i<p_idx.row;i++) p_idx.val[i]=2*N+i;
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row+1, &b);
+        for (i=0; i<bcsr.row; i++) b.val[i] = bcsr.val[i];
+        b.val[bcsr.row+1] = 0.0;
+        
+    }
+    
 	else {
 		printf("Error: No such a problem number %d\n", problem_num);
 		return -1;
@@ -400,7 +437,7 @@ int main (int argc, const char * argv[])
         if (problem_num > 100 && problem_num < 200 ){
             flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
-        else if ( problem_num > 200 ) {
+        else if ( problem_num > 200 && problem_num < 300 ) {
             flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
         else {
@@ -411,7 +448,7 @@ int main (int argc, const char * argv[])
         if (problem_num > 100 && problem_num < 200 ){
             flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
-        else if ( problem_num > 200 ) {
+        else if ( problem_num > 200 && problem_num < 300 ) {
             flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
         else {
@@ -422,7 +459,7 @@ int main (int argc, const char * argv[])
         if (problem_num > 100 && problem_num < 200 ){
             flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
-        else if ( problem_num > 200 ) {
+        else if ( problem_num > 200 && problem_num < 300 ) {
             flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
         else {
