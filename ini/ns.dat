@@ -60,7 +60,7 @@ solver_type_v  	   = 5        % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GM
                           %--------------------------------------
                           % 31 SuperLU | 32 UMFPACK | 33 MUMPS
 precond_type_v     = 2    % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_tol_v     = 1e-8 % Solver tolerance
+itsolver_tol_v     = 1e-3 % Solver tolerance
 itsolver_maxit_v   = 100  % Maximal iteration number
 itsolver_restart_v = 100   % Restart number for GMRES
 
@@ -90,7 +90,7 @@ AMG_nl_amli_krylov_type_v  = 6	 % Krylov method in NLAMLI cycle: 6 FGMRES | 7 GC
 % parameters for classical AMG (velocity)        %
 %------------------------------------------------%
 
-AMG_coarsening_type_v      = 4      % 1 Modified RS
+AMG_coarsening_type_v      = 1      % 1 Modified RS
                                   % 3 Compatible Relaxation
                                   % 4 Aggressive    
 AMG_interpolation_type_v   = 2      % 1 Direct | 2 Standard | 3 Energy-min

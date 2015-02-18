@@ -15,7 +15,7 @@
 #define SOLVER_MinRes       3  /**< Minimal Residual */
 #define SOLVER_GMRES        4  /**< GMRES Method */
 #define SOLVER_FGMRES       5  /**< FGMRES Method */
-#define SOLVER_GCR          6  /**< GCR Method */
+//#define SOLVER_GCR          6  /**< GCR Method */
 
 /** 
  * \brief Definition of preconditioner types

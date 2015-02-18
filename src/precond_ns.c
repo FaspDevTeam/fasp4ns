@@ -123,7 +123,7 @@ void fasp_precond_ns_bdiag (REAL *r,
  * \param *z pointer to preconditioned residual
  * \param *data pointer to precondition data
  *
- * \author Xiozhe Hu, Lu Wang
+ * \author Xiaozhe Hu, Lu Wang
  * \date 10/20/2013
  *
  * \note modified by Lu Wang on 02/11/2014
