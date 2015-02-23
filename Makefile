@@ -20,11 +20,11 @@ INCLUDE=-I ../faspsolver/base/include -I ./include
 FASPLIB=../faspsolver/lib/libfasp.a
 TESTLIB=./lib/libfasp4ns.a
 
-UMFPACKDIR = /opt/local
-UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
-UMFPACKLIB = -L$(UMFPACKDIR)/lib -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd -lSuiteSparse
+UMFPACKDIR = #/opt/local
+UMFPACKINCLUDE = #-I$(UMFPACKDIR)/include
+UMFPACKLIB = #-L$(UMFPACKDIR)/lib -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd -lSuiteSparse
 
-BLASLIB=-framework Accelerate
+BLASLIB = #-framework Accelerate
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
