@@ -441,6 +441,7 @@ typedef struct {
 	SHORT AMG_presmooth_iter_v;      /**< number of presmoothing */
 	SHORT AMG_postsmooth_iter_v;     /**< number of postsmoothing */
 	INT AMG_coarse_dof_v;	           /**< minimal coarsest level dof */
+    INT AMG_coarse_solver_v;            /**< coarse grid solver */
 	REAL AMG_tol_v;                  /**< tolerance for AMG if used as preconditioner */
 	INT AMG_maxit_v;                 /**< number of iterations for AMG used as preconditioner */
 	SHORT AMG_ILU_levels_v;          /**< how many levels use ILU smoother */
@@ -486,6 +487,7 @@ typedef struct {
 	SHORT AMG_presmooth_iter_p;      /**< number of presmoothing */
 	SHORT AMG_postsmooth_iter_p;     /**< number of postsmoothing */
 	INT AMG_coarse_dof_p;	           /**< minimal coarsest level dof */
+    INT AMG_coarse_solver_p;            /**< coarse grid solver */
 	REAL AMG_tol_p;                  /**< tolerance for AMG if used as preconditioner */
 	INT AMG_maxit_p;                 /**< number of iterations for AMG used as preconditioner */
 	SHORT AMG_ILU_levels_p;          /**< how many levels use ILU smoother */

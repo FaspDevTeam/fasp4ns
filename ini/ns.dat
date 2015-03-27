@@ -5,11 +5,12 @@
 %----------------------------------------------%
 
 workdir  = ./data/     % work directory, no more than 128 characters
-problem_num    = 301     % Problem number 
+problem_num    = 302     % Problem number 
 print_level    = 3     % How much information to print out 
 			% 6: check convergence for velocity block
 			% 7: check convergence for velocity and pressure block
 output_type    = 0     % output_type: 0 Standard output | >0 File
+
 
 %----------------------------------------------%
 % parameters for solvers for whole system      %
@@ -17,8 +18,8 @@ output_type    = 0     % output_type: 0 Standard output | >0 File
 solver_type    = 5      % Solver type:   | 3 MinRes | 4 GMRES | 5 FGMRES | 6 GCR
 precond_type   = 2     % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 SYM_TRI
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
-itsolver_tol   = 1e-5   % Solver tolerance 
-itsolver_maxit = 1000    % Maximal iteration number 
+itsolver_tol   = 1e-12   % Solver tolerance 
+itsolver_maxit = 100    % Maximal iteration number 
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
@@ -53,7 +54,7 @@ Schwarz_type             = 1      % 1 forward | 2 backward | 3 symmetric
 %----------------------------------------------%
 % parameters for iterative solver (velocity)   %
 %----------------------------------------------%
-solver_type_v  	   = 5        % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
+solver_type_v  	   = 32        % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
                           % 5 vGMRes | 6 vFGMRes
 			  %--------------------------------------
                           % 21 AMG Solver | 22 FMG Solver |
@@ -74,12 +75,13 @@ AMG_smoother_v             = GS    % GS | JACOBI | SGS SOR | SSOR |
                                  % GSOR | SGSOR | POLY | L1DIAG | CG
 AMG_smooth_order_v         = CF     % NO: natural order | CF: CF order
 AMG_levels_v               = 20    % max number of levels
-AMG_ILU_levels_v           = 1     % number of levels using ILU smoother
+AMG_ILU_levels_v           = 0     % number of levels using ILU smoother
 AMG_schwarz_levels_v       = 0	  % number of levels using Schwarz smoother
 AMG_relaxation_v	   = 1.1   % over relaxation parameter for SOR smoother 
 AMG_presmooth_iter_v       = 1     % number of presmoothing
 AMG_postsmooth_iter_v      = 1    % number of postsmoothing
 AMG_coarse_dof_v           = 100   % max number of coarse degrees of freedom
+AMG_coarse_solver_v        = 32      % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS
 AMG_tol_v                  = 1e-8  % tolerance for AMG
 AMG_maxit_v                = 1     % number of AMG iterations
 AMG_coarse_scaling_v	   = OFF	 % switch of scaling of the coarse grid correction 
@@ -102,7 +104,7 @@ AMG_max_row_sum_v          = 0.9   % max row sum
 % parameters for smoothed aggregation AMG (velocity)%
 %----------------------------------------------%
 
-AMG_strong_coupled_v	 = 0.00    % strong coupled threshold
+AMG_strong_coupled_v	 = 0.04    % strong coupled threshold
 AMG_max_aggregation_v	 = 100     % max size of each aggregation 
 AMG_tentative_smooth_v	 = 0.67    % smooth factor for smoothing the tentative prolongation
 AMG_smooth_filter_v	 = OFF     % switch for filtered matrix for smoothing
@@ -116,21 +118,21 @@ AMG_smooth_filter_v	 = OFF     % switch for filtered matrix for smoothing
 %----------------------------------------------%
 % parameters for iterative solver (pressure)   %
 %----------------------------------------------%
-solver_type_p  = 5        % Solver type:   1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
+solver_type_p  = 32        % Solver type:   1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes |
                           % 5 vGMRes | 6 vFGMRes
 			  %--------------------------------------
                           % 21 AMG Solver
                           %--------------------------------------
                           % 32 UMFPACK
-precond_type_p   = 2      % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_tol_p   = 1e-1   % Solver tolerance 
-itsolver_maxit_p = 10    % Maximal iteration number
-itsolver_restart_p = 10   % Restart number for GMRES
-
+precond_type_p   = 1      % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
+itsolver_tol_p   = 1e-4   % Solver tolerance 
+itsolver_maxit_p = 1000    % Maximal iteration number
+itsolver_restart_p = 1000   % Restart number for GMRES
 
 %----------------------------------------------%
 % parameters for AMG (pressure)                %
 %----------------------------------------------%
+
 
 AMG_type_p		 = UA   % C classic AMG 
 			        % SA smoothed aggregation AMG 
@@ -140,12 +142,13 @@ AMG_smoother_p           = GS   % GS | JACOBI | SGS SOR | SSOR |
                                 % GSOR | SGSOR | POLY | L1DIAG | CG
 AMG_smooth_order_p       = NO   % NO: natural order | CF: CF order
 AMG_levels_p             = 20    % max number of levels
-AMG_ILU_levels_p         = 1    % number of levels using ILU smoother
+AMG_ILU_levels_p         = 0    % number of levels using ILU smoother
 AMG_schwarz_levels_p     = 0	% number of levels using Schwarz smoother
 AMG_relaxation_p	 = 1.1  % over relaxation parameter for SOR smoother 
 AMG_presmooth_iter_p     = 1    % number of presmoothing
 AMG_postsmooth_iter_p    = 1    % number of postsmoothing
-AMG_coarse_dof_p         = 100  % max number of coarse degrees of freedom
+AMG_coarse_dof_p         = 200  % max number of coarse degrees of freedom
+AMG_coarse_solver_p      = 32      % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS
 AMG_tol_p                = 1e-8 % tolerance for AMG
 AMG_maxit_p              = 1    % number of AMG iterations
 AMG_coarse_scaling_p	 = OFF	% switch of scaling of the coarse grid correction 
@@ -167,7 +170,7 @@ AMG_max_row_sum_p          = 0.9   % max row sum
 % parameters forsmoothed aggregation AMG (pressure) %
 %----------------------------------------------%
 
-AMG_strong_coupled_p	 = 0.02  % strong coupled threshold
+AMG_strong_coupled_p	 = 0.04  % strong coupled threshold
 AMG_max_aggregation_p	 = 100   % max size of each aggregation 
 AMG_tentative_smooth_p	 = 0.67  % smooth factor for smoothing the tentative prolongation
 AMG_smooth_filter_p	 = OFF   % switch for filtered matrix for smoothing
