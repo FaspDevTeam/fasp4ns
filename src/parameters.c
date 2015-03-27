@@ -340,6 +340,7 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_v.presmooth_iter       = inparam->AMG_presmooth_iter_v;
     param->param_v.postsmooth_iter      = inparam->AMG_postsmooth_iter_v;
     param->param_v.coarse_dof           = inparam->AMG_coarse_dof_v;
+    param->param_v.coarse_solver        = inparam->AMG_coarse_solver_v;
     param->param_v.coarse_scaling       = inparam->AMG_coarse_scaling_v;
     param->param_v.amli_degree          = inparam->AMG_amli_degree_v;
     param->param_v.amli_coef            = NULL;
@@ -396,6 +397,7 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_p.presmooth_iter      = inparam->AMG_presmooth_iter_p;
     param->param_p.postsmooth_iter     = inparam->AMG_postsmooth_iter_p;
     param->param_p.coarse_dof          = inparam->AMG_coarse_dof_p;
+    param->param_p.coarse_solver       = inparam->AMG_coarse_solver_p;
     param->param_p.coarse_scaling      = inparam->AMG_coarse_scaling_p;
     param->param_p.amli_degree         = inparam->AMG_amli_degree_p;
     param->param_p.amli_coef           = NULL;

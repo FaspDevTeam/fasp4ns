@@ -172,6 +172,8 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 
     fasp_get_schur_complement(B,Bt,A,C,&S,&P);
     
+    //fasp_dcsr_write_coo("S.dat", &S);
+    
     dvector res_p = fasp_dvec_create(m);
     
     dvector sol_p = fasp_dvec_create(m);

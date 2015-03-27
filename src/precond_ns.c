@@ -169,7 +169,6 @@ void fasp_precond_ns_low_btri (REAL *r,
     if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
-
 #else
     
     dCSRmat tmpA;
@@ -215,6 +214,8 @@ void fasp_precond_ns_low_btri (REAL *r,
 
 #else
     
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
     fasp_dcsr_trans(predata->S,ptrA);
     fasp_solver_umfpack(ptrA, &rs, &zs, 0);
     fasp_dcsr_free(ptrA);
@@ -267,6 +268,8 @@ void fasp_precond_ns_up_btri (REAL *r,
     //-------------------------
     itsolver_param *itparam_p = predata->itsolver_param_p;
     
+#if INEXACT
+    
     if (itparam_p->precond_type == 1) {
         precond pc_s;
         pc_s.data = predata->diag_S;
@@ -288,6 +291,16 @@ void fasp_precond_ns_up_btri (REAL *r,
         fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
     //-------------------
     //! Compute residule
     //-------------------
@@ -301,6 +314,8 @@ void fasp_precond_ns_up_btri (REAL *r,
     AMG_param *amgparam_v = predata->param_v;
     itsolver_param *itparam_v = predata->itsolver_param_v;
     
+#if INEXACT
+
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
 	pcdata_v.max_levels = mgl_v[0].num_levels;
@@ -309,6 +324,16 @@ void fasp_precond_ns_up_btri (REAL *r,
 	pc_v.fct = fasp_precond_amg;
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
     
 	//! restore r
 	fasp_array_cp(col, tempr, r);
