@@ -26,6 +26,7 @@
  *
  * \note modified by Lu Wang on 02/12/2014
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 void fasp_precond_ns_bdiag (REAL *r, 
@@ -102,6 +103,17 @@ void fasp_precond_ns_bdiag (REAL *r,
         
         fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
     
 #else
     
@@ -129,6 +141,7 @@ void fasp_precond_ns_bdiag (REAL *r,
  * \note modified by Lu Wang on 02/11/2014
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  */
 void fasp_precond_ns_low_btri (REAL *r,
                                   REAL *z, 
@@ -211,6 +224,17 @@ void fasp_precond_ns_low_btri (REAL *r,
     
         fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
 
 #else
     
@@ -240,6 +264,7 @@ void fasp_precond_ns_low_btri (REAL *r,
  * \note modified by Lu Wang on 02/12/2014
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 void fasp_precond_ns_up_btri (REAL *r,
@@ -289,6 +314,17 @@ void fasp_precond_ns_up_btri (REAL *r,
         pc_p.fct = fasp_precond_amg;
         
         fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
     }
     
 #else
