@@ -33,6 +33,7 @@
  * \date   2014/02/11
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 void fasp_ns_param_init (input_ns_param *inparam,
@@ -309,6 +310,7 @@ void fasp_ns_param_amg_init (AMG_ns_param *amgparam)
  * \date   2014/02/11
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 void fasp_ns_param_amg_set (AMG_ns_param *param,
@@ -353,6 +355,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_v.max_row_sum          = inparam->AMG_max_row_sum_v;
     param->param_v.aggressive_level     = inparam->AMG_aggressive_level_v;
     param->param_v.aggressive_path      = inparam->AMG_aggressive_path_v;
+    
+    param->param_v.aggregation_type     = inparam->AMG_aggregation_type_v;
+    param->param_v.pair_number          = inparam->AMG_pair_number_v;
+    param->param_v.quality_bound        = inparam->AMG_quality_bound_v;
     
     param->param_v.strong_coupled       = inparam->AMG_strong_coupled_v;
     param->param_v.max_aggregation      = inparam->AMG_max_aggregation_v;
@@ -410,6 +416,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_p.max_row_sum         = inparam->AMG_max_row_sum_p;
     param->param_p.aggressive_level    = inparam->AMG_aggressive_level_p;
     param->param_p.aggressive_path     = inparam->AMG_aggressive_path_p;
+    
+    param->param_p.aggregation_type     = inparam->AMG_aggregation_type_p;
+    param->param_p.pair_number          = inparam->AMG_pair_number_p;
+    param->param_p.quality_bound        = inparam->AMG_quality_bound_p;
     
     param->param_p.strong_coupled      = inparam->AMG_strong_coupled_p;
     param->param_p.max_aggregation     = inparam->AMG_max_aggregation_p;

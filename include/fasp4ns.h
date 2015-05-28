@@ -8,6 +8,7 @@
  *  \brief Main header file for FASP4NS package
  *
  * \note: modified by Xiaozhe Hu on Feb. 21, 2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  */ 
 #include "messages_ns.h"
 #include "fasp.h"
@@ -370,6 +371,11 @@ typedef struct precond_ns_data {
     int AMG_tol;
     
     /*---------------------------------------------------*/
+    /* ILU data for the pressure block  */
+    /*---------------------------------------------------*/
+    ILU_data *ILU_p; /**< ILU data for presure block */
+    
+    /*---------------------------------------------------*/
     /* Extra data */
     /*---------------------------------------------------*/
 	dCSRmat *M; /**< mass matrix for pressure*/
@@ -458,10 +464,15 @@ typedef struct {
 	REAL AMG_max_row_sum_v;          /**< maximal row sum */
     INT AMG_aggressive_level_v;      /**< number of levels use aggressive coarsening */
     INT AMG_aggressive_path_v;       /**< number of paths used to determine strongly coupled C-set */
-	
+    
+    // parameters for aggregation based AMG
+    SHORT AMG_aggregation_type_v;    /**< aggregation type */
+    INT AMG_pair_number_v;           /**< number of pairs in matching algorithm */
+    REAL AMG_quality_bound_v;        /**< threshold for pair wise aggregation */
+    INT AMG_max_aggregation_v;       /**< max size of each aggregate */
+
 	//  parameters for smoothed aggregation AMG
 	REAL AMG_strong_coupled_v;       /**< strong coupled threshold for aggregate */
-	INT AMG_max_aggregation_v;       /**< max size of each aggregate */
 	REAL AMG_tentative_smooth_v;     /**< relaxation factor for smoothing the tentative prolongation */
 	SHORT AMG_smooth_filter_v;       /**< use filterfor smoothing the tentative prolongation or not */
     
@@ -504,10 +515,15 @@ typedef struct {
 	REAL AMG_max_row_sum_p;          /**< maximal row sum */
     INT AMG_aggressive_level_p;      /**< number of levels use aggressive coarsening */
     INT AMG_aggressive_path_p;       /**< number of paths used to determine strongly coupled C-set */
-	
+    
+    // parameters for aggregation based AMG
+    SHORT AMG_aggregation_type_p;    /**< aggregation type */
+    INT AMG_pair_number_p;           /**< number of pairs in matching algorithm */
+    REAL AMG_quality_bound_p;        /**< threshold for pair wise aggregation */
+    INT AMG_max_aggregation_p;       /**< max size of each aggregate */
+
 	//  parameters for smoothed aggregation AMG
 	REAL AMG_strong_coupled_p;       /**< strong coupled threshold for aggregate */
-	INT AMG_max_aggregation_p;       /**< max size of each aggregate */
 	REAL AMG_tentative_smooth_p;     /**< relaxation factor for smoothing the tentative prolongation */
 	SHORT AMG_smooth_filter_p;       /**< use filterfor smoothing the tentative prolongation or not */
     

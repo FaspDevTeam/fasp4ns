@@ -24,6 +24,7 @@
  *
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 SHORT fasp_ns_param_check (input_ns_param *inparam)
@@ -123,6 +124,7 @@ SHORT fasp_ns_param_check (input_ns_param *inparam)
  * \date   02/15/2012
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 void fasp_ns_param_input (char *filenm, 
@@ -443,6 +445,39 @@ void fasp_ns_param_input (char *filenm,
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
+        
+        else if (strcmp(buffer,"AMG_aggregation_type_v")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_aggregation_type_v = ibuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
+        
+        else if (strcmp(buffer,"AMG_pair_number_v")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_pair_number_v = ibuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
+        
+        else if (strcmp(buffer,"AMG_quality_bound_v")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%lf",&dbuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_quality_bound_v = dbuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
 		
 		else if (strcmp(buffer,"AMG_strong_coupled_v")==0)
 		{
@@ -853,6 +888,39 @@ void fasp_ns_param_input (char *filenm,
 			{ status = ERROR_INPUT_PAR; break; }
 			wall = fgets(buffer,500,fp); // skip rest of line
 		}
+        
+        else if (strcmp(buffer,"AMG_aggregation_type_p")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_aggregation_type_p = ibuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
+        
+        else if (strcmp(buffer,"AMG_pair_number_p")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_pair_number_p = ibuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
+        
+        else if (strcmp(buffer,"AMG_quality_bound_p")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%lf",&dbuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->AMG_quality_bound_p = dbuff;
+            fgets(buffer,500,fp); // skip rest of line
+        }
 		
 		else if (strcmp(buffer,"AMG_strong_coupled_p")==0)
 		{

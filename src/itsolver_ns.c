@@ -104,6 +104,7 @@ int fasp_ns_solver_itsolver(block_dCSRmat *A,
  * \note modified by Xiaozhe on 10/20/2013
  * \note modified by Lu Wang on 02/11/2014
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  *
  */
 int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
@@ -179,7 +180,8 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     dvector sol_p = fasp_dvec_create(m);
     
     AMG_data *mgl_p;
-    
+    ILU_data LU_p;
+
     if (itparam->precond_type_p == 1){
         fasp_dcsr_getdiag(0,&S,&diag_S);
     }
@@ -205,6 +207,11 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
                 printf("Error: Wrong AMG type %d for Schur Complement!\n",amgnsparam->param_p.AMG_type);
                 exit(ERROR_INPUT_PAR);
         }
+    }
+    else if (itparam->precond_type_p == 4) {
+        // setup ILU for Schur Complement
+        fasp_ilu_dcsr_setup(&S, &LU_p, iluparam);
+        fasp_mem_iludata_check(&LU_p);
     }
     
     //---------------------------------------//
@@ -249,7 +256,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     precdata.itsolver_param_p = &itsolver_param_p;
     precdata.mgl_data_v       = mgl_v;
     precdata.mgl_data_p       = mgl_p;
-
+    precdata.ILU_p            = &LU_p;
     
     precdata.max_levels     = mgl_v[0].num_levels;
     precdata.print_level    = amgnsparam->param_v.print_level;
@@ -339,6 +346,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
  * \author Xiaozhe Hu
  * \date 017/07/2014
  *
+ * \note: modified by Xiaozhe Hu on May. 27, 2014
  * \note In general, this is for purely Stokes problem, NS problem with div-div stablization -- Xiaozhe
  *
  */

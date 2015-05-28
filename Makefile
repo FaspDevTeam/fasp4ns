@@ -20,18 +20,18 @@ INCLUDE=-I ../faspsolver/base/include -I ./include
 FASPLIB=../faspsolver/lib/libfasp.a
 TESTLIB=./lib/libfasp4ns.a
 
-UMFPACKDIR = #/opt/local
-UMFPACKINCLUDE = #-I$(UMFPACKDIR)/include
-UMFPACKLIB = #-L$(UMFPACKDIR)/lib -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd -lSuiteSparse
+UMFPACKDIR = /opt/local
+UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
+UMFPACKLIB = -L$(UMFPACKDIR)/lib -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd -lSuiteSparse
 
-BLASLIB = #-framework Accelerate
+BLASLIB = -framework Accelerate
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
 BOPT=-g -pg -O3 #-Wall #-fopenmp
 
 COPTS=$(BOPT)
-CDEFS=-DWITH_BLAS=0 -DWITH_UMFPACK=0 -DWITH_SuperLU=0
+CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=1 -DWITH_SuperLU=0
 CINCLUDES=$(INCLUDE) $(UMFPACKINCLUDE)
 CFLAGS=$(CDEFS) $(COPTS) $(CINCLUDES)
 
