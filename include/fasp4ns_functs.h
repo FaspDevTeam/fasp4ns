@@ -59,12 +59,12 @@ int fasp_ns_solver_itsolver(block_dCSRmat *A,
                                itsolver_ns_param *itparam);
 
 int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
-                                        dvector *b,
-                                        dvector *x,
-                                         itsolver_ns_param *itparam,
-                                        AMG_ns_param *amgnsparam,
-                                        ILU_param *iluparam,
-                                        Schwarz_param *schparam);
+                                            dvector *b,
+                                            dvector *x,
+                                            itsolver_ns_param *itparam,
+                                            AMG_ns_param *amgnsparam,
+                                            ILU_param *iluparam,
+                                            Schwarz_param *schparam);
 
 int fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass (block_dCSRmat *Mat,
                                             dvector *b,
@@ -90,10 +90,6 @@ INT fasp_solver_bdcsr_krylov_ns (block_dCSRmat *Mat,
                                      itsolver_param *itparam,
                                      precond_ns_param *param, 
                                      precond_ns_data *precdata);
-
-void fasp_get_schur_complement(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S,dCSRmat *P);
-
-void fasp_get_schur_complement_with_pressure_mass(dCSRmat *B, dCSRmat *Bt, dCSRmat *A, dCSRmat *Mp, REAL alpha, dCSRmat *S);
 
 
 /*-------- In file: parameters.c --------*/
@@ -152,6 +148,34 @@ void fasp_precond_ns_low_btri (REAL *r,
 void fasp_precond_ns_up_btri (REAL *r,
                               REAL *z,
                               void *data);
+
+void fasp_precond_ns_blu (REAL *r,
+                          REAL *z,
+                          void *data);
+
+void fasp_precond_ns_simple (REAL *r,
+                             REAL *z,
+                             void *data);
+
+void fasp_precond_ns_simpler (REAL *r,
+                             REAL *z,
+                             void *data);
+
+void fasp_precond_ns_uzawa (REAL *r,
+                          REAL *z,
+                          void *data);
+
+void fasp_precond_ns_projection (REAL *r,
+                               REAL *z,
+                               void *data);
+
+void fasp_precond_ns_DGS (REAL *r,
+                          REAL *z,
+                          void *data);
+
+void fasp_precond_ns_LSCDGS (REAL *r,
+                             REAL *z,
+                             void *data);
 
 void fasp_precond_ns_sym_btri (REAL *r,
                               REAL *z,
@@ -222,5 +246,25 @@ void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
                                REAL *cval, 
                                REAL *b, 
                                REAL *u);
+
+void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
+                                               INT *nnzA,
+                                               INT *ia,
+                                               INT *ja,
+                                               REAL *aval,
+                                               INT *nB,
+                                               INT *mB,
+                                               INT *nnzB,
+                                               INT *ib,
+                                               INT *jb,
+                                               REAL *bval,
+                                               INT *nC,
+                                               INT *mC,
+                                               INT *nnzC,
+                                               INT *ic,
+                                               INT *jc,
+                                               REAL *cval,
+                                               REAL *b,
+                                               REAL *u);
 
 /* Ene of fasp4ns_functs.h */

@@ -12,8 +12,8 @@
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
-void fasp_get_schur_somplement(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S,dCSRmat *P);
-void fasp_get_schur_complement_with_pressure_mass(dCSRmat *B, dCSRmat *Bt, dCSRmat *A, dCSRmat *Mp, REAL alpha, dCSRmat *S);
+static void fasp_get_schur_complement_diagA(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S);
+static void fasp_get_schur_complement_with_pressure_mass(dCSRmat *B, dCSRmat *Bt, dCSRmat *A, dCSRmat *Mp, REAL alpha, dCSRmat *S);
 
 
 /*---------------------------------*/
@@ -104,26 +104,31 @@ int fasp_ns_solver_itsolver(block_dCSRmat *A,
  * \note modified by Xiaozhe on 10/20/2013
  * \note modified by Lu Wang on 02/11/2014
  * \note Xiaozhe Hu modified on 02/21/2014
- * \note: modified by Xiaozhe Hu on May. 27, 2014
+ * \note modified by Xiaozhe Hu on May. 27, 2014
+ * \note modified by Xiaozhe on 05/31/2016
  *
  */
 int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
-                                        dvector *b,
-                                        dvector *x,
-                                         itsolver_ns_param *itparam,
-                                        AMG_ns_param *amgnsparam,
-                                        ILU_param *iluparam,
-                                        Schwarz_param *schparam)
+                                            dvector *b,
+                                            dvector *x,
+                                            itsolver_ns_param *itparam,
+                                            AMG_ns_param *amgnsparam,
+                                            ILU_param *iluparam,
+                                            Schwarz_param *schparam)
 {
-    printf("fasp_solver_bdcsr_krylov_navier_stokes start\n");
+    
 	// parameters
 	const int print_level = itparam->print_level;
 	const int precond_type = itparam->precond_type;
     const INT schwarz_mmsize = schparam->Schwarz_mmsize;
     const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
     const INT schwarz_type   = schparam->Schwarz_type;
+    
+    if (print_level>0) {
+        printf("fasp_solver_bdcsr_krylov_navier_stokes start\n");
+    }
 	
-	// Navier-Stokes 4 by 4 matrix
+	// Navier-Stokes 2 by 2 matrix
 	dCSRmat *A  = Mat->blocks[0];
 	dCSRmat *Bt = Mat->blocks[1];
 	dCSRmat *B  = Mat->blocks[2];
@@ -132,9 +137,11 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     
     // preconditioner data
 	dCSRmat *M = Mat->blocks[3];
-	dCSRmat S,P;
+	dCSRmat S;
     Schwarz_data schwarz_data;
+    dvector diag_A;
 	dvector diag_S;
+    dCSRmat BABt;
     
 	// local variable
 	clock_t solver_start, solver_end, setup_start, setup_end;
@@ -149,7 +156,21 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     //-----------------------//
     
     AMG_data *mgl_v=fasp_amg_data_create(amgnsparam->param_v.max_levels);
-    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
+    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA);
+    if (precond_type > 10) {
+        
+        dCSRmat BtB;
+        fasp_blas_dcsr_mxm(Bt, B, &BtB);
+
+        REAL gamma = 10;
+        fasp_blas_dcsr_add (A, 1.0, &BtB, gamma, &mgl_v[0].A);
+        
+        fasp_dcsr_free(&BtB);
+
+    }
+    else {
+        fasp_dcsr_cp(A,&mgl_v[0].A);
+    }
     mgl_v[0].b=fasp_dvec_create(n); mgl_v[0].x=fasp_dvec_create(n);
     
     // setup AMG
@@ -167,16 +188,60 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
             printf("Error: Wrong AMG type %d!\n",amgnsparam->param_v.AMG_type);
             exit(ERROR_INPUT_PAR);
     }
+    
+    // get diagonal of A
+    fasp_dcsr_getdiag(n, &mgl_v[0].A, &diag_A);
+    
     //-------------------------//
     // setup Schur complement S
     //-------------------------//
-
-    fasp_get_schur_complement(B,Bt,A,C,&S,&P);
     
-    //fasp_dcsr_write_coo("S.dat", &S);
+    if (precond_type == 8 || precond_type == 9 || precond_type == 18 || precond_type == 19){
+        fasp_blas_dcsr_mxm(B, Bt, &S);
+        
+        // change the sign of the BB^T
+        fasp_blas_dcsr_axm(&S, -1.0);
+        
+        // make it non-singular
+        INT i,k,j,ibegin,iend;
+        
+        for (i=0;i<S.row;++i) {
+            ibegin=S.IA[i]; iend=S.IA[i+1];
+            for (k=ibegin;k<iend;++k) {
+                j=S.JA[k];
+                if ((j-i)==0) {
+                    S.val[k] = S.val[k] + 1e-8; break;
+                } // end if
+            } // end for k
+        } // end for i
+        
+    }
+    else if (precond_type == 10 || precond_type == 20){
+        fasp_blas_dcsr_mxm(B, Bt, &S);
+        fasp_blas_dcsr_rap(B, A, Bt, &BABt);
+        
+        // change the sign of the BB^T
+        fasp_blas_dcsr_axm(&S, -1.0);
+        
+        // make it non-singular
+        INT i,k,j,ibegin,iend;
+        
+        for (i=0;i<S.row;++i) {
+            ibegin=S.IA[i]; iend=S.IA[i+1];
+            for (k=ibegin;k<iend;++k) {
+                j=S.JA[k];
+                if ((j-i)==0) {
+                    S.val[k] = S.val[k] + 1e-8; break;
+                } // end if
+            } // end for k
+        } // end for i
+        
+    }
+    else {
+        fasp_get_schur_complement_diagA(B,Bt,A,C,&S);
+    }
     
     dvector res_p = fasp_dvec_create(m);
-    
     dvector sol_p = fasp_dvec_create(m);
     
     AMG_data *mgl_p;
@@ -249,6 +314,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     precdata.B  = B;
     precdata.Bt = Bt;
     precdata.C = C;
+    precdata.BABt  = &BABt;
     
     precdata.param_v = &amgnsparam->param_v;
     precdata.param_p = &amgnsparam->param_p;
@@ -269,7 +335,7 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
     precdata.relaxation     = amgnsparam->param_v.relaxation;
     precdata.coarse_scaling = amgnsparam->param_v.coarse_scaling;
     
-    
+    precdata.diag_A = &diag_A;
     precdata.S = &S;
     precdata.diag_S = &diag_S;
     precdata.rp = &res_p;
@@ -287,9 +353,56 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
         case 3:
             prec.fct = fasp_precond_ns_up_btri;
             break;
-        //case 4:
-            //prec.fct = fasp_precond_ns_sym_btri;
-            //precdata.w1 = (double *)fasp_mem_calloc(precdata.col,sizeof(double));
+        case 4:
+            prec.fct = fasp_precond_ns_blu;
+            break;
+        case 5:
+            prec.fct = fasp_precond_ns_simple;
+            break;
+        case 6:
+            prec.fct = fasp_precond_ns_simpler;
+            break;
+        case 7:
+            prec.fct = fasp_precond_ns_uzawa;
+            break;
+        case 8:
+            prec.fct = fasp_precond_ns_projection;
+            break;
+        case 9:
+            prec.fct = fasp_precond_ns_DGS;
+            break;
+        case 10:
+            prec.fct = fasp_precond_ns_LSCDGS;
+            break;
+        case 11:
+            prec.fct = fasp_precond_ns_bdiag;
+            break;
+        case 12:
+            prec.fct = fasp_precond_ns_low_btri;
+            break;
+        case 13:
+            prec.fct = fasp_precond_ns_up_btri;
+            break;
+        case 14:
+            prec.fct = fasp_precond_ns_blu;
+            break;
+        case 15:
+            prec.fct = fasp_precond_ns_simple;
+            break;
+        case 16:
+            prec.fct = fasp_precond_ns_simpler;
+            break;
+        case 17:
+            prec.fct = fasp_precond_ns_uzawa;
+            break;
+        case 18:
+            prec.fct = fasp_precond_ns_projection;
+            break;
+        case 19:
+            prec.fct = fasp_precond_ns_DGS;
+            break;
+        case 20:
+            prec.fct = fasp_precond_ns_LSCDGS;
             break;
         default:
             printf("Error: Unknown preconditioner type!\n");
@@ -325,8 +438,10 @@ int fasp_solver_bdcsr_krylov_navier_stokes (block_dCSRmat *Mat,
 	fasp_mem_free(precdata.w);
     fasp_dvec_free(&res_p);
     fasp_dvec_free(&sol_p);
-	fasp_dcsr_free (&S);
-    //fasp_dcsr_free (&P);
+	fasp_dcsr_free(&S);
+    if (precond_type == 10 || precond_type == 20) fasp_dcsr_free(&BABt);
+    fasp_dvec_free(&diag_A);
+    
 	return status;
 }
 
@@ -418,8 +533,6 @@ int fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass (block_dCSRmat *Ma
     fasp_dcsr_alloc(Mp->row, Mp->col, Mp->nnz, &S);
     fasp_dcsr_cp(Mp, &S);
     
-    //fasp_get_schur_complement_with_pressure_mass(B, Bt, A, Mp, 1e5, &S);
-    
     dvector res_p = fasp_dvec_create(m);
     dvector sol_p = fasp_dvec_create(m);
     
@@ -531,6 +644,9 @@ int fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass (block_dCSRmat *Ma
             break;
         case 3:
             prec.fct = fasp_precond_ns_up_btri;
+            break;
+        case 4:
+            prec.fct = fasp_precond_ns_blu;
             break;
             //case 4:
             //prec.fct = fasp_precond_ns_sym_btri;
@@ -777,6 +893,9 @@ int fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass (
         case 3:
             prec.fct = fasp_precond_ns_up_btri;
             break;
+        case 4:
+            prec.fct = fasp_precond_ns_blu;
+            break;
             //case 4:
             //prec.fct = fasp_precond_ns_sym_btri;
             //precdata.w1 = (double *)fasp_mem_calloc(precdata.col,sizeof(double));
@@ -946,39 +1065,72 @@ INT fasp_solver_bdcsr_krylov_ns (block_dCSRmat *Mat,
 /*---------------------------------*/
 /*--      Private Functions      --*/
 /*---------------------------------*/
-void fasp_get_schur_complement(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S,dCSRmat *P)
+/**
+ * \fn void fasp_get_schur_complement_diagA(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S)
+ * \brief Compute S = C+ B*diag(A)^{-1}*Bt
+ *
+ * \param *B:	       pointer to the Apu block
+ * \param *Bt:	       pointer to the Aup block
+ * \param *A:	       pointer to the Auu block
+ * \param *C:          pointer to the App block
+ * \param *S:          pointer to Schur complement
+ *
+ *
+ * \author Xiaozhe Hu and Lu Wang
+ * \date 07/20/2014
+ *
+ * \note Assume B*diag(A)^{-1}*Bt has the right sign, i.e, it approximates -\Delta_p !!!
+ *
+ * \note modified by Xiaozhe Hu
+ */
+static void fasp_get_schur_complement_diagA(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSRmat *S)
 {
     int colA = A->row;
-    //int colB = B->row;
     dvector diag_A;
     int i;
     
-    dCSRmat tempA;
     dCSRmat invA = fasp_dcsr_create(colA,colA,colA);
+    
     fasp_dcsr_getdiag(A->row,A,&diag_A);
+    
+    // TODO: this part should be rewritten so that we do not form matrix invA explicitly!  -- Xiaozhe
     for (i=0;i<colA;i++)
     {
         invA.IA[i] = i;
         invA.JA[i] = i;
         if (diag_A.val[i] > SMALLREAL) invA.val[i]   = 1.0/diag_A.val[i];
         else invA.val[i] = 1.0;
-        //printf("A[%d] = %e, ",i,diag_A.val[i]);
-        //invA.val[i] = 1.0;///diag_A.val[i];
     }
     invA.IA[colA] = colA;
     
-    
-    fasp_blas_dcsr_rap(B, &invA, Bt, &tempA);
-    
-    //fasp_blas_dcsr_mxm(B,Bt,&tempA);
-    fasp_blas_dcsr_add(C,1.0,&tempA,-1.0,S);
-    
-    //
-    //fasp_blas_dcsr_rap (B, &invA, S,  P);
+    if (C) {
+        dCSRmat tempA;
+        fasp_blas_dcsr_rap(B, &invA, Bt, &tempA);
+        fasp_blas_dcsr_add(C,1.0,&tempA,-1.0,S);
+        fasp_dcsr_free(&tempA);
+    }
+    else {
+        fasp_blas_dcsr_rap(B, &invA, Bt, S);
+        fasp_blas_dcsr_axm(S, -1.0);
+        
+        /*
+        // make it non-singular
+        INT k,j,ibegin,iend;
+        
+        for (i=0;i<S->row;++i) {
+            ibegin=S->IA[i]; iend=S->IA[i+1];
+            for (k=ibegin;k<iend;++k) {
+                j=S->JA[k];
+                if ((j-i)==0) {
+                    S->val[k] = S->val[k] + 1e-8; break;
+                } // end if
+            } // end for k
+        } // end for i
+         */
+    }
     
     fasp_dvec_free(&diag_A);
     fasp_dcsr_free(&invA);
-    fasp_dcsr_free(&tempA);
 }
 
 /**
@@ -998,8 +1150,9 @@ void fasp_get_schur_complement(dCSRmat *B,dCSRmat *Bt,dCSRmat *A,dCSRmat *C,dCSR
  *
  * \note Assume pressure block App=0 !!!
  * \note Assume B*diag(A)^{-1}*Bt has the right sign, i.e, it approximates -\Delta_p !!!
+ * \note Still test the code !!!
  */
-void fasp_get_schur_complement_with_pressure_mass(dCSRmat *B, dCSRmat *Bt, dCSRmat *A, dCSRmat *Mp, REAL alpha, dCSRmat *S)
+static void fasp_get_schur_complement_with_pressure_mass(dCSRmat *B, dCSRmat *Bt, dCSRmat *A, dCSRmat *Mp, REAL alpha, dCSRmat *S)
 {
     int colA = A->row;
     dvector diag_A;
