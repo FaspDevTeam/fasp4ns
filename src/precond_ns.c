@@ -21,7 +21,7 @@
  * \param *z pointer to preconditioned residual
  * \param *data pointer to precondition data
  *
- * \author Xiozhe Hu, Lu Wang
+ * \author Xiaozhe Hu, Lu Wang
  * \date 10/20/2013
  *
  * \note modified by Lu Wang on 02/12/2014
@@ -375,6 +375,1035 @@ void fasp_precond_ns_up_btri (REAL *r,
 	fasp_array_cp(col, tempr, r);
 }
 
+/**
+ * \fn void fasp_precond_ns_blu (double *r, double *z, void *data)
+ * \brief block LU preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   04/15/2016
+ *
+ *
+ */
+void fasp_precond_ns_blu (REAL *r,
+                          REAL *z,
+                          void *data)
+{
+
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->Bt, zs.val, rv.val);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    fasp_array_set(colA, zv.val, 0.0);
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //! restore r
+    fasp_array_cp(col, tempr, r);
+    
+}
+
+/**
+ * \fn void fasp_precond_ns_simple (double *r, double *z, void *data)
+ * \brief SIMPLE block diagonal preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   04/22/2016
+ *
+ *
+ */
+void fasp_precond_ns_simple (REAL *r,
+                             REAL *z,
+                             void *data)
+{
+    
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    INT i;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute zu = zu - D^{-1}B^T zs
+    //-------------------
+    fasp_blas_dcsr_mxv(predata->Bt, zs.val, rv.val); // rv = B^T zs
+    
+    for (i=0;i<colA;i++)
+    {
+        if (predata->diag_A->val[i] > SMALLREAL) rv.val[i]   = rv.val[i]/predata->diag_A->val[i]; // rv = D^{-1}rv
+    }
+    
+    fasp_blas_array_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
+    
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //-------------------
+    //! restore r
+    //-------------------
+    fasp_array_cp(col, tempr, r);
+    
+}
+
+/**
+ * \fn void fasp_precond_ns_simpler (double *r, double *z, void *data)
+ * \brief SIMPLER block preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   04/29/2016
+ *
+ *
+ */
+void fasp_precond_ns_simpler (REAL *r,
+                             REAL *z,
+                             void *data)
+{
+    
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    INT i;
+    
+    dvector *deltaS = predata->sp;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Compute rs = rs - B D^{-1} rv
+    //-------------------
+    for (i=0;i<colA;i++)
+    {
+        if (predata->diag_A->val[i] > SMALLREAL) zv.val[i]   = rv.val[i]/predata->diag_A->val[i]; // zv = D^{-1}rv
+    }
+    
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val); // rs = rs - B zv
+
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->Bt, zs.val, rv.val);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    
+    //-------------------
+    //! restore r
+    //-------------------
+    fasp_array_cp(col, tempr, r);
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, deltaS, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, deltaS, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute zs = zs + deltaS
+    //-------------------
+    fasp_blas_array_axpy(colB, -1.0, deltaS->val, zs.val);
+    
+    //-------------------
+    //! Compute zu = zu - D^{-1}B^T deltaS
+    //-------------------
+    fasp_blas_dcsr_mxv(predata->Bt, deltaS->val, rv.val); // rv = B^T deltaS
+    
+    for (i=0;i<colA;i++)
+    {
+        if (predata->diag_A->val[i] > SMALLREAL) rv.val[i]   = rv.val[i]/predata->diag_A->val[i]; // rv = D^{-1}rv
+    }
+    
+    fasp_blas_array_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //-------------------
+    //! restore r
+    //-------------------
+    fasp_array_cp(col, tempr, r);
+    
+    // free
+    //fasp_dvec_free (&deltaS);
+    
+}
+
+/**
+ * \fn void fasp_precond_ns_uzawa (double *r, double *z, void *data)
+ * \brief block LU preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   05/03/2016
+ *
+ *
+ */
+void fasp_precond_ns_uzawa (REAL *r,
+                          REAL *z,
+                          void *data)
+{
+    
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute B zv - rs
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------
+    //! Compute zs = omega*(-1)*(rs)
+    //-------------------
+    REAL omega = -1.0;
+    fasp_blas_array_axpy(colB, omega, rs.val,zs.val);
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //! restore r
+    fasp_array_cp(col, tempr, r);
+    
+}
+
+/**
+ * \fn void fasp_precond_ns_projection (double *r, double *z, void *data)
+ * \brief block LU preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   05/08/2016
+ *
+ *
+ */
+void fasp_precond_ns_projection (REAL *r,
+                               REAL *z,
+                               void *data)
+{
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    fasp_array_cp(colB, rs.val, predata->sp->val);
+    
+    //-------------------------
+    //! Solve Schur complement -B*B^T
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute zv = zv - B^T * zs
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->Bt, zs.val, zv.val);
+    
+    //-------------------
+    //! Compute zs = sp
+    //-------------------
+    fasp_array_cp(colB, predata->sp->val, zs.val);
+
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //! restore r
+    fasp_array_cp(col, tempr, r);
+}
+
+
+/**
+ * \fn void fasp_precond_ns_DGS (double *r, double *z, void *data)
+ * \brief block LU preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   05/13/2016
+ *
+ *
+ */
+void fasp_precond_ns_DGS (REAL *r,
+                          REAL *z,
+                          void *data)
+{
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement -BB^T
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, predata->sp, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute zv = zv - B^T * sp
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->Bt, predata->sp->val, zv.val);
+    
+    //-------------------
+    //! Compute zs = zs + BB^T * sp
+    //-------------------
+    fasp_blas_dcsr_aAxpy(1.0, predata->S, predata->sp->val, zs.val);
+
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //! restore r
+    fasp_array_cp(col, tempr, r);
+}
+
+/**
+ * \fn void fasp_precond_ns_LSCDGS (double *r, double *z, void *data)
+ * \brief block LU preconditioning for ns equation
+ * \param *r pointer to residual
+ * \param *z pointer to preconditioned residual
+ * \param *data pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   05/13/2016
+ *
+ *
+ */
+void fasp_precond_ns_LSCDGS (REAL *r,
+                             REAL *z,
+                             void *data)
+{
+    precond_ns_data *predata=(precond_ns_data *)data;
+    const int col = predata->col, colA = predata->colA, colB = predata->colB;
+    
+    // local variables
+    double	*tempr = predata->w;
+    
+    //! prepare	AMG preconditioner
+    AMG_data *mgl_v = predata->mgl_data_v;
+    AMG_param *amgparam_v = predata->param_v;
+    itsolver_param *itparam_v = predata->itsolver_param_v;
+    
+    dvector rv; rv.row = colA; rv.val = r;
+    dvector zv; zv.row = colA; zv.val = z;
+    dvector rs; rs.row = colB; rs.val = r+colA;
+    dvector zs; zs.row = colB; zs.val = z+colA;
+    
+    //! back up r, setup z;
+    fasp_array_cp(col, r, tempr);
+    fasp_array_set(col, z, 0.0);
+    
+    //-------------------
+    //! Solve velocity
+    //-------------------
+#if INEXACT
+    
+    precond_data pcdata_v;
+    fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
+    pcdata_v.max_levels = mgl_v[0].num_levels;
+    pcdata_v.mgl_data = predata->mgl_data_v;
+    precond pc_v; pc_v.data = &pcdata_v;
+    pc_v.fct = fasp_precond_amg;
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+#else
+    
+    dCSRmat tmpA;
+    dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(&mgl_v[0].A,ptrA);
+    fasp_solver_umfpack(ptrA, &rv, &zv, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute residule
+    //-------------------
+    fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    itsolver_param *itparam_p = predata->itsolver_param_p;
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+    /*
+    fasp_dcoo_write("Ap.dat",  predata->S);
+    fasp_dvec_write("rp.dat", &rs);
+    getchar();
+    */
+    
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, predata->sp, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    // change the sign of the solution
+    fasp_blas_array_ax(predata->sp->row, -1.0, predata->sp->val);
+    
+    //-------------------
+    //! Compute zv = zv + B^T * sp
+    //-------------------
+    fasp_blas_dcsr_aAxpy(1.0, predata->Bt, predata->sp->val, zv.val);
+    
+    //-------------------
+    //! Compute rs = BAB^t * sp
+    //-------------------
+    fasp_blas_dcsr_mxv(predata->BABt, predata->sp->val, rs.val);
+    
+    //-------------------------
+    //! Solve Schur complement
+    //-------------------------
+    
+#if INEXACT
+    
+    if (itparam_p->precond_type == 1) {
+        precond pc_s;
+        pc_s.data = predata->diag_S;
+        pc_s.fct  = fasp_precond_diag;
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 2){
+        //! prepare  AMG preconditioner for S
+        AMG_data *mgl_p = predata->mgl_data_p;
+        AMG_param *amgparam_p = predata->param_p;
+        
+        precond_data pcdata_p;
+        fasp_param_amg_to_prec(&pcdata_p,amgparam_p);
+        pcdata_p.max_levels = mgl_p[0].num_levels;
+        pcdata_p.mgl_data = predata->mgl_data_p;
+        precond pc_p; pc_p.data = &pcdata_p;
+        pc_p.fct = fasp_precond_amg;
+        
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+    }
+    else if (itparam_p->precond_type == 4) {
+        
+        ILU_data *LU_p = predata->ILU_p;
+        
+        precond pc_ilu;
+        pc_ilu.data = LU_p;
+        pc_ilu.fct  = fasp_precond_ilu;
+        
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        
+    }
+    
+#else
+    
+    //dCSRmat tmpA;
+    //dCSRmat *ptrA = &tmpA;
+    fasp_dcsr_trans(predata->S,ptrA);
+    fasp_solver_umfpack(ptrA, &rs, &zs, 0);
+    fasp_dcsr_free(ptrA);
+    
+#endif
+    
+    //-------------------
+    //! Compute zs = -zs
+    //-------------------
+    //fasp_blas_array_ax(colB,-1.0,zs.val);
+    
+    
+    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    //! restore r
+    fasp_array_cp(col, tempr, r);
+}
+
 #if 0
 /**
  * \fn void fasp_precond_ns_sym_btri (double *r, double *z, void *data)
@@ -387,6 +1416,7 @@ void fasp_precond_ns_up_btri (REAL *r,
  * \date 10/20/2013
  *
  * \note Xiaozhe Hu modified on 02/21/2014
+ * \note Xiaozhe Hu modified on 04/15/2016
  *
  *
  */

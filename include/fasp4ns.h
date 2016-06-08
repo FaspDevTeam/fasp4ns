@@ -26,6 +26,29 @@
  * \note This is needed for the AMG solver/preconditioner.
  */
 typedef struct {
+
+    /*---------------------------------------------------*/
+    /* AMG param for the whole system                        */
+    /*---------------------------------------------------*/
+    //! print level in AMG preconditioner
+    int print_level;
+    //! max number of AMG levels
+    int max_levels;
+    //! max number of iterations of AMG preconditioner
+    int maxit;
+    //! tolerance for AMG preconditioner
+    double amg_tol;
+    //! AMG cycle type
+    int cycle_type;
+    //! AMG smoother type
+    int smoother;
+    //! number of presmoothing
+    int presmooth_iter;
+    //! number of postsmoothing
+    int postsmooth_iter;
+    //! coarsening type
+    int coarsening_type;
+    
     /*---------------------------------------------------*/
     /* AMG parameters for the velocity block */
     /*---------------------------------------------------*/
@@ -35,215 +58,110 @@ typedef struct {
     /* AMG parameters for the pressure block  */
     /*---------------------------------------------------*/
     AMG_param param_p;
+    
 } AMG_ns_param;
 
-/*
+/**
+ * \struct AMG_ns_data
+ * \brief Data for AMG solvers for Navier-Stokes problems
+ *
+ * \note This is needed for the AMG solver/preconditioner for Navier-Stokes problems
+ */
 typedef struct {
-	
-	//! type of AMG method
-	SHORT AMG_type;
-	
-    //! print level for AMG
-	SHORT print_level;
-	
-    //! max number of iterations of AMG
-	INT maxit;
-	
-    //! stopping tolerance for AMG solver
-	REAL tol;
-	
-	//! max number of levels of AMG
-	SHORT max_levels;
-	
-    //! max coarsest level dof
-	INT coarse_dof;
-	
-    //! type of AMG cycle
-	SHORT cycle_type;
-	
-    //! smoother type
-	SHORT smoother;
-	
-    //! smoother order
-	SHORT smooth_order;  // 1: nature order 2: C/F order (both are symmetric)
-	
-    //! number of presmoothers
-	SHORT presmooth_iter;
-	
-    //! number of postsmoothers
-	SHORT postsmooth_iter;
-	
-    //! relaxation parameter for SOR smoother
-	REAL relaxation;
     
-    //! degree of the polynomial smoother
-    SHORT polynomial_degree;
-	
-    //! switch of scaling of the coarse grid correction
-	SHORT coarse_scaling;
-	
-    //! degree of the polynomial used by AMLI cycle
-	SHORT amli_degree;
-	
-    //! coefficients of the polynomial used by AMLI cycle
-	REAL *amli_coef;
+    /* Level information */
     
-    //! type of krylov method used by Nonlinear AMLI cycle
-    SHORT nl_amli_krylov_type;
-	
-	//! coarsening type
-	SHORT coarsening_type;
-	
-    //! interpolation type
-	SHORT interpolation_type;
-	
-	//! strong connection threshold for coarsening
-	REAL strong_threshold;
-	
-    //! maximal row sum parameter
-	REAL max_row_sum;
-	
-    //! truncation threshold
-	REAL truncation_threshold;
+    //! max number of levels
+    SHORT max_levels;
     
-    //! number of levels use aggressive coarsening
-    INT aggressive_level;
+    //! number of levels in use <= max_levels
+    SHORT num_levels;
     
-    //! numebr of paths use to determin stongly coupled C points
-    INT aggressive_path;
-	
-	//! strong coupled threshold for aggregate
-	REAL strong_coupled;
-	
-    //! max size of each aggregate
-	INT max_aggregation;
-	
-    //! relaxation parameter for smoothing the tentative prolongation
-	REAL tentative_smooth;
-	
-    //! switch for filtered matrix used for smoothing the tentative prolongation
-	SHORT smooth_filter;
-
-	//! type of AMG method
-	SHORT AMG_p_type;
-	
-    //! print level for AMG
-	SHORT p_print_level;
-	
-    //! max number of iterations of AMG
-	INT p_maxit;
-	
-    //! stopping tolerance for AMG solver
-	REAL p_tol;
-	
-	//! max number of levels of AMG
-	SHORT p_max_levels;
-	
-    //! max coarsest level dof
-	INT p_coarse_dof;
-	
-    //! type of AMG cycle
-	SHORT p_cycle_type;
-	
-    //! smoother type
-	SHORT p_smoother;
-	
-    //! smoother order
-	SHORT p_smooth_order;  // 1: nature order 2: C/F order (both are symmetric)
-	
-    //! number of presmoothers
-	SHORT p_presmooth_iter;
-	
-    //! number of postsmoothers
-	SHORT p_postsmooth_iter;
-	
-    //! relaxation parameter for SOR smoother
-	REAL p_relaxation;
+    /* Problem information */
     
-    //! degree of the polynomial smoother
-    SHORT p_polynomial_degree;
-	
-    //! switch of scaling of the coarse grid correction
-	SHORT p_coarse_scaling;
-	
-    //! degree of the polynomial used by AMLI cycle
-	SHORT p_amli_degree;
-	
-    //! coefficients of the polynomial used by AMLI cycle
-	REAL *p_amli_coef;
+    //! pointer to the matrix at level level_num
+    block_dCSRmat A;
     
-    //! type of krylov method used by Nonlinear AMLI cycle
-    SHORT p_nl_amli_krylov_type;
-	
-	//! coarsening type
-	SHORT p_coarsening_type;
-	
-    //! interpolation type
-	SHORT p_interpolation_type;
-	
-	//! strong connection threshold for coarsening
-	REAL p_strong_threshold;
-	
-    //! maximal row sum parameter
-	REAL p_max_row_sum;
-	
-    //! truncation threshold
-	REAL p_truncation_threshold;
+    //! restriction operator at level level_num
+    block_dCSRmat R;
     
-    //! number of levels use aggressive coarsening
-    INT p_aggressive_level;
+    //! prolongation operator at level level_num
+    block_dCSRmat P;
     
-    //! numebr of paths use to determin stongly coupled C points
-    INT p_aggressive_path;
-	
-	//! strong coupled threshold for aggregate
-	REAL p_strong_coupled;
-	
-    //! max size of each aggregate
-	INT p_max_aggregation;
-	
-    //! relaxation parameter for smoothing the tentative prolongation
-	REAL p_tentative_smooth;
-	
-    //! switch for filtered matrix used for smoothing the tentative prolongation
-	SHORT p_smooth_filter;
-
-    //! number of levels use ILU smoother
-	SHORT p_ILU_levels;
-    //! number of levels use schwarz smoother
-	INT p_schwarz_levels;
+    //! pointer to the right-hand side at level level_num
+    dvector b;
     
-	//! number of levels use ILU smoother
-	SHORT ILU_levels;
-	
-    //! ILU type for smoothing
-	SHORT ILU_type;
-	
-    //! level of fill-in for ILUs and ILUk
-	INT ILU_lfil;
-	
-    //! drop tolerence for ILUt
-	REAL ILU_droptol;
-	
-    //! relaxiation for ILUs
-	REAL ILU_relax;
-	
-    //! permuted if permtol*|a(i,j)| > |a(i,i)|
-	REAL ILU_permtol;
+    //! pointer to the iterative solution at level level_num
+    dvector x;
     
-	//! number of levels use schwarz smoother
-	INT schwarz_levels;
-	
-    //! maximal block size
-	INT schwarz_mmsize;
-	
-    //! maximal levels
-	INT schwarz_maxlvl;
-	
-    //! type of schwarz method
-	INT schwarz_type;
-	
-} AMG_ns_param; *//**< Parameters for AMG */
+    //! cycle type
+    INT cycle_type;
+    
+    /* Coarsest grid information */
+    
+    //! pointer to the numerical factorization from UMFPACK
+    void *Numeric;
+    
+    //! data for Intel MKL PARDISO
+    Pardiso_data pdata;
+    
+    //! data for MUMPS
+    Mumps_data mumps;
+    
+    /* Extra information */
+    
+    //! Temporary work space
+    dvector w;
+    
+    //! SA information
+    
+    //! dimension of the near kernel for SAMG for velocity
+    INT near_kernel_dim_v;
+    
+    //! dimension of the near kernel for SAMG for pressure
+    INT near_kernel_dim_p;
+    
+    //! basis of near kernel space for SAMG for velocity
+    REAL **near_kernel_basis_v;
+    
+    //! basis of near kernel space for SAMG for pressure
+    REAL **near_kernel_basis_p;
+    
+    // Smoother order information
+    
+    //! pointer to the CF marker for velocity at level level_num
+    ivector cfmark_v;
+    
+    //! pointer to the CF marker for pressure at level level_num
+    ivector cfmark_p;
+    
+    // Advanced Smoother information
+    
+    //! number of levels use ILU smoother for velocity
+    INT ILU_levels_v;
+    
+    //! number of levels use ILU smoother for pressure
+    INT ILU_levels_p;
+    
+    //! ILU matrix for ILU smoother for velocity
+    ILU_data LU_v;
+    
+    //! ILU matrix for ILU smoother for pressure
+    ILU_data LU_p;
+    
+    //! number of levels use Schwarz smoother for velocity
+    INT Schwarz_levels_v;
+    
+    //! number of levels use Schwarz smoother for pressure
+    INT Schwarz_levels_p;
+    
+    //! data of Schwarz smoother for velocity
+    Schwarz_data Schwarz_v;
+    
+    //! data of Schwarz smoother for pressure
+    Schwarz_data Schwarz_p;
+    
+} AMG_ns_data; /**< Data for AMG */
 
 /**
  * \struct itsolver_param
@@ -285,7 +203,6 @@ typedef struct {
 	
 } itsolver_ns_param; /**< Parameters for iterative solvers */
 
-
 /**
  * \brief Parameters passed to the preconditioner for generalized Navier-Stokes problems
  *
@@ -301,6 +218,7 @@ typedef struct precond_ns_param {
 	
 } precond_ns_param;
 
+
 /**
  * \brief Data passed to the preconditioner for generalized Navier-Stokes problems
  *
@@ -315,12 +233,12 @@ typedef struct precond_ns_data {
     /*---------------------------------------------------*/
     /* AMG data for the velocity block  */
     /*---------------------------------------------------*/
-	AMG_data *mgl_data_v; /**< AMG data for velocity block */
+	AMG_data *mgl_data_v;
     
     /*---------------------------------------------------*/
     /* AMG data for the pressure block  */
     /*---------------------------------------------------*/
-    AMG_data *mgl_data_p; /**< AMG data for presure block */
+    AMG_data *mgl_data_p;
     
     /*---------------------------------------------------*/
     /* AMG parameters for the velocity block */
@@ -343,7 +261,12 @@ typedef struct precond_ns_data {
     itsolver_param *itsolver_param_p;
     
     /*---------------------------------------------------*/
-    /* AMG param  (Do we need this anymore? --Xiaozhe) */
+    /* AMG data for the whole system  */
+    /*---------------------------------------------------*/
+    AMG_ns_data *mgl_ns_data; 
+    
+    /*---------------------------------------------------*/
+    /* AMG param for the whole system                        */
     /*---------------------------------------------------*/
 	//! print level in AMG preconditioner
 	int print_level;
@@ -379,11 +302,13 @@ typedef struct precond_ns_data {
     /* Extra data */
     /*---------------------------------------------------*/
 	dCSRmat *M; /**< mass matrix for pressure*/
-	dvector *diag_M; /**< diagonal of mass matrix M */ 
+	dvector *diag_M; /**< diagonal of mass matrix M */
+    dvector *diag_A; /**< diagonal of velocity block A */
     dCSRmat *B; /**<  matrix B*/	
 	dCSRmat *Bt; /**< matrix of transpose of B*/
-	dCSRmat *C; /**<  matrix B*/
+	dCSRmat *C; /**<  matrix C*/
 	dCSRmat *S;  /**< Schur Complement matrix*/
+    dCSRmat *BABt; /**<  matrix BABt*/
     dvector *diag_S; /**< diagonal of Schur Complement matrix S */
     dCSRmat *P;  /**< Poisson matrix of pressure*/
     dvector *rp; /**< residual for pressure */
