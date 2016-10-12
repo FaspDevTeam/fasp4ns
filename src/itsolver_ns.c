@@ -66,9 +66,11 @@ int fasp_ns_solver_itsolver(block_dCSRmat *A,
 		case SOLVER_GMRES:
 			if (print_level>0) printf("Calling GMRES solver (Block CSR format) ...\n");
 			iter=fasp_solver_bdcsr_pvgmres(A, b, x, prec, tol, MaxIt, restart, stop_type, print_level); break;
+            
         case SOLVER_FGMRES:
 			if (print_level>0) printf("Calling FGMRES solver (Block CSR format) ...\n");
 			iter=fasp_solver_bdcsr_pvfgmres(A, b, x, prec, tol, MaxIt, restart, stop_type, print_level); break;
+            
         case SOLVER_GCR:
             if (print_level>0) printf("Calling GCR solver (Block CSR format) ...\n");
             iter=fasp_solver_bdcsr_pgcr(A, b, x, MaxIt, tol, prec, print_level, stop_type, restart); break;
