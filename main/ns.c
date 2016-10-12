@@ -76,6 +76,595 @@ int main (int argc, const char * argv[])
         fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     
+    // --------------------------- //
+    //  Examples wih pressure mass
+    // --------------------------- //
+
+    else if (problem_num == 100) {
+        
+        char *fileA   = "data/Stokes-P2P0/1/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/1/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/1/A21.dat";
+        //char *fileC   = "data/P2P0-with-divdiv/set-1/App.dat";
+        char *filerhs = "data/Stokes-P2P0/1/b.dat";
+        
+        char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 101) {
+        
+        char *fileA   = "data/Stokes-P2P0/2/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/2/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/2/A21.dat";
+        char *filerhs = "data/Stokes-P2P0/2/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 102) {
+        
+        char *fileA   = "data/Stokes-P2P0/3/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/3/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/3/A21.dat";
+        char *filerhs = "data/Stokes-P2P0/3/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 103) {
+        
+        char *fileA   = "data/Stokes-P2P0/4/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/4/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/4/A21.dat";
+        char *filerhs = "data/Stokes-P2P0/4/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 104) {
+        
+        char *fileA   = "data/Stokes-P2P0/5/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/5/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/5/A21.dat";
+        char *filerhs = "data/Stokes-P2P0/5/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 105) {
+        
+        char *fileA   = "data/Stokes-P2P0/6/A11.dat";
+        char *fileB   = "data/Stokes-P2P0/6/A12.dat";
+        char *fileBt  = "data/Stokes-P2P0/6/A21.dat";
+        char *filerhs = "data/Stokes-P2P0/6/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 201) {
+        
+        char *fileA   = "data/Stokes-P2P1/1/A11.dat";
+        char *fileB   = "data/Stokes-P2P1/1/A12.dat";
+        char *fileBt  = "data/Stokes-P2P1/1/A21.dat";
+        char *filerhs = "data/Stokes-P2P1/1/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 202) {
+        
+        char *fileA   = "data/Stokes-P2P1/2/A11.dat";
+        char *fileB   = "data/Stokes-P2P1/2/A12.dat";
+        char *fileBt  = "data/Stokes-P2P1/2/A21.dat";
+        char *filerhs = "data/Stokes-P2P1/2/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 203) {
+        
+        char *fileA   = "data/Stokes-P2P1/3/A11.dat";
+        char *fileB   = "data/Stokes-P2P1/3/A12.dat";
+        char *fileBt  = "data/Stokes-P2P1/3/A21.dat";
+        char *filerhs = "data/Stokes-P2P1/3/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 204) {
+        
+        char *fileA   = "data/Stokes-P2P1/4/A11.dat";
+        char *fileB   = "data/Stokes-P2P1/4/A12.dat";
+        char *fileBt  = "data/Stokes-P2P1/4/A21.dat";
+        char *filerhs = "data/Stokes-P2P1/4/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 205) {
+        
+        char *fileA   = "data/Stokes-P2P1/5/A11.dat";
+        char *fileB   = "data/Stokes-P2P1/5/A12.dat";
+        char *fileBt  = "data/Stokes-P2P1/5/A21.dat";
+        char *filerhs = "data/Stokes-P2P1/5/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 301) {
+        
+        char *fileA   = "data/Stokes-RTP0/1/A11.dat";
+        char *fileB   = "data/Stokes-RTP0/1/A12.dat";
+        char *fileBt  = "data/Stokes-RTP0/1/A21.dat";
+        char *filerhs = "data/Stokes-RTP0/1/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 302) {
+        
+        char *fileA   = "data/Stokes-RTP0/2/A11.dat";
+        char *fileB   = "data/Stokes-RTP0/2/A12.dat";
+        char *fileBt  = "data/Stokes-RTP0/2/A21.dat";
+        char *filerhs = "data/Stokes-RTP0/2/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 303) {
+        
+        char *fileA   = "data/Stokes-RTP0/3/A11.dat";
+        char *fileB   = "data/Stokes-RTP0/3/A12.dat";
+        char *fileBt  = "data/Stokes-RTP0/3/A21.dat";
+        char *filerhs = "data/Stokes-RTP0/3/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 304) {
+        
+        char *fileA   = "data/Stokes-RTP0/4/A11.dat";
+        char *fileB   = "data/Stokes-RTP0/4/A12.dat";
+        char *fileBt  = "data/Stokes-RTP0/4/A21.dat";
+        char *filerhs = "data/Stokes-RTP0/4/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 305) {
+        
+        char *fileA   = "data/Stokes-RTP0/5/A11.dat";
+        char *fileB   = "data/Stokes-RTP0/5/A12.dat";
+        char *fileBt  = "data/Stokes-RTP0/5/A21.dat";
+        char *filerhs = "data/Stokes-RTP0/5/b.dat";
+        
+        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        
+        fasp_dcoo_read(fileA,  A.blocks[0]);
+        fasp_dcoo_read(fileB,  A.blocks[1]);
+        fasp_dcoo_read(fileBt, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        //fasp_dcoo_read(fileMp,  &Mp);
+        
+        fasp_dvec_read(filerhs, &b);
+        
+    }
+    
+    else if (problem_num == 401) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-1/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-1/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-1/Mp.dat";
+        
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+        
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-1/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-1/ISp.dat";
+        
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+        
+        
+    }
+    
+    else if (problem_num == 402) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-2/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-2/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-2/Mp.dat";
+        
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+        
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-2/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-2/ISp.dat";
+        
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+        
+        
+    }
+    
+    else if (problem_num == 403) {
+        
+        // read in data
+        char *fileA = "data/P2P0-no-divdiv/set-11/A.dat";
+        char *filerhs = "data/P2P0-no-divdiv/set-11/b.dat";
+        char *fileMp   = "data/P2P0-no-divdiv/set-11/Mp.dat";
+        
+        fasp_dcoo_shift_read(fileA, &Acsr);
+        fasp_dvec_read(filerhs,&bcsr);
+        fasp_dcoo_shift_read(fileMp, &Mp);
+        
+        // read in index for velocity and pressure
+        char *file_u_idx = "data/P2P0-no-divdiv/set-11/ISu.dat";
+        char *file_p_idx = "data/P2P0-no-divdiv/set-11/ISp.dat";
+        
+        fasp_ivecind_read(file_u_idx, &u_idx);
+        fasp_ivecind_read(file_p_idx, &p_idx);
+        
+        // get Auu block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, u_idx.val, u_idx.row, u_idx.row, A.blocks[0]);
+        // get Aup block
+        fasp_dcsr_getblk(&Acsr, u_idx.val, p_idx.val, u_idx.row, p_idx.row, A.blocks[1]);
+        // get Apu block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, u_idx.val, p_idx.row, u_idx.row, A.blocks[2]);
+        // get App block
+        fasp_dcsr_getblk(&Acsr, p_idx.val, p_idx.val, p_idx.row, p_idx.row, A.blocks[3]);
+        
+        // get right hand side
+        fasp_dvec_alloc(bcsr.row, &b);
+        
+        for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
+        for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
+        
+        
+    }
+    
+    else if (problem_num == 501) {
+        
+        char *fileA   = "data/P2P0-with-divdiv/set-1/Auu.dat";
+        char *fileB   = "data/P2P0-with-divdiv/set-1/Apu.dat";
+        char *fileBt  = "data/P2P0-with-divdiv/set-1/Aup.dat";
+        char *fileC   = "data/P2P0-with-divdiv/set-1/App.dat";
+        char *filerhs = "data/P2P0-with-divdiv/set-1/b.dat";
+        
+        char *fileMp   = "data/P2P0-with-divdiv/set-1/Mp.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        fasp_dcoo_read(fileC, A.blocks[3]);
+        
+        fasp_dcoo_read(fileMp, &Mp);
+        
+        fasp_dvec_read(filerhs,&b);
+        
+    }
+    
+    else if (problem_num == 502) {
+        
+        char *fileA   = "data/P2P0-with-divdiv/set-2/Auu.dat";
+        char *fileB   = "data/P2P0-with-divdiv/set-2/Apu.dat";
+        char *fileBt  = "data/P2P0-with-divdiv/set-2/Aup.dat";
+        char *fileC   = "data/P2P0-with-divdiv/set-2/App.dat";
+        char *filerhs = "data/P2P0-with-divdiv/set-2/b.dat";
+        
+        char *fileMp   = "data/P2P0-with-divdiv/set-2/Mp.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        fasp_dcoo_read(fileC, A.blocks[3]);
+        
+        fasp_dcoo_read(fileMp, &Mp);
+        
+        fasp_dvec_read(filerhs,&b);
+        
+    }
+    
+    else if (problem_num == 601) {
+        char *fileA = "data/FSIMatrices/Matrix_A";
+        char *fileB = "data/FSIMatrices/Matrix_B";
+        char *fileC = "data/FSIMatrices/Matrix_C";
+        char *filerhs= "data/FSIMatrices/RHS";
+        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+
+    else if (problem_num == 701) {
+        char *fileA   = "data/saed/W10H025-NI50NJ50/A.dat";
+        char *fileB   = "data/saed/W10H025-NI50NJ50/B.dat";
+        char *fileBt  = "data/saed/W10H025-NI50NJ50/Bt.dat";
+        char *fileC   = "data/saed/W10H025-NI50NJ50/C.dat";
+        char *filerhs = "data/saed/W10H025-NI50NJ50/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+    
+    else if (problem_num == 702) {
+        char *fileA   = "data/saed/W10H025-NI50NJ50-C/A.dat";
+        char *fileB   = "data/saed/W10H025-NI50NJ50-C/B.dat";
+        char *fileBt  = "data/saed/W10H025-NI50NJ50-C/Bt.dat";
+        char *fileC   = "data/saed/W10H025-NI50NJ50-C/C.dat";
+        char *filerhs = "data/saed/W10H025-NI50NJ50-C/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+    
+    else if (problem_num == 703) {
+        char *fileA   = "data/saed/W100H025-NI50NJ50-C/A.dat";
+        char *fileB   = "data/saed/W100H025-NI50NJ50-C/B.dat";
+        char *fileBt  = "data/saed/W100H025-NI50NJ50-C/Bt.dat";
+        char *fileC   = "data/saed/W100H025-NI50NJ50-C/C.dat";
+        char *filerhs = "data/saed/W100H025-NI50NJ50-C/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+    
+    else if (problem_num == 704) {
+        char *fileA   = "data/saed/W100H025-NI100NJ100-C/A.dat";
+        char *fileB   = "data/saed/W100H025-NI100NJ100-C/B.dat";
+        char *fileBt  = "data/saed/W100H025-NI100NJ100-C/Bt.dat";
+        char *fileC   = "data/saed/W100H025-NI100NJ100-C/C.dat";
+        char *filerhs = "data/saed/W100H025-NI100NJ100-C/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+    
+    else if (problem_num == 705) {
+        char *fileA   = "data/saed/W200H025-NI100NJ100-C/A.dat";
+        char *fileB   = "data/saed/W200H025-NI100NJ100-C/B.dat";
+        char *fileBt  = "data/saed/W200H025-NI100NJ100-C/Bt.dat";
+        char *fileC   = "data/saed/W200H025-NI100NJ100-C/C.dat";
+        char *filerhs = "data/saed/W200H025-NI100NJ100-C/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        //fasp_dcoo_read(fileC, A.blocks[3]);
+        A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
+        
 	else {
 		printf("Error: No such a problem number %d\n", problem_num);
 		return -1;

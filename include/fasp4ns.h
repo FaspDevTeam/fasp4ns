@@ -470,6 +470,39 @@ typedef struct {
     
 } input_ns_param; /**< Input parameters */
 
+/**
+ * \brief Data passed to the preconditioner for block preconditioning for block_dCSRmat format
+ *
+ * This is needed for the block preconditioner for pnp+stokes system.
+ */
+typedef struct {
+    
+    /*-------------------------------------*/
+    /* Basic data for block preconditioner */
+    /*-------------------------------------*/
+    block_dCSRmat *Abcsr; /**< problem data, the blocks */
+    
+    dCSRmat *A_pnp_csr;      /**< data for pnp diagonal block in csr format*/
+    dBSRmat *A_pnp_bsr;      /**< data for pnp diagonal block in bsr format*/
+    
+    dCSRmat *A_stokes_csr;      /**< data for pnp diagonal block in csr format*/
+    dBSRmat *A_stokes_bcsr;      /**< data for pnp diagonal block in bsr format*/
+    
+    dvector r;            /**< temp work space */
+    
+    /*------------------------------*/
+    /* Data for the diagonal blocks */
+    /*------------------------------*/
+    /*--- solve by direct solver ---*/
+    void **LU_diag;       /**< LU decomposition for the diagonal blocks (for UMFpack) */
+    
+    /*---  solve by AMG ---*/
+    //AMG_data **mgl;       /**< AMG data for the diagonal blocks */
+    //AMG_param *amgparam;  /**< parameters for AMG */
+    
+} precond_pnp_stokes_data; /**< Precond data for block matrices */
+
+
 #endif /* end if for __FASP4NS_HEADER__ */
 
 /* Ene of fasp4ns.h */

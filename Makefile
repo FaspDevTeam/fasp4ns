@@ -10,9 +10,9 @@
 # Compilers and dependences
 ########################################################################
 AR=ar ruc
-CC=gcc
-CPP=g++
-FC=gfortran
+CC=gcc-mp-5
+CPP=g++-mp-5
+FC=gfortran-mp-5
 
 CSRCDIR=./src
 FSRCDIR=./src

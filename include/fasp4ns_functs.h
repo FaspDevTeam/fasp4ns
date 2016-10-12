@@ -92,6 +92,18 @@ INT fasp_solver_bdcsr_krylov_ns (block_dCSRmat *Mat,
                                      precond_ns_data *precdata);
 
 
+/*-------- In file: itsolver_pnp_stokes.c --------*/
+
+INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
+                                      dvector *b,
+                                      dvector *x,
+                                      itsolver_param *itparam,
+                                      itsolver_param *itparam_pnp,
+                                      AMG_param *amgparam_pnp,
+                                      itsolver_ns_param *itparam_stokes,
+                                      AMG_ns_param *amgparam_stokes);
+
+
 /*-------- In file: parameters.c --------*/
 
 void fasp_ns_param_init (input_ns_param *inparam,
@@ -184,6 +196,21 @@ void fasp_precond_ns_sym_btri (REAL *r,
 void fasp_precond_ns_lsc (REAL *r, 
                               REAL *z, 
                               void *data);
+
+
+/*-------- In file: precond_pnp_stokes.c --------*/
+
+void fasp_precond_pnp_stokes_diag (REAL *r,
+                                REAL *z,
+                                void *data);
+
+void fasp_precond_pnp_stokes_lower (REAL *r,
+                                 REAL *z,
+                                 void *data);
+
+void fasp_precond_pnp_stokes_upper (REAL *r,
+                                 REAL *z,
+                                 void *data);
 
 
 /*-------- In file: pvfgmres.c --------*/
