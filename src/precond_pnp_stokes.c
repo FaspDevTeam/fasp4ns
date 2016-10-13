@@ -197,6 +197,204 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
     
 }
 
+/**
+ * \fn void fasp_precond_pnp_stokes_diag_inexact (REAL *r, REAL *z, void *data)
+ * \brief block diagonal preconditioning (3x3 block matrix, each diagonal block
+ *        is solved inexactly)
+ *
+ * \param r     Pointer to the vector needs preconditioning
+ * \param z     Pointer to preconditioned vector
+ * \param data  Pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   10/12/2016
+ */
+void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
+                                   REAL *z,
+                                   void *data)
+{
+    
+    precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
+    dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
+    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    dvector *tempr = &(precdata->r);
+    
+    //void **LU_diag = precdata->LU_diag;
+    precond_data_bsr *precdata_pnp = precdata->precdata_pnp;
+    precond_ns_data  *precdata_stokes = precdata->precdata_stokes;
+    
+    const INT N0 = A_pnp_bsr->ROW*A_pnp_bsr->nb;
+    const INT N1 = A_stokes_bcsr->blocks[0]->row + A_stokes_bcsr->blocks[2]->row;
+    const INT N = N0 + N1;
+    
+    // back up r, setup z;
+    fasp_array_cp(N, r, tempr->val);
+    fasp_array_set(N, z, 0.0);
+    
+    // prepare
+    dvector r0, r1, z0, z1;
+    
+    r0.row = N0; z0.row = N0;
+    r1.row = N1; z1.row = N1;
+    
+    r0.val = r; r1.val = &(r[N0]);
+    z0.val = z; z1.val = &(z[N0]);
+    
+    // Preconditioning pnp block
+    precond prec_pnp;
+    prec_pnp.data = precdata_pnp;
+    prec_pnp.fct = precdata->pnp_fct;
+    
+    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
+    
+    // Preconditioning A11 block
+    precond prec_stokes;
+    prec_stokes.data = precdata_stokes;
+    prec_stokes.fct = precdata->stokes_fct;
+    
+    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 1);
+
+    
+    // restore r
+    fasp_array_cp(N, tempr->val, r);
+    
+}
+
+/**
+ * \fn void fasp_precond_pnp_stokes_lower_inexact (REAL *r, REAL *z, void *data)
+ * \brief block lower triangular preconditioning (3x3 block matrix, each diagonal
+ *        block is solved exactly)
+ *
+ * \param r     Pointer to the vector needs preconditioning
+ * \param z     Pointer to preconditioned vector
+ * \param data  Pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   10/12/2016
+ */
+void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
+                                    REAL *z,
+                                    void *data)
+{
+    
+    precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
+    block_dCSRmat *A = precdata->Abcsr;
+    dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
+    //dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
+    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    
+    dvector *tempr = &(precdata->r);
+    
+    //void **LU_diag = precdata->LU_diag;
+    precond_data_bsr *precdata_pnp= precdata->precdata_pnp;
+    precond_ns_data  *precdata_stokes = precdata->precdata_stokes;
+    
+    const INT N0 = A_pnp_bsr->ROW*A_pnp_bsr->nb;
+    const INT N1 = A_stokes_bcsr->blocks[0]->row + A_stokes_bcsr->blocks[2]->row;
+    const INT N = N0 + N1;
+    
+    // back up r, setup z;
+    fasp_array_cp(N, r, tempr->val);
+    fasp_array_set(N, z, 0.0);
+    
+    // prepare
+    dvector r0, r1, z0, z1;
+    
+    r0.row = N0; z0.row = N0;
+    r1.row = N1; z1.row = N1;
+    
+    r0.val = r; r1.val = &(r[N0]);
+    z0.val = z; z1.val = &(z[N0]);
+    
+    // Preconditioning pnp block
+    precond prec_pnp;
+    prec_pnp.data = precdata_pnp;
+    prec_pnp.fct = precdata->pnp_fct;
+    
+    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
+    
+    // r1 = r1 - A3*z0
+    fasp_blas_dcsr_aAxpy(-1.0, A->blocks[2], z0.val, r1.val);
+    
+    // Preconditioning stokes block
+    precond prec_stokes;
+    prec_stokes.data = precdata_stokes;
+    prec_stokes.fct = precdata->stokes_fct;
+    
+    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 1);
+    
+    // restore r
+    fasp_array_cp(N, tempr->val, r);
+    
+}
+
+/**
+ * \fn void fasp_precond_pnp_stokes_upper_inexact (REAL *r, REAL *z, void *data)
+ * \brief block upper triangular preconditioning (3x3 block matrix, each diagonal
+ *        block is solved exactly)
+ *
+ * \param r     Pointer to the vector needs preconditioning
+ * \param z     Pointer to preconditioned vector
+ * \param data  Pointer to precondition data
+ *
+ * \author Xiaozhe Hu
+ * \date   10/12/2016
+ */
+void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
+                                    REAL *z,
+                                    void *data)
+{
+    
+    precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
+    block_dCSRmat *A = precdata->Abcsr;
+    dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
+    //dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
+    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    
+    dvector *tempr = &(precdata->r);
+    
+    //void **LU_diag = precdata->LU_diag;
+    precond_data_bsr *precdata_pnp= precdata->precdata_pnp;
+    precond_ns_data  *precdata_stokes = precdata->precdata_stokes;
+    
+    const INT N0 = A_pnp_bsr->ROW*A_pnp_bsr->nb;
+    const INT N1 = A_stokes_bcsr->blocks[0]->row + A_stokes_bcsr->blocks[2]->row;
+    const INT N = N0 + N1;
+    
+    // back up r, setup z;
+    fasp_array_cp(N, r, tempr->val);
+    fasp_array_set(N, z, 0.0);
+    
+    // prepare
+    dvector r0, r1, z0, z1;
+    
+    r0.row = N0; z0.row = N0;
+    r1.row = N1; z1.row = N1;
+    
+    r0.val = r; r1.val = &(r[N0]);
+    z0.val = z; z1.val = &(z[N0]);
+    
+    // Preconditioning stokes block
+    precond prec_stokes;
+    prec_stokes.data = precdata_stokes;
+    prec_stokes.fct = precdata->stokes_fct;
+    
+    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 1);
+    
+    // r1 = r1 - A5*z2
+    fasp_blas_dcsr_aAxpy(-1.0, A->blocks[1], z1.val, r0.val);
+    
+    // Preconditioning pnp block
+    precond prec_pnp;
+    prec_pnp.data = precdata_pnp;
+    prec_pnp.fct = precdata->pnp_fct;
+    
+    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
+    
+    // restore r
+    fasp_array_cp(N, tempr->val, r);
+    
+}
 
 /*---------------------------------*/
 /*--        End of File          --*/

@@ -101,7 +101,9 @@ INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
                                       itsolver_param *itparam_pnp,
                                       AMG_param *amgparam_pnp,
                                       itsolver_ns_param *itparam_stokes,
-                                      AMG_ns_param *amgparam_stokes);
+                                      AMG_ns_param *amgparam_stokes,
+                                      const int num_velocity,
+                                      const int num_pressure);
 
 
 /*-------- In file: parameters.c --------*/
@@ -211,6 +213,18 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
 void fasp_precond_pnp_stokes_upper (REAL *r,
                                  REAL *z,
                                  void *data);
+
+void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
+                                   REAL *z,
+                                   void *data);
+
+void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
+                                    REAL *z,
+                                    void *data);
+
+void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
+                                    REAL *z,
+                                    void *data);
 
 
 /*-------- In file: pvfgmres.c --------*/
