@@ -664,6 +664,24 @@ int main (int argc, const char * argv[])
         
         //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
+    
+    else if (problem_num == 801) {
+        char *fileA   = "data/pnp-stokes/A.dat";
+        char *fileB   = "data/pnp-stokes/B.dat";
+        char *fileBt  = "data/pnp-stokes/Bt.dat";
+        char *fileC   = "data/pnp-stokes/C.dat";
+        char *filerhs = "data/pnp-stokes/rhs.dat";
+        
+        fasp_dcoo_read(fileA, A.blocks[0]);
+        fasp_dcoo_read(fileBt,A.blocks[1]);
+        fasp_dcoo_read(fileB, A.blocks[2]);
+        fasp_dcoo_read(fileC, A.blocks[3]);
+        //A.blocks[3] = NULL;
+        
+        fasp_dvec_read(filerhs, &b);
+        
+        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+    }
         
 	else {
 		printf("Error: No such a problem number %d\n", problem_num);

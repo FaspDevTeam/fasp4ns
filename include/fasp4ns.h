@@ -486,7 +486,7 @@ typedef struct {
     dBSRmat *A_pnp_bsr;      /**< data for pnp diagonal block in bsr format*/
     
     dCSRmat *A_stokes_csr;      /**< data for pnp diagonal block in csr format*/
-    dBSRmat *A_stokes_bcsr;      /**< data for pnp diagonal block in bsr format*/
+    block_dCSRmat *A_stokes_bcsr;      /**< data for pnp diagonal block in bsr format*/
     
     dvector r;            /**< temp work space */
     
@@ -496,9 +496,12 @@ typedef struct {
     /*--- solve by direct solver ---*/
     void **LU_diag;       /**< LU decomposition for the diagonal blocks (for UMFpack) */
     
-    /*---  solve by AMG ---*/
-    //AMG_data **mgl;       /**< AMG data for the diagonal blocks */
-    //AMG_param *amgparam;  /**< parameters for AMG */
+    /*---  solve by inexact solver ---*/
+    precond_data_bsr *precdata_pnp;          /**< data for pnp diagonal block */
+    void (*pnp_fct)(REAL *, REAL *, void *);
+    
+    precond_ns_data  *precdata_stokes;      /**< data for stokes diagonal block */
+    void (*stokes_fct)(REAL *, REAL *, void *);
     
 } precond_pnp_stokes_data; /**< Precond data for block matrices */
 
