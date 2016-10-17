@@ -56,7 +56,7 @@ INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
     REAL setup_start, setup_end, setup_duration;
     REAL solver_start, solver_end, solver_duration;
     
-    INT m, n, nnz, i;
+    INT m, n, nnz, i, k;
     
     // local variables
     dCSRmat A_pnp_csr;
@@ -67,10 +67,18 @@ INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
     dCSRmat S;
     dCSRmat BABt;
     
-    // AMG data for pnp
+    // data for pnp
     AMG_data_bsr *mgl_pnp=fasp_amg_data_bsr_create(amgparam_pnp->max_levels);
-    
-    // AMG data for stokes
+    ILU_param iluparam_pnp;
+    iluparam_pnp.print_level = amgparam_pnp->print_level;
+    iluparam_pnp.ILU_lfil    = amgparam_pnp->ILU_lfil;
+    iluparam_pnp.ILU_droptol = amgparam_pnp->ILU_droptol;
+    iluparam_pnp.ILU_relax   = amgparam_pnp->ILU_relax;
+    iluparam_pnp.ILU_type    = amgparam_pnp->ILU_type;
+    ILU_data ILU_pnp;
+    //dvector diag_pnp;
+  
+    // data for stokes
     AMG_data *mgl_v=fasp_amg_data_create(amgparam_stokes->param_v.max_levels);
     dvector res_p = fasp_dvec_create(num_pressure);
     dvector sol_p = fasp_dvec_create(num_pressure);
@@ -113,126 +121,164 @@ INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
      
         // pnp block
         {
-            A_pnp_bsr = fasp_format_dcsr_dbsr(A->blocks[0], 3);
+          A_pnp_bsr = fasp_format_dcsr_dbsr(A->blocks[0], 3);
+          
+          // AMG for pnp
+          /*
+          // initialize A, b, x for mgl_pnp[0]
+          mgl_pnp[0].A = fasp_dbsr_create(A_pnp_bsr.ROW, A_pnp_bsr.COL, A_pnp_bsr.NNZ, A_pnp_bsr.nb, A_pnp_bsr.storage_manner);
+          mgl_pnp[0].b = fasp_dvec_create(mgl_pnp[0].A.ROW*mgl_pnp[0].A.nb);
+          mgl_pnp[0].x = fasp_dvec_create(mgl_pnp[0].A.COL*mgl_pnp[0].A.nb);
+          
+          fasp_dbsr_cp(&A_pnp_bsr, &(mgl_pnp[0].A));
+          
+          switch (amgparam_pnp->AMG_type) {
+              
+            case SA_AMG: // Smoothed Aggregation AMG
+              status = fasp_amg_setup_sa_bsr(mgl_pnp, amgparam_pnp); break;
+              
+            default:
+              status = fasp_amg_setup_ua_bsr(mgl_pnp, amgparam_pnp); break;
+              
+          }
+          
+          if (status < 0) goto FINISHED;
+           */
+          
+          // diagonal preconditioner for pnp
+          /*
+          // diag of the pnp matrix
+          fasp_dvec_alloc(A_pnp_bsr.ROW*A_pnp_bsr.nb*A_pnp_bsr.nb, &diag_pnp);
+          for (i = 0; i < A_pnp_bsr.ROW; ++i) {
+              for (k = A_pnp_bsr.IA[i]; k < A_pnp_bsr.IA[i+1]; ++k) {
+                  if (A_pnp_bsr.JA[k] == i)
+                      memcpy(diag_pnp.val+i*A_pnp_bsr.nb*A_pnp_bsr.nb, A_pnp_bsr.val+k*A_pnp_bsr.nb*A_pnp_bsr.nb, A_pnp_bsr.nb*A_pnp_bsr.nb*sizeof(REAL));
+              }
+          }
             
-            // initialize A, b, x for mgl_pnp[0]
-            mgl_pnp[0].A = fasp_dbsr_create(A_pnp_bsr.ROW, A_pnp_bsr.COL, A_pnp_bsr.NNZ, A_pnp_bsr.nb, A_pnp_bsr.storage_manner);
-            mgl_pnp[0].b = fasp_dvec_create(mgl_pnp[0].A.ROW*mgl_pnp[0].A.nb);
-            mgl_pnp[0].x = fasp_dvec_create(mgl_pnp[0].A.COL*mgl_pnp[0].A.nb);
-            
-            fasp_dbsr_cp(&A_pnp_bsr, &(mgl_pnp[0].A));
-            
-            switch (amgparam_pnp->AMG_type) {
-                    
-                case SA_AMG: // Smoothed Aggregation AMG
-                    status = fasp_amg_setup_sa_bsr(mgl_pnp, amgparam_pnp); break;
-                    
-                default:
-                    status = fasp_amg_setup_ua_bsr(mgl_pnp, amgparam_pnp); break;
-                    
-            }
-            
-            if (status < 0) goto FINISHED;
+          for (i=0; i<A_pnp_bsr.ROW; ++i){
+              fasp_blas_smat_inv(&(diag_pnp.val[i*A_pnp_bsr.nb*A_pnp_bsr.nb]), A_pnp_bsr.nb);
+          }
+          */
+  
+          // BSR ILU for pnp
+          /*
+          // ILU setup
+          if ( (status = fasp_ilu_dbsr_setup(&A_pnp_bsr, &ILU_pnp, &iluparam_pnp)) < 0 ) goto FINISHED;
+          
+          // check iludata
+          if ( (status = fasp_mem_iludata_check(&ILU_pnp)) < 0 ) goto FINISHED;
+          */
+          
+          // CSR ILU for pnp
+          /*
+          // ILU setup for whole matrix
+          if ( (status = fasp_ilu_dcsr_setup(A->blocks[0],&ILU_pnp,&iluparam_pnp)) < 0 ) goto FINISHED;
+          
+          // check iludata
+          if ( (status = fasp_mem_iludata_check(&ILU_pnp)) < 0 ) goto FINISHED;
+           */
+          
         }
         
         // stokes block
-        {
-            A_stokes_bcsr.brow = 2;
-            A_stokes_bcsr.bcol = 2;
-            A_stokes_bcsr.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
-            fasp_mem_check((void *)A_stokes_bcsr.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
-            for (i=0; i<4 ;i++) {
-                A_stokes_bcsr.blocks[i] = (dCSRmat *)fasp_mem_calloc(1, sizeof(dCSRmat));
-            }
-            
-            ivector velocity_idx;
-            ivector pressure_idx;
-            fasp_ivec_alloc(num_velocity, &velocity_idx);
-            fasp_ivec_alloc(num_pressure, &pressure_idx);
-            for (i=0; i<num_velocity; i++) velocity_idx.val[i] = i;
-            for (i=0; i<num_pressure; i++) pressure_idx.val[i] = num_velocity + i;
-            
-            fasp_dcsr_getblk(A->blocks[3], velocity_idx.val, velocity_idx.val, velocity_idx.row, velocity_idx.row, A_stokes_bcsr.blocks[0]);
-            fasp_dcsr_getblk(A->blocks[3], velocity_idx.val, pressure_idx.val, velocity_idx.row, pressure_idx.row, A_stokes_bcsr.blocks[1]);
-            fasp_dcsr_getblk(A->blocks[3], pressure_idx.val, velocity_idx.val, pressure_idx.row, velocity_idx.row, A_stokes_bcsr.blocks[2]);
-            fasp_dcsr_getblk(A->blocks[3], pressure_idx.val, pressure_idx.val, pressure_idx.row, pressure_idx.row, A_stokes_bcsr.blocks[3]);
-            
-            fasp_ivec_free(&velocity_idx);
-            fasp_ivec_free(&pressure_idx);
-            
-            
-            // AMG for velocity
-            mgl_v[0].A=fasp_dcsr_create(A_stokes_bcsr.blocks[0]->row,A_stokes_bcsr.blocks[0]->col,A_stokes_bcsr.blocks[0]->nnz);
-            fasp_dcsr_cp(A_stokes_bcsr.blocks[0], &mgl_v[0].A);
-            mgl_v[0].b=fasp_dvec_create(A_stokes_bcsr.blocks[0]->row); mgl_v[0].x=fasp_dvec_create(A_stokes_bcsr.blocks[0]->col);
-            
-            switch (amgparam_stokes->param_v.AMG_type) {
-                case CLASSIC_AMG:
-                    fasp_amg_setup_rs(mgl_v, &amgparam_stokes->param_v);
-                    break;
-                case SA_AMG:
-                    fasp_amg_setup_sa(mgl_v, &amgparam_stokes->param_v);
-                    break;
-                case UA_AMG:
-                    fasp_amg_setup_ua(mgl_v, &amgparam_stokes->param_v);
-                    break;
-                default:
-                    printf("Error: Wrong AMG type %d!\n",amgparam_stokes->param_v.AMG_type);
-                    exit(ERROR_INPUT_PAR);
-            }
-            
-            
-            //-------------------------//
-            // setup Schur complement S
-            //-------------------------//
-            fasp_blas_dcsr_mxm(A_stokes_bcsr.blocks[2], A_stokes_bcsr.blocks[1], &S);
-            fasp_blas_dcsr_rap(A_stokes_bcsr.blocks[2], A_stokes_bcsr.blocks[0], A_stokes_bcsr.blocks[1], &BABt);
-            
-            // change the sign of the BB^T
-            fasp_blas_dcsr_axm(&S, -1.0);
-            
-            // make it non-singular
-            INT k,j,ibegin,iend;
-            
-            for (i=0;i<S.row;++i) {
-                ibegin=S.IA[i]; iend=S.IA[i+1];
-                for (k=ibegin;k<iend;++k) {
-                    j=S.JA[k];
-                    if ((j-i)==0) {
-                        S.val[k] = S.val[k] + 1e-8; break;
-                    } // end if
-                } // end for k
-            } // end for i
-            
-            dCSRmat *As = &S;
-            const int nnzS = As->nnz;
-            mgl_p=fasp_amg_data_create(amgparam_stokes->param_p.max_levels);
-            mgl_p[0].A=fasp_dcsr_create(num_pressure,num_pressure,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
-            mgl_p[0].b=fasp_dvec_create(num_pressure); mgl_p[0].x=fasp_dvec_create(num_pressure);
-            // setup AMG
-            switch (amgparam_stokes->param_p.AMG_type) {
-                case CLASSIC_AMG:
-                    fasp_amg_setup_rs(mgl_p, &amgparam_stokes->param_p);
-                    break;
-                case SA_AMG:
-                    fasp_amg_setup_sa(mgl_p, &amgparam_stokes->param_p);
-                    break;
-                case UA_AMG:
-                    fasp_amg_setup_ua(mgl_p, &amgparam_stokes->param_p);
-                    break;
-                default:
-                    printf("Error: Wrong AMG type %d for Schur Complement!\n",amgparam_stokes->param_p.AMG_type);
-                    exit(ERROR_INPUT_PAR);
-            }
-            
+      {
+        A_stokes_bcsr.brow = 2;
+        A_stokes_bcsr.bcol = 2;
+        A_stokes_bcsr.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
+        fasp_mem_check((void *)A_stokes_bcsr.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
+        for (i=0; i<4 ;i++) {
+          A_stokes_bcsr.blocks[i] = (dCSRmat *)fasp_mem_calloc(1, sizeof(dCSRmat));
         }
         
+        ivector velocity_idx;
+        ivector pressure_idx;
+        fasp_ivec_alloc(num_velocity, &velocity_idx);
+        fasp_ivec_alloc(num_pressure, &pressure_idx);
+        for (i=0; i<num_velocity; i++) velocity_idx.val[i] = i;
+        for (i=0; i<num_pressure; i++) pressure_idx.val[i] = num_velocity + i;
+        
+        fasp_dcsr_getblk(A->blocks[3], velocity_idx.val, velocity_idx.val, velocity_idx.row, velocity_idx.row, A_stokes_bcsr.blocks[0]);
+        fasp_dcsr_getblk(A->blocks[3], velocity_idx.val, pressure_idx.val, velocity_idx.row, pressure_idx.row, A_stokes_bcsr.blocks[1]);
+        fasp_dcsr_getblk(A->blocks[3], pressure_idx.val, velocity_idx.val, pressure_idx.row, velocity_idx.row, A_stokes_bcsr.blocks[2]);
+        fasp_dcsr_getblk(A->blocks[3], pressure_idx.val, pressure_idx.val, pressure_idx.row, pressure_idx.row, A_stokes_bcsr.blocks[3]);
+        
+        fasp_ivec_free(&velocity_idx);
+        fasp_ivec_free(&pressure_idx);
+        
+        
+        // AMG for velocity
+        mgl_v[0].A=fasp_dcsr_create(A_stokes_bcsr.blocks[0]->row,A_stokes_bcsr.blocks[0]->col,A_stokes_bcsr.blocks[0]->nnz);
+        fasp_dcsr_cp(A_stokes_bcsr.blocks[0], &mgl_v[0].A);
+        mgl_v[0].b=fasp_dvec_create(A_stokes_bcsr.blocks[0]->row); mgl_v[0].x=fasp_dvec_create(A_stokes_bcsr.blocks[0]->col);
+        
+        switch (amgparam_stokes->param_v.AMG_type) {
+          case CLASSIC_AMG:
+            fasp_amg_setup_rs(mgl_v, &amgparam_stokes->param_v);
+            break;
+          case SA_AMG:
+            fasp_amg_setup_sa(mgl_v, &amgparam_stokes->param_v);
+            break;
+          case UA_AMG:
+            fasp_amg_setup_ua(mgl_v, &amgparam_stokes->param_v);
+            break;
+          default:
+            printf("Error: Wrong AMG type %d!\n",amgparam_stokes->param_v.AMG_type);
+            exit(ERROR_INPUT_PAR);
+        }
+        
+        
+        //-------------------------//
+        // setup Schur complement S
+        //-------------------------//
+        fasp_blas_dcsr_mxm(A_stokes_bcsr.blocks[2], A_stokes_bcsr.blocks[1], &S);
+        fasp_blas_dcsr_rap(A_stokes_bcsr.blocks[2], A_stokes_bcsr.blocks[0], A_stokes_bcsr.blocks[1], &BABt);
+        
+        // change the sign of the BB^T
+        fasp_blas_dcsr_axm(&S, -1.0);
+        
+        // make it non-singular
+        INT k,j,ibegin,iend;
+        
+        for (i=0;i<S.row;++i) {
+          ibegin=S.IA[i]; iend=S.IA[i+1];
+          for (k=ibegin;k<iend;++k) {
+            j=S.JA[k];
+            if ((j-i)==0) {
+              S.val[k] = S.val[k] + 1e-8; break;
+            } // end if
+          } // end for k
+        } // end for i
+        
+        dCSRmat *As = &S;
+        const int nnzS = As->nnz;
+        mgl_p=fasp_amg_data_create(amgparam_stokes->param_p.max_levels);
+        mgl_p[0].A=fasp_dcsr_create(num_pressure,num_pressure,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
+        mgl_p[0].b=fasp_dvec_create(num_pressure); mgl_p[0].x=fasp_dvec_create(num_pressure);
+        // setup AMG
+        switch (amgparam_stokes->param_p.AMG_type) {
+          case CLASSIC_AMG:
+            fasp_amg_setup_rs(mgl_p, &amgparam_stokes->param_p);
+            break;
+          case SA_AMG:
+            fasp_amg_setup_sa(mgl_p, &amgparam_stokes->param_p);
+            break;
+          case UA_AMG:
+            fasp_amg_setup_ua(mgl_p, &amgparam_stokes->param_p);
+            break;
+          default:
+            printf("Error: Wrong AMG type %d for Schur Complement!\n",amgparam_stokes->param_p.AMG_type);
+            exit(ERROR_INPUT_PAR);
+        }
+        
+      }
+      
     }
-    
+  
     else {
         fasp_chkerr(ERROR_SOLVER_PRECTYPE, __FUNCTION__);
     }
-    
+  
     // generate data for preconditioners
     // data for pnp
     precond_data_bsr precdata_pnp;
@@ -324,7 +370,9 @@ INT fasp_solver_bdcsr_krylov_pnp_stokes (block_dCSRmat *A,
     precdata.A_pnp_bsr = &A_pnp_bsr;
     precdata.precdata_pnp = &precdata_pnp;
     precdata.pnp_fct = fasp_precond_dbsr_amg;
-    
+    precdata.ILU_pnp = &ILU_pnp;
+    //precdata.diag_pnp = &diag_pnp;
+  
     // stokes part
     precdata.A_stokes_csr = &A_stokes_csr;
     precdata.A_stokes_bcsr = &A_stokes_bcsr;
@@ -406,6 +454,7 @@ FINISHED:
 #endif
         fasp_dbsr_free(&A_pnp_bsr);
         fasp_amg_data_bsr_free(mgl_pnp);
+        //if (&ILU_pnp) fasp_ilu_data_free(&ILU_pnp);
 
         fasp_bdcsr_free(&A_stokes_bcsr);
         fasp_dcsr_free(&S);

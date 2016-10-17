@@ -497,6 +497,8 @@ typedef struct {
     void **LU_diag;       /**< LU decomposition for the diagonal blocks (for UMFpack) */
     
     /*---  solve by inexact solver ---*/
+    ILU_data *ILU_pnp;
+    dvector *diag_pnp;
     precond_data_bsr *precdata_pnp;          /**< data for pnp diagonal block */
     void (*pnp_fct)(REAL *, REAL *, void *);
     
