@@ -1,3 +1,0 @@
-/home/chen/stokes/fasp4ns/demo/stokes/CMakeFiles/edit_cache.dir
-/home/chen/stokes/fasp4ns/demo/stokes/CMakeFiles/rebuild_cache.dir
-/home/chen/stokes/fasp4ns/demo/stokes/CMakeFiles/test.dir

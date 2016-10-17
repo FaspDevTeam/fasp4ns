@@ -23,7 +23,8 @@ class T_Boundary : public SubDomain
 };
 
 int main(int argc, char* argv[]){
-	auto mesh = make_shared<UnitSquareMesh>(32, 32);
+	int M = 64;
+	auto mesh = make_shared<UnitSquareMesh>(M, M);
 	auto W = make_shared<stokes::FunctionSpace>(mesh);
 	parameters["linear_algebra_backend"] = "Eigen";	
 	auto u0 = make_shared<Constant>(0.0, 0.0);
@@ -39,7 +40,8 @@ int main(int argc, char* argv[]){
 	stokes::BilinearForm a(W, W);
 	stokes::LinearForm L(W);
 	L.f = f;
-	
+	auto delta = std::make_shared<Constant>(0.0001/(M*M));
+	a.delta = delta;	
 	auto w = std::make_shared<Function>(W);	
 	FaspSolver faspsolver;
 	auto A = make_shared<EigenMatrix>();
@@ -54,10 +56,10 @@ int main(int argc, char* argv[]){
 //	solve(a == L, w, bcs);
 //	solve(*A, *w->vector(), b);
 	faspsolver.assign_idx(&(*W));
-//	faspsolver.assemble_blk();
+////	faspsolver.assemble_blk();
 	faspsolver.set_operator(*A);
 	faspsolver.solve(*x, b, 1, 1);
-//	faspsolver.print_FS();
+////	faspsolver.print_FS();
 	File ufile_pvd("velocity.pvd");
 	File pfile_pvd("pressure.pvd");
 	Function u = (*w)[0];
