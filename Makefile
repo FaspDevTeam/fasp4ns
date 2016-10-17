@@ -161,6 +161,7 @@ distclean:
 	rm -f *~ *.ex *.out
 	rm -f $(CSRCDIR)/*~
 	rm -f $(FSRCDIR)/*~
+	rm -rf *.ex.dSYM
 
 help:
 	@echo "======================================================"
