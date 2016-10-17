@@ -42,10 +42,10 @@ endif()
 
 #add_definitions(-DHAS_FASP)
 #add_library(FASPVector SHARED FASPVector.cpp)
-LINK_DIRECTORIES(lib)
-include_directories(include)
+LINK_DIRECTORIES(../../../faspsolver/lib ../../lib)
+include_directories(../../include  ../../../faspsolver/base/include)
 # Executable
 add_executable(${PROJECT_NAME} main.cpp fasp_solver.cpp)
 
 # Target libraries
-target_link_libraries(${PROJECT_NAME} ${DOLFIN_LIBRARIES} libFASP.a)
+target_link_libraries(${PROJECT_NAME} ${DOLFIN_LIBRARIES} libfasp4ns.a libfasp.a)
