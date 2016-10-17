@@ -21,10 +21,9 @@ FASPLIB=../faspsolver/lib/libfasp.a
 TESTLIB=./lib/libfasp4ns.a
 
 UMFPACKDIR = /opt/local
-UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
-UMFPACKLIB = -L$(UMFPACKDIR)/lib -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd -lSuiteSparse
 
 BLASLIB = -framework Accelerate
+
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
@@ -48,7 +47,7 @@ LIBS=$(TESTLIB) $(FASPLIB) $(BLASLIB) $(UMFPACKLIB)
 ########################################################################
 # Load user-defined parameters
 ########################################################################
-#include ../faspsolver/make.inc
+include ./make.inc
 
 ########################################################################
 # Link options
@@ -162,6 +161,7 @@ distclean:
 	rm -f *~ *.ex *.out
 	rm -f $(CSRCDIR)/*~
 	rm -f $(FSRCDIR)/*~
+	rm -rf *.ex.dSYM
 
 help:
 	@echo "======================================================"
