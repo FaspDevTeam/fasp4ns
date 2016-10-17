@@ -6,6 +6,8 @@ TH = P2*P1
 (v, q) = TestFunctions(TH)
 
 f = Coefficient(P2)
+(u1, p1) = Coefficient(TH)
+inv_dt = Constant(triangle)
+a = (inner(grad(u), grad(v)) + div(v)*p + div(u)*q + inner(u,v)*inv_dt)*dx
+L = (inner(f, v)+inner(u1,v)*inv_dt)*dx
 
-a = (inner(grad(u), grad(v)) + div(v)*p + div(u)*q)*dx
-L = dot(f, v)*dx

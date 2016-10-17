@@ -2530,7 +2530,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -2566,7 +2566,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -2674,7 +2674,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -2884,7 +2884,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -2899,7 +2899,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -3035,7 +3035,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -3050,7 +3050,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -3201,7 +3201,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -3352,7 +3352,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -3488,7 +3488,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -3503,7 +3503,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -3654,7 +3654,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -4142,7 +4142,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4178,7 +4178,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4286,7 +4286,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4358,7 +4358,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4394,7 +4394,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4502,7 +4502,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -4715,7 +4715,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -4730,7 +4730,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -4866,7 +4866,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -4881,7 +4881,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5032,7 +5032,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5183,7 +5183,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5319,7 +5319,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -5334,7 +5334,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5485,7 +5485,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5621,7 +5621,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -5636,7 +5636,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5772,7 +5772,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -5787,7 +5787,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -5938,7 +5938,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -6089,7 +6089,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -6225,7 +6225,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -6240,7 +6240,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -6391,7 +6391,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -6982,7 +6982,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7018,7 +7018,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7126,7 +7126,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7198,7 +7198,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7234,7 +7234,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7342,7 +7342,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Compute value(s)
       for (unsigned int r = 0; r < 6; r++)
@@ -7639,7 +7639,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -7654,7 +7654,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -7790,7 +7790,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -7805,7 +7805,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -7956,7 +7956,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8107,7 +8107,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8243,7 +8243,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -8258,7 +8258,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8409,7 +8409,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8545,7 +8545,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582063, 0.0544331053951817};
+      {0.0, -0.173205080756888, -0.1, 0.121716123890037, 0.0942809041582064, 0.0544331053951817};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -8560,7 +8560,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8696,7 +8696,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582064, 0.0544331053951818};
+      {0.0, 0.173205080756888, -0.1, 0.121716123890037, -0.0942809041582063, 0.0544331053951818};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -8711,7 +8711,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -8862,7 +8862,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -9013,7 +9013,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -9149,7 +9149,7 @@ public:
       
       // Table(s) of coefficients
       static const double coefficients0[6] = \
-      {0.471404520791032, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
+      {0.471404520791031, -0.23094010767585, 0.133333333333333, 0.0, -0.188561808316413, -0.163299316185545};
       
       // Tables of derivatives of the polynomial base (transpose).
       static const double dmats0[6][6] = \
@@ -9164,7 +9164,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -9315,7 +9315,7 @@ public:
       {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
       {2.44948974278318, 0.0, 0.0, 0.0, 0.0, 0.0},
       {4.24264068711928, 0.0, 0.0, 0.0, 0.0, 0.0},
-      {2.58198889747162, 4.74341649025257, -0.91287092917528, 0.0, 0.0, 0.0},
+      {2.58198889747162, 4.74341649025257, -0.912870929175279, 0.0, 0.0, 0.0},
       {1.99999999999991, 6.12372435695794, 3.53553390593273, 0.0, 0.0, 0.0},
       {-2.30940107675849, 0.0, 8.16496580927727, 0.0, 0.0, 0.0}};
       
@@ -10186,6 +10186,298 @@ public:
   ufc::finite_element * create() const final override
   {
     return new stokes_finite_element_4();
+  }
+
+};
+
+
+class stokes_finite_element_5: public ufc::finite_element
+{
+public:
+
+  stokes_finite_element_5() : ufc::finite_element()
+  {
+    // Do nothing
+  }
+
+  ~stokes_finite_element_5() override
+  {
+    // Do nothing
+  }
+
+  const char * signature() const final override
+  {
+    return "FiniteElement('Real', triangle, 0)";
+  }
+
+  ufc::shape cell_shape() const final override
+  {
+    return ufc::shape::triangle;
+  }
+
+  std::size_t topological_dimension() const final override
+  {
+    return 2;
+  }
+
+  std::size_t geometric_dimension() const final override
+  {
+    return 2;
+  }
+
+  std::size_t space_dimension() const final override
+  {
+    return 1;
+  }
+
+  std::size_t value_rank() const final override
+  {
+    return 0;
+  }
+
+  std::size_t value_dimension(std::size_t i) const final override
+  {
+    return 1;
+  }
+
+  std::size_t value_size() const final override
+  {
+    return 1;
+  }
+
+  std::size_t reference_value_rank() const final override
+  {
+    return 0;
+  }
+
+  std::size_t reference_value_dimension(std::size_t i) const final override
+  {
+    return 1;
+  }
+
+  std::size_t reference_value_size() const final override
+  {
+    return 1;
+  }
+
+  std::size_t degree() const final override
+  {
+    return 0;
+  }
+
+  const char * family() const final override
+  {
+    return "Real";
+  }
+
+  static void _evaluate_basis(std::size_t i,
+                              double * values,
+                              const double * x,
+                              const double * coordinate_dofs,
+                              int cell_orientation)
+  {
+    // Compute Jacobian
+    double J[4];
+    compute_jacobian_triangle_2d(J, coordinate_dofs);
+    
+    // Compute Jacobian inverse and determinant
+    double K[4];
+    double detJ;
+    compute_jacobian_inverse_triangle_2d(K, detJ, J);
+    
+    
+    // Compute constants
+    
+    // Get coordinates and map to the reference (FIAT) element
+    
+    // Reset values
+    *values = 0.0;
+    
+    // Array of basisvalues
+    double basisvalues[1] = {0.0};
+    
+    // Declare helper variables
+    
+    // Compute basisvalues
+    basisvalues[0] = 1.0;
+    
+    // Table(s) of coefficients
+    static const double coefficients0[1] = \
+    {1.0};
+    
+    // Compute value(s)
+    for (unsigned int r = 0; r < 1; r++)
+    {
+      *values += coefficients0[r]*basisvalues[r];
+    } // end loop over 'r'
+  }
+
+  void evaluate_basis(std::size_t i,
+                      double * values,
+                      const double * x,
+                      const double * coordinate_dofs,
+                      int cell_orientation) const final override
+  {
+    _evaluate_basis(i, values, x, coordinate_dofs, cell_orientation);
+  }
+
+  static void _evaluate_basis_all(double * values,
+                                  const double * x,
+                                  const double * coordinate_dofs,
+                                  int cell_orientation)
+  {
+    // Element is constant, calling evaluate_basis.
+    _evaluate_basis(0, values, x, coordinate_dofs, cell_orientation);
+  }
+
+  void evaluate_basis_all(double * values,
+                          const double * x,
+                          const double * coordinate_dofs,
+                          int cell_orientation) const final override
+  {
+    _evaluate_basis_all(values, x, coordinate_dofs, cell_orientation);
+  }
+
+  static void _evaluate_basis_derivatives(std::size_t i,
+                                          std::size_t n,
+                                          double * values,
+                                          const double * x,
+                                          const double * coordinate_dofs,
+                                          int cell_orientation)
+  {
+    
+    // Compute number of derivatives.
+    unsigned int num_derivatives = 1;
+    for (unsigned int r = 0; r < n; r++)
+    {
+      num_derivatives *= 2;
+    } // end loop over 'r'
+    
+    // Reset values. Assuming that values is always an array.
+    for (unsigned int r = 0; r < num_derivatives; r++)
+    {
+      values[r] = 0.0;
+    } // end loop over 'r'
+    
+    // Call evaluate_basis if order of derivatives is equal to zero.
+    if (n == 0)
+    {
+      _evaluate_basis(i, values, x, coordinate_dofs, cell_orientation);
+      return ;
+    }
+    
+    // If order of derivatives is greater than the maximum polynomial degree, return zeros.
+    if (n > 0)
+    {
+    return ;
+    }
+    
+  }
+
+  void evaluate_basis_derivatives(std::size_t i,
+                                  std::size_t n,
+                                  double * values,
+                                  const double * x,
+                                  const double * coordinate_dofs,
+                                  int cell_orientation) const final override
+  {
+    _evaluate_basis_derivatives(i, n, values, x, coordinate_dofs, cell_orientation);
+  }
+
+  static void _evaluate_basis_derivatives_all(std::size_t n,
+                                              double * values,
+                                              const double * x,
+                                              const double * coordinate_dofs,
+                                              int cell_orientation)
+  {
+    // Element is constant, calling evaluate_basis_derivatives.
+    _evaluate_basis_derivatives(0, n, values, x, coordinate_dofs, cell_orientation);
+  }
+
+  void evaluate_basis_derivatives_all(std::size_t n,
+                                      double * values,
+                                      const double * x,
+                                      const double * coordinate_dofs,
+                                      int cell_orientation) const final override
+  {
+    _evaluate_basis_derivatives_all(n, values, x, coordinate_dofs, cell_orientation);
+  }
+
+  double evaluate_dof(std::size_t i,
+                      const ufc::function& f,
+                      const double * coordinate_dofs,
+                      int cell_orientation,
+                      const ufc::cell& c) const final override
+  {
+    // Declare variables for result of evaluation
+    double vals[1];
+    
+    // Declare variable for physical coordinates
+    double y[2];
+    switch (i)
+    {
+    case 0:
+      {
+        y[0] = 0.333333333333333*coordinate_dofs[0] + 0.333333333333333*coordinate_dofs[2] + 0.333333333333333*coordinate_dofs[4];
+      y[1] = 0.333333333333333*coordinate_dofs[1] + 0.333333333333333*coordinate_dofs[3] + 0.333333333333333*coordinate_dofs[5];
+      f.evaluate(vals, y, c);
+      return vals[0];
+        break;
+      }
+    }
+    
+    return 0.0;
+  }
+
+  void evaluate_dofs(double * values,
+                             const ufc::function& f,
+                             const double * coordinate_dofs,
+                             int cell_orientation,
+                             const ufc::cell& c) const final override
+  {
+    // Declare variables for result of evaluation
+    double vals[1];
+    
+    // Declare variable for physical coordinates
+    double y[2];
+    y[0] = 0.333333333333333*coordinate_dofs[0] + 0.333333333333333*coordinate_dofs[2] + 0.333333333333333*coordinate_dofs[4];
+    y[1] = 0.333333333333333*coordinate_dofs[1] + 0.333333333333333*coordinate_dofs[3] + 0.333333333333333*coordinate_dofs[5];
+    f.evaluate(vals, y, c);
+    values[0] = vals[0];
+  }
+
+  void interpolate_vertex_values(double * vertex_values,
+                                 const double * dof_values,
+                                 const double * coordinate_dofs,
+                                 int cell_orientation,
+                                 const ufc::cell& c) const final override
+  {
+    // Evaluate function and change variables
+    vertex_values[0] = dof_values[0];
+    vertex_values[1] = dof_values[0];
+    vertex_values[2] = dof_values[0];
+  }
+
+  void tabulate_dof_coordinates(double * dof_coordinates,
+                                const double * coordinate_dofs) const final override
+  {
+    dof_coordinates[0] = 0.333333333333333*coordinate_dofs[0] + 0.333333333333333*coordinate_dofs[2] + 0.333333333333333*coordinate_dofs[4];
+    dof_coordinates[1] = 0.333333333333333*coordinate_dofs[1] + 0.333333333333333*coordinate_dofs[3] + 0.333333333333333*coordinate_dofs[5];
+  }
+
+  std::size_t num_sub_elements() const final override
+  {
+    return 0;
+  }
+
+  ufc::finite_element * create_sub_element(std::size_t i) const final override
+  {
+    return 0;
+  }
+
+  ufc::finite_element * create() const final override
+  {
+    return new stokes_finite_element_5();
   }
 
 };
@@ -11378,6 +11670,178 @@ public:
 };
 
 
+class stokes_dofmap_5: public ufc::dofmap
+{
+public:
+
+  stokes_dofmap_5() : ufc::dofmap()
+  {
+    // Do nothing
+  }
+
+  ~stokes_dofmap_5() override
+  {
+    // Do nothing
+  }
+
+  const char * signature() const final override
+  {
+    return "FFC dofmap for FiniteElement('Real', triangle, 0)";
+  }
+
+  bool needs_mesh_entities(std::size_t d) const final override
+  {
+    switch (d)
+    {
+    case 0:
+      {
+        return false;
+        break;
+      }
+    case 1:
+      {
+        return false;
+        break;
+      }
+    case 2:
+      {
+        return false;
+        break;
+      }
+    }
+    
+    return false;
+  }
+
+  std::size_t topological_dimension() const final override
+  {
+    return 2;
+  }
+
+  std::size_t global_dimension(const std::vector<std::size_t>&
+                               num_global_entities) const final override
+  {
+    return 1;
+  }
+
+  std::size_t num_element_dofs() const final override
+  {
+    return 1;
+  }
+
+  std::size_t num_facet_dofs() const final override
+  {
+    return 0;
+  }
+
+  std::size_t num_entity_dofs(std::size_t d) const final override
+  {
+    switch (d)
+    {
+    case 0:
+      {
+        return 0;
+        break;
+      }
+    case 1:
+      {
+        return 0;
+        break;
+      }
+    case 2:
+      {
+        return 1;
+        break;
+      }
+    }
+    
+    return 0;
+  }
+
+  void tabulate_dofs(std::size_t * dofs,
+                     const std::vector<std::size_t>& num_global_entities,
+                     const std::vector<std::vector<std::size_t>>& entity_indices) const final override
+  {
+    dofs[0] = 0;
+  }
+
+  void tabulate_facet_dofs(std::size_t * dofs,
+                           std::size_t facet) const final override
+  {
+    switch (facet)
+    {
+    case 0:
+      {
+        
+        break;
+      }
+    case 1:
+      {
+        
+        break;
+      }
+    case 2:
+      {
+        
+        break;
+      }
+    }
+    
+  }
+
+  void tabulate_entity_dofs(std::size_t * dofs,
+                            std::size_t d, std::size_t i) const final override
+  {
+    if (d > 2)
+    {
+    throw std::runtime_error("d is larger than dimension (2)");
+    }
+    
+    switch (d)
+    {
+    case 0:
+      {
+        
+        break;
+      }
+    case 1:
+      {
+        
+        break;
+      }
+    case 2:
+      {
+        if (i > 0)
+      {
+      throw std::runtime_error("i is larger than number of entities (0)");
+      }
+      
+      dofs[0] = 0;
+        break;
+      }
+    }
+    
+  }
+
+
+  std::size_t num_sub_dofmaps() const final override
+  {
+    return 0;
+  }
+
+  ufc::dofmap * create_sub_dofmap(std::size_t i) const final override
+  {
+    return 0;
+  }
+
+  ufc::dofmap * create() const final override
+  {
+    return new stokes_dofmap_5();
+  }
+
+};
+
+
 class stokes_cell_integral_0_otherwise: public ufc::cell_integral
 {
 public:
@@ -11394,7 +11858,7 @@ public:
 
   const std::vector<bool> & enabled_coefficients() const final override
   {
-    static const std::vector<bool> enabled({});
+    static const std::vector<bool> enabled({true});
     return enabled;
   }
 
@@ -11404,9 +11868,9 @@ public:
                        int cell_orientation) const final override
   {
     // Number of operations (multiply-add pairs) for Jacobian data:      3
-    // Number of operations (multiply-add pairs) for geometry tensor:    32
-    // Number of operations (multiply-add pairs) for tensor contraction: 282
-    // Total number of operations (multiply-add pairs):                  317
+    // Number of operations (multiply-add pairs) for geometry tensor:    34
+    // Number of operations (multiply-add pairs) for tensor contraction: 324
+    // Total number of operations (multiply-add pairs):                  361
     
     // Compute Jacobian
     double J[4];
@@ -11445,29 +11909,31 @@ public:
     const double G6_1 = det*K[2]*(1.0);
     const double G7_0 = det*K[1]*(1.0);
     const double G7_1 = det*K[3]*(1.0);
+    const double G8_0 = det*w[0][0]*(1.0);
+    const double G9_0 = det*w[0][0]*(1.0);
     
     // Compute element tensor
-    A[0] = 0.5*G0_0_0 + 0.5*G0_0_1 + 0.5*G0_1_0 + 0.5*G0_1_1 + 0.5*G2_0_0 + 0.5*G2_0_1 + 0.5*G2_1_0 + 0.5*G2_1_1;
-    A[1] = 0.166666666666668*G0_0_0 + 0.166666666666666*G0_1_0 + 0.166666666666668*G2_0_0 + 0.166666666666666*G2_1_0;
-    A[2] = 0.166666666666666*G0_0_1 + 0.166666666666665*G0_1_1 + 0.166666666666666*G2_0_1 + 0.166666666666665*G2_1_1;
-    A[3] = 0.0;
-    A[4] = -0.666666666666667*G0_0_1 - 0.666666666666667*G0_1_1 - 0.666666666666667*G2_0_1 - 0.666666666666667*G2_1_1;
-    A[5] = -0.666666666666667*G0_0_0 - 0.666666666666667*G0_1_0 - 0.666666666666667*G2_0_0 - 0.666666666666667*G2_1_0;
+    A[0] = 0.5*G0_0_0 + 0.500000000000001*G0_0_1 + 0.500000000000001*G0_1_0 + 0.500000000000002*G0_1_1 + 0.5*G2_0_0 + 0.500000000000001*G2_0_1 + 0.500000000000001*G2_1_0 + 0.500000000000002*G2_1_1 + 0.0166666666666666*G8_0;
+    A[1] = 0.166666666666668*G0_0_0 + 0.166666666666667*G0_1_0 + 0.166666666666668*G2_0_0 + 0.166666666666667*G2_1_0 - 0.00277777777777778*G8_0;
+    A[2] = 0.166666666666667*G0_0_1 + 0.166666666666666*G0_1_1 + 0.166666666666667*G2_0_1 + 0.166666666666666*G2_1_1 - 0.00277777777777778*G8_0;
+    A[3] = -0.0111111111111111*G8_0;
+    A[4] = -0.666666666666668*G0_0_1 - 0.666666666666668*G0_1_1 - 0.666666666666668*G2_0_1 - 0.666666666666668*G2_1_1;
+    A[5] = -0.666666666666669*G0_0_0 - 0.666666666666668*G0_1_0 - 0.666666666666669*G2_0_0 - 0.666666666666668*G2_1_0;
     A[6] = 0.0;
     A[7] = 0.0;
     A[8] = 0.0;
     A[9] = 0.0;
     A[10] = 0.0;
     A[11] = 0.0;
-    A[12] = -0.166666666666666*G4_0 - 0.166666666666667*G4_1;
+    A[12] = -0.166666666666667*G4_0 - 0.166666666666667*G4_1;
     A[13] = 0.0;
     A[14] = 0.0;
-    A[15] = 0.166666666666668*G0_0_0 + 0.166666666666666*G0_0_1 + 0.166666666666668*G2_0_0 + 0.166666666666666*G2_0_1;
-    A[16] = 0.5*G0_0_0 + 0.5*G2_0_0;
-    A[17] = -0.166666666666666*G0_0_1 - 0.166666666666666*G2_0_1;
-    A[18] = 0.666666666666663*G0_0_1 + 0.666666666666663*G2_0_1;
-    A[19] = 0.0;
-    A[20] = -0.666666666666667*G0_0_0 - 0.666666666666666*G0_0_1 - 0.666666666666667*G2_0_0 - 0.666666666666666*G2_0_1;
+    A[15] = 0.166666666666668*G0_0_0 + 0.166666666666667*G0_0_1 + 0.166666666666668*G2_0_0 + 0.166666666666667*G2_0_1 - 0.00277777777777778*G8_0;
+    A[16] = 0.5*G0_0_0 + 0.5*G2_0_0 + 0.0166666666666667*G8_0;
+    A[17] = -0.166666666666667*G0_0_1 - 0.166666666666667*G2_0_1 - 0.00277777777777781*G8_0;
+    A[18] = 0.666666666666665*G0_0_1 + 0.666666666666665*G2_0_1;
+    A[19] = -0.0111111111111111*G8_0;
+    A[20] = -0.666666666666669*G0_0_0 - 0.666666666666668*G0_0_1 - 0.666666666666669*G2_0_0 - 0.666666666666668*G2_0_1;
     A[21] = 0.0;
     A[22] = 0.0;
     A[23] = 0.0;
@@ -11475,14 +11941,14 @@ public:
     A[25] = 0.0;
     A[26] = 0.0;
     A[27] = 0.0;
-    A[28] = 0.166666666666666*G4_0;
+    A[28] = 0.166666666666667*G4_0;
     A[29] = 0.0;
-    A[30] = 0.166666666666666*G0_1_0 + 0.166666666666665*G0_1_1 + 0.166666666666666*G2_1_0 + 0.166666666666665*G2_1_1;
-    A[31] = -0.166666666666666*G0_1_0 - 0.166666666666666*G2_1_0;
-    A[32] = 0.5*G0_1_1 + 0.5*G2_1_1;
-    A[33] = 0.666666666666666*G0_1_0 + 0.666666666666666*G2_1_0;
-    A[34] = -0.666666666666666*G0_1_0 - 0.666666666666665*G0_1_1 - 0.666666666666666*G2_1_0 - 0.666666666666665*G2_1_1;
-    A[35] = 0.0;
+    A[30] = 0.166666666666667*G0_1_0 + 0.166666666666666*G0_1_1 + 0.166666666666667*G2_1_0 + 0.166666666666666*G2_1_1 - 0.00277777777777778*G8_0;
+    A[31] = -0.166666666666667*G0_1_0 - 0.166666666666667*G2_1_0 - 0.00277777777777781*G8_0;
+    A[32] = 0.500000000000002*G0_1_1 + 0.500000000000002*G2_1_1 + 0.0166666666666667*G8_0;
+    A[33] = 0.666666666666668*G0_1_0 + 0.666666666666668*G2_1_0;
+    A[34] = -0.666666666666668*G0_1_0 - 0.666666666666667*G0_1_1 - 0.666666666666668*G2_1_0 - 0.666666666666667*G2_1_1;
+    A[35] = -0.0111111111111111*G8_0;
     A[36] = 0.0;
     A[37] = 0.0;
     A[38] = 0.0;
@@ -11492,27 +11958,27 @@ public:
     A[42] = 0.0;
     A[43] = 0.0;
     A[44] = 0.166666666666667*G4_1;
-    A[45] = 0.0;
-    A[46] = 0.666666666666663*G0_1_0 + 0.666666666666663*G2_1_0;
-    A[47] = 0.666666666666666*G0_0_1 + 0.666666666666666*G2_0_1;
-    A[48] = 1.33333333333333*G0_0_0 + 0.666666666666656*G0_0_1 + 0.666666666666656*G0_1_0 + 1.33333333333331*G0_1_1 + 1.33333333333333*G2_0_0 + 0.666666666666656*G2_0_1 + 0.666666666666656*G2_1_0 + 1.33333333333331*G2_1_1;
-    A[49] = -1.33333333333333*G0_0_0 - 0.666666666666659*G0_0_1 - 0.666666666666656*G0_1_0 - 1.33333333333333*G2_0_0 - 0.666666666666659*G2_0_1 - 0.666666666666656*G2_1_0;
-    A[50] = -0.666666666666665*G0_0_1 - 0.666666666666666*G0_1_0 - 1.33333333333332*G0_1_1 - 0.666666666666665*G2_0_1 - 0.666666666666666*G2_1_0 - 1.33333333333332*G2_1_1;
+    A[45] = -0.0111111111111111*G8_0;
+    A[46] = 0.666666666666665*G0_1_0 + 0.666666666666665*G2_1_0;
+    A[47] = 0.666666666666668*G0_0_1 + 0.666666666666668*G2_0_1;
+    A[48] = 1.33333333333333*G0_0_0 + 0.666666666666655*G0_0_1 + 0.666666666666655*G0_1_0 + 1.33333333333332*G0_1_1 + 1.33333333333333*G2_0_0 + 0.666666666666655*G2_0_1 + 0.666666666666655*G2_1_0 + 1.33333333333332*G2_1_1 + 0.0888888888888888*G8_0;
+    A[49] = -1.33333333333333*G0_0_0 - 0.666666666666661*G0_0_1 - 0.666666666666655*G0_1_0 - 1.33333333333333*G2_0_0 - 0.666666666666661*G2_0_1 - 0.666666666666655*G2_1_0 + 0.0444444444444443*G8_0;
+    A[50] = -0.666666666666665*G0_0_1 - 0.666666666666668*G0_1_0 - 1.33333333333333*G0_1_1 - 0.666666666666665*G2_0_1 - 0.666666666666668*G2_1_0 - 1.33333333333333*G2_1_1 + 0.0444444444444443*G8_0;
     A[51] = 0.0;
     A[52] = 0.0;
     A[53] = 0.0;
     A[54] = 0.0;
     A[55] = 0.0;
     A[56] = 0.0;
-    A[57] = 0.166666666666666*G4_0 + 0.166666666666665*G4_1;
+    A[57] = 0.166666666666666*G4_0 + 0.166666666666664*G4_1;
     A[58] = 0.166666666666666*G4_0 + 0.333333333333331*G4_1;
     A[59] = 0.333333333333333*G4_0 + 0.166666666666664*G4_1;
-    A[60] = -0.666666666666667*G0_1_0 - 0.666666666666667*G0_1_1 - 0.666666666666667*G2_1_0 - 0.666666666666667*G2_1_1;
-    A[61] = 0.0;
-    A[62] = -0.666666666666666*G0_0_1 - 0.666666666666665*G0_1_1 - 0.666666666666666*G2_0_1 - 0.666666666666665*G2_1_1;
-    A[63] = -1.33333333333333*G0_0_0 - 0.666666666666656*G0_0_1 - 0.666666666666659*G0_1_0 - 1.33333333333333*G2_0_0 - 0.666666666666656*G2_0_1 - 0.666666666666659*G2_1_0;
-    A[64] = 1.33333333333333*G0_0_0 + 0.666666666666659*G0_0_1 + 0.666666666666659*G0_1_0 + 1.33333333333333*G0_1_1 + 1.33333333333333*G2_0_0 + 0.666666666666659*G2_0_1 + 0.666666666666659*G2_1_0 + 1.33333333333333*G2_1_1;
-    A[65] = 0.666666666666665*G0_0_1 + 0.666666666666665*G0_1_0 + 0.666666666666665*G2_0_1 + 0.666666666666665*G2_1_0;
+    A[60] = -0.666666666666668*G0_1_0 - 0.666666666666668*G0_1_1 - 0.666666666666668*G2_1_0 - 0.666666666666668*G2_1_1;
+    A[61] = -0.0111111111111111*G8_0;
+    A[62] = -0.666666666666668*G0_0_1 - 0.666666666666667*G0_1_1 - 0.666666666666668*G2_0_1 - 0.666666666666667*G2_1_1;
+    A[63] = -1.33333333333333*G0_0_0 - 0.666666666666655*G0_0_1 - 0.666666666666661*G0_1_0 - 1.33333333333333*G2_0_0 - 0.666666666666655*G2_0_1 - 0.666666666666661*G2_1_0 + 0.0444444444444443*G8_0;
+    A[64] = 1.33333333333333*G0_0_0 + 0.666666666666661*G0_0_1 + 0.666666666666661*G0_1_0 + 1.33333333333333*G0_1_1 + 1.33333333333333*G2_0_0 + 0.666666666666661*G2_0_1 + 0.666666666666661*G2_1_0 + 1.33333333333333*G2_1_1 + 0.0888888888888887*G8_0;
+    A[65] = 0.666666666666665*G0_0_1 + 0.666666666666667*G0_1_0 + 0.666666666666665*G2_0_1 + 0.666666666666667*G2_1_0 + 0.0444444444444443*G8_0;
     A[66] = 0.0;
     A[67] = 0.0;
     A[68] = 0.0;
@@ -11522,34 +11988,34 @@ public:
     A[72] = -0.166666666666666*G4_0 + 0.166666666666668*G4_1;
     A[73] = -0.166666666666666*G4_0;
     A[74] = -0.333333333333333*G4_0 - 0.166666666666665*G4_1;
-    A[75] = -0.666666666666667*G0_0_0 - 0.666666666666667*G0_0_1 - 0.666666666666667*G2_0_0 - 0.666666666666667*G2_0_1;
-    A[76] = -0.666666666666667*G0_0_0 - 0.666666666666666*G0_1_0 - 0.666666666666667*G2_0_0 - 0.666666666666666*G2_1_0;
-    A[77] = 0.0;
-    A[78] = -0.666666666666666*G0_0_1 - 0.666666666666665*G0_1_0 - 1.33333333333332*G0_1_1 - 0.666666666666666*G2_0_1 - 0.666666666666665*G2_1_0 - 1.33333333333332*G2_1_1;
-    A[79] = 0.666666666666665*G0_0_1 + 0.666666666666665*G0_1_0 + 0.666666666666665*G2_0_1 + 0.666666666666665*G2_1_0;
-    A[80] = 1.33333333333333*G0_0_0 + 0.666666666666667*G0_0_1 + 0.666666666666667*G0_1_0 + 1.33333333333333*G0_1_1 + 1.33333333333333*G2_0_0 + 0.666666666666667*G2_0_1 + 0.666666666666667*G2_1_0 + 1.33333333333333*G2_1_1;
+    A[75] = -0.666666666666669*G0_0_0 - 0.666666666666668*G0_0_1 - 0.666666666666669*G2_0_0 - 0.666666666666668*G2_0_1;
+    A[76] = -0.666666666666669*G0_0_0 - 0.666666666666668*G0_1_0 - 0.666666666666669*G2_0_0 - 0.666666666666668*G2_1_0;
+    A[77] = -0.0111111111111111*G8_0;
+    A[78] = -0.666666666666668*G0_0_1 - 0.666666666666665*G0_1_0 - 1.33333333333333*G0_1_1 - 0.666666666666668*G2_0_1 - 0.666666666666665*G2_1_0 - 1.33333333333333*G2_1_1 + 0.0444444444444443*G8_0;
+    A[79] = 0.666666666666667*G0_0_1 + 0.666666666666665*G0_1_0 + 0.666666666666667*G2_0_1 + 0.666666666666665*G2_1_0 + 0.0444444444444443*G8_0;
+    A[80] = 1.33333333333334*G0_0_0 + 0.66666666666667*G0_0_1 + 0.66666666666667*G0_1_0 + 1.33333333333333*G0_1_1 + 1.33333333333334*G2_0_0 + 0.66666666666667*G2_0_1 + 0.66666666666667*G2_1_0 + 1.33333333333333*G2_1_1 + 0.0888888888888888*G8_0;
     A[81] = 0.0;
     A[82] = 0.0;
     A[83] = 0.0;
     A[84] = 0.0;
     A[85] = 0.0;
     A[86] = 0.0;
-    A[87] = 0.166666666666667*G4_0 - 0.166666666666667*G4_1;
-    A[88] = -0.166666666666667*G4_0 - 0.333333333333333*G4_1;
-    A[89] = -0.166666666666667*G4_1;
+    A[87] = 0.166666666666667*G4_0 - 0.166666666666666*G4_1;
+    A[88] = -0.166666666666667*G4_0 - 0.333333333333334*G4_1;
+    A[89] = -0.166666666666666*G4_1;
     A[90] = 0.0;
     A[91] = 0.0;
     A[92] = 0.0;
     A[93] = 0.0;
     A[94] = 0.0;
     A[95] = 0.0;
-    A[96] = 0.5*G1_0_0 + 0.5*G1_0_1 + 0.5*G1_1_0 + 0.5*G1_1_1 + 0.5*G3_0_0 + 0.5*G3_0_1 + 0.5*G3_1_0 + 0.5*G3_1_1;
-    A[97] = 0.166666666666668*G1_0_0 + 0.166666666666666*G1_1_0 + 0.166666666666668*G3_0_0 + 0.166666666666666*G3_1_0;
-    A[98] = 0.166666666666666*G1_0_1 + 0.166666666666665*G1_1_1 + 0.166666666666666*G3_0_1 + 0.166666666666665*G3_1_1;
-    A[99] = 0.0;
-    A[100] = -0.666666666666667*G1_0_1 - 0.666666666666667*G1_1_1 - 0.666666666666667*G3_0_1 - 0.666666666666667*G3_1_1;
-    A[101] = -0.666666666666667*G1_0_0 - 0.666666666666667*G1_1_0 - 0.666666666666667*G3_0_0 - 0.666666666666667*G3_1_0;
-    A[102] = -0.166666666666666*G5_0 - 0.166666666666667*G5_1;
+    A[96] = 0.5*G1_0_0 + 0.500000000000001*G1_0_1 + 0.500000000000001*G1_1_0 + 0.500000000000002*G1_1_1 + 0.5*G3_0_0 + 0.500000000000001*G3_0_1 + 0.500000000000001*G3_1_0 + 0.500000000000002*G3_1_1 + 0.0166666666666666*G9_0;
+    A[97] = 0.166666666666668*G1_0_0 + 0.166666666666667*G1_1_0 + 0.166666666666668*G3_0_0 + 0.166666666666667*G3_1_0 - 0.00277777777777778*G9_0;
+    A[98] = 0.166666666666667*G1_0_1 + 0.166666666666666*G1_1_1 + 0.166666666666667*G3_0_1 + 0.166666666666666*G3_1_1 - 0.00277777777777778*G9_0;
+    A[99] = -0.0111111111111111*G9_0;
+    A[100] = -0.666666666666668*G1_0_1 - 0.666666666666668*G1_1_1 - 0.666666666666668*G3_0_1 - 0.666666666666668*G3_1_1;
+    A[101] = -0.666666666666669*G1_0_0 - 0.666666666666668*G1_1_0 - 0.666666666666669*G3_0_0 - 0.666666666666668*G3_1_0;
+    A[102] = -0.166666666666667*G5_0 - 0.166666666666667*G5_1;
     A[103] = 0.0;
     A[104] = 0.0;
     A[105] = 0.0;
@@ -11558,14 +12024,14 @@ public:
     A[108] = 0.0;
     A[109] = 0.0;
     A[110] = 0.0;
-    A[111] = 0.166666666666668*G1_0_0 + 0.166666666666666*G1_0_1 + 0.166666666666668*G3_0_0 + 0.166666666666666*G3_0_1;
-    A[112] = 0.5*G1_0_0 + 0.5*G3_0_0;
-    A[113] = -0.166666666666666*G1_0_1 - 0.166666666666666*G3_0_1;
-    A[114] = 0.666666666666663*G1_0_1 + 0.666666666666663*G3_0_1;
-    A[115] = 0.0;
-    A[116] = -0.666666666666667*G1_0_0 - 0.666666666666666*G1_0_1 - 0.666666666666667*G3_0_0 - 0.666666666666666*G3_0_1;
+    A[111] = 0.166666666666668*G1_0_0 + 0.166666666666667*G1_0_1 + 0.166666666666668*G3_0_0 + 0.166666666666667*G3_0_1 - 0.00277777777777778*G9_0;
+    A[112] = 0.5*G1_0_0 + 0.5*G3_0_0 + 0.0166666666666667*G9_0;
+    A[113] = -0.166666666666667*G1_0_1 - 0.166666666666667*G3_0_1 - 0.00277777777777781*G9_0;
+    A[114] = 0.666666666666665*G1_0_1 + 0.666666666666665*G3_0_1;
+    A[115] = -0.0111111111111111*G9_0;
+    A[116] = -0.666666666666669*G1_0_0 - 0.666666666666668*G1_0_1 - 0.666666666666669*G3_0_0 - 0.666666666666668*G3_0_1;
     A[117] = 0.0;
-    A[118] = 0.166666666666666*G5_0;
+    A[118] = 0.166666666666667*G5_0;
     A[119] = 0.0;
     A[120] = 0.0;
     A[121] = 0.0;
@@ -11573,12 +12039,12 @@ public:
     A[123] = 0.0;
     A[124] = 0.0;
     A[125] = 0.0;
-    A[126] = 0.166666666666666*G1_1_0 + 0.166666666666665*G1_1_1 + 0.166666666666666*G3_1_0 + 0.166666666666665*G3_1_1;
-    A[127] = -0.166666666666666*G1_1_0 - 0.166666666666666*G3_1_0;
-    A[128] = 0.5*G1_1_1 + 0.5*G3_1_1;
-    A[129] = 0.666666666666666*G1_1_0 + 0.666666666666666*G3_1_0;
-    A[130] = -0.666666666666666*G1_1_0 - 0.666666666666665*G1_1_1 - 0.666666666666666*G3_1_0 - 0.666666666666665*G3_1_1;
-    A[131] = 0.0;
+    A[126] = 0.166666666666667*G1_1_0 + 0.166666666666666*G1_1_1 + 0.166666666666667*G3_1_0 + 0.166666666666666*G3_1_1 - 0.00277777777777778*G9_0;
+    A[127] = -0.166666666666667*G1_1_0 - 0.166666666666667*G3_1_0 - 0.00277777777777781*G9_0;
+    A[128] = 0.500000000000002*G1_1_1 + 0.500000000000002*G3_1_1 + 0.0166666666666667*G9_0;
+    A[129] = 0.666666666666668*G1_1_0 + 0.666666666666668*G3_1_0;
+    A[130] = -0.666666666666668*G1_1_0 - 0.666666666666667*G1_1_1 - 0.666666666666668*G3_1_0 - 0.666666666666667*G3_1_1;
+    A[131] = -0.0111111111111111*G9_0;
     A[132] = 0.0;
     A[133] = 0.0;
     A[134] = 0.166666666666667*G5_1;
@@ -11588,13 +12054,13 @@ public:
     A[138] = 0.0;
     A[139] = 0.0;
     A[140] = 0.0;
-    A[141] = 0.0;
-    A[142] = 0.666666666666663*G1_1_0 + 0.666666666666663*G3_1_0;
-    A[143] = 0.666666666666666*G1_0_1 + 0.666666666666666*G3_0_1;
-    A[144] = 1.33333333333333*G1_0_0 + 0.666666666666656*G1_0_1 + 0.666666666666656*G1_1_0 + 1.33333333333331*G1_1_1 + 1.33333333333333*G3_0_0 + 0.666666666666656*G3_0_1 + 0.666666666666656*G3_1_0 + 1.33333333333331*G3_1_1;
-    A[145] = -1.33333333333333*G1_0_0 - 0.666666666666659*G1_0_1 - 0.666666666666656*G1_1_0 - 1.33333333333333*G3_0_0 - 0.666666666666659*G3_0_1 - 0.666666666666656*G3_1_0;
-    A[146] = -0.666666666666665*G1_0_1 - 0.666666666666666*G1_1_0 - 1.33333333333332*G1_1_1 - 0.666666666666665*G3_0_1 - 0.666666666666666*G3_1_0 - 1.33333333333332*G3_1_1;
-    A[147] = 0.166666666666666*G5_0 + 0.166666666666665*G5_1;
+    A[141] = -0.0111111111111111*G9_0;
+    A[142] = 0.666666666666665*G1_1_0 + 0.666666666666665*G3_1_0;
+    A[143] = 0.666666666666668*G1_0_1 + 0.666666666666668*G3_0_1;
+    A[144] = 1.33333333333333*G1_0_0 + 0.666666666666655*G1_0_1 + 0.666666666666655*G1_1_0 + 1.33333333333332*G1_1_1 + 1.33333333333333*G3_0_0 + 0.666666666666655*G3_0_1 + 0.666666666666655*G3_1_0 + 1.33333333333332*G3_1_1 + 0.0888888888888888*G9_0;
+    A[145] = -1.33333333333333*G1_0_0 - 0.666666666666661*G1_0_1 - 0.666666666666655*G1_1_0 - 1.33333333333333*G3_0_0 - 0.666666666666661*G3_0_1 - 0.666666666666655*G3_1_0 + 0.0444444444444443*G9_0;
+    A[146] = -0.666666666666665*G1_0_1 - 0.666666666666668*G1_1_0 - 1.33333333333333*G1_1_1 - 0.666666666666665*G3_0_1 - 0.666666666666668*G3_1_0 - 1.33333333333333*G3_1_1 + 0.0444444444444443*G9_0;
+    A[147] = 0.166666666666666*G5_0 + 0.166666666666664*G5_1;
     A[148] = 0.166666666666666*G5_0 + 0.333333333333331*G5_1;
     A[149] = 0.333333333333333*G5_0 + 0.166666666666664*G5_1;
     A[150] = 0.0;
@@ -11603,12 +12069,12 @@ public:
     A[153] = 0.0;
     A[154] = 0.0;
     A[155] = 0.0;
-    A[156] = -0.666666666666667*G1_1_0 - 0.666666666666667*G1_1_1 - 0.666666666666667*G3_1_0 - 0.666666666666667*G3_1_1;
-    A[157] = 0.0;
-    A[158] = -0.666666666666666*G1_0_1 - 0.666666666666665*G1_1_1 - 0.666666666666666*G3_0_1 - 0.666666666666665*G3_1_1;
-    A[159] = -1.33333333333333*G1_0_0 - 0.666666666666656*G1_0_1 - 0.666666666666659*G1_1_0 - 1.33333333333333*G3_0_0 - 0.666666666666656*G3_0_1 - 0.666666666666659*G3_1_0;
-    A[160] = 1.33333333333333*G1_0_0 + 0.666666666666659*G1_0_1 + 0.666666666666659*G1_1_0 + 1.33333333333333*G1_1_1 + 1.33333333333333*G3_0_0 + 0.666666666666659*G3_0_1 + 0.666666666666659*G3_1_0 + 1.33333333333333*G3_1_1;
-    A[161] = 0.666666666666665*G1_0_1 + 0.666666666666665*G1_1_0 + 0.666666666666665*G3_0_1 + 0.666666666666665*G3_1_0;
+    A[156] = -0.666666666666668*G1_1_0 - 0.666666666666668*G1_1_1 - 0.666666666666668*G3_1_0 - 0.666666666666668*G3_1_1;
+    A[157] = -0.0111111111111111*G9_0;
+    A[158] = -0.666666666666668*G1_0_1 - 0.666666666666667*G1_1_1 - 0.666666666666668*G3_0_1 - 0.666666666666667*G3_1_1;
+    A[159] = -1.33333333333333*G1_0_0 - 0.666666666666655*G1_0_1 - 0.666666666666661*G1_1_0 - 1.33333333333333*G3_0_0 - 0.666666666666655*G3_0_1 - 0.666666666666661*G3_1_0 + 0.0444444444444443*G9_0;
+    A[160] = 1.33333333333333*G1_0_0 + 0.666666666666661*G1_0_1 + 0.666666666666661*G1_1_0 + 1.33333333333333*G1_1_1 + 1.33333333333333*G3_0_0 + 0.666666666666661*G3_0_1 + 0.666666666666661*G3_1_0 + 1.33333333333333*G3_1_1 + 0.0888888888888887*G9_0;
+    A[161] = 0.666666666666665*G1_0_1 + 0.666666666666667*G1_1_0 + 0.666666666666665*G3_0_1 + 0.666666666666667*G3_1_0 + 0.0444444444444443*G9_0;
     A[162] = -0.166666666666666*G5_0 + 0.166666666666668*G5_1;
     A[163] = -0.166666666666666*G5_0;
     A[164] = -0.333333333333333*G5_0 - 0.166666666666665*G5_1;
@@ -11618,42 +12084,42 @@ public:
     A[168] = 0.0;
     A[169] = 0.0;
     A[170] = 0.0;
-    A[171] = -0.666666666666667*G1_0_0 - 0.666666666666667*G1_0_1 - 0.666666666666667*G3_0_0 - 0.666666666666667*G3_0_1;
-    A[172] = -0.666666666666667*G1_0_0 - 0.666666666666666*G1_1_0 - 0.666666666666667*G3_0_0 - 0.666666666666666*G3_1_0;
-    A[173] = 0.0;
-    A[174] = -0.666666666666666*G1_0_1 - 0.666666666666665*G1_1_0 - 1.33333333333332*G1_1_1 - 0.666666666666666*G3_0_1 - 0.666666666666665*G3_1_0 - 1.33333333333332*G3_1_1;
-    A[175] = 0.666666666666665*G1_0_1 + 0.666666666666665*G1_1_0 + 0.666666666666665*G3_0_1 + 0.666666666666665*G3_1_0;
-    A[176] = 1.33333333333333*G1_0_0 + 0.666666666666667*G1_0_1 + 0.666666666666667*G1_1_0 + 1.33333333333333*G1_1_1 + 1.33333333333333*G3_0_0 + 0.666666666666667*G3_0_1 + 0.666666666666667*G3_1_0 + 1.33333333333333*G3_1_1;
-    A[177] = 0.166666666666667*G5_0 - 0.166666666666667*G5_1;
-    A[178] = -0.166666666666667*G5_0 - 0.333333333333333*G5_1;
-    A[179] = -0.166666666666667*G5_1;
-    A[180] = -0.166666666666666*G6_0 - 0.166666666666667*G6_1;
+    A[171] = -0.666666666666669*G1_0_0 - 0.666666666666668*G1_0_1 - 0.666666666666669*G3_0_0 - 0.666666666666668*G3_0_1;
+    A[172] = -0.666666666666669*G1_0_0 - 0.666666666666668*G1_1_0 - 0.666666666666669*G3_0_0 - 0.666666666666668*G3_1_0;
+    A[173] = -0.0111111111111111*G9_0;
+    A[174] = -0.666666666666668*G1_0_1 - 0.666666666666665*G1_1_0 - 1.33333333333333*G1_1_1 - 0.666666666666668*G3_0_1 - 0.666666666666665*G3_1_0 - 1.33333333333333*G3_1_1 + 0.0444444444444443*G9_0;
+    A[175] = 0.666666666666667*G1_0_1 + 0.666666666666665*G1_1_0 + 0.666666666666667*G3_0_1 + 0.666666666666665*G3_1_0 + 0.0444444444444443*G9_0;
+    A[176] = 1.33333333333334*G1_0_0 + 0.66666666666667*G1_0_1 + 0.66666666666667*G1_1_0 + 1.33333333333333*G1_1_1 + 1.33333333333334*G3_0_0 + 0.66666666666667*G3_0_1 + 0.66666666666667*G3_1_0 + 1.33333333333333*G3_1_1 + 0.0888888888888888*G9_0;
+    A[177] = 0.166666666666667*G5_0 - 0.166666666666666*G5_1;
+    A[178] = -0.166666666666667*G5_0 - 0.333333333333334*G5_1;
+    A[179] = -0.166666666666666*G5_1;
+    A[180] = -0.166666666666667*G6_0 - 0.166666666666667*G6_1;
     A[181] = 0.0;
     A[182] = 0.0;
-    A[183] = 0.166666666666666*G6_0 + 0.166666666666665*G6_1;
+    A[183] = 0.166666666666666*G6_0 + 0.166666666666664*G6_1;
     A[184] = -0.166666666666666*G6_0 + 0.166666666666668*G6_1;
-    A[185] = 0.166666666666667*G6_0 - 0.166666666666667*G6_1;
-    A[186] = -0.166666666666666*G7_0 - 0.166666666666667*G7_1;
+    A[185] = 0.166666666666667*G6_0 - 0.166666666666666*G6_1;
+    A[186] = -0.166666666666667*G7_0 - 0.166666666666667*G7_1;
     A[187] = 0.0;
     A[188] = 0.0;
-    A[189] = 0.166666666666666*G7_0 + 0.166666666666665*G7_1;
+    A[189] = 0.166666666666666*G7_0 + 0.166666666666664*G7_1;
     A[190] = -0.166666666666666*G7_0 + 0.166666666666668*G7_1;
-    A[191] = 0.166666666666667*G7_0 - 0.166666666666667*G7_1;
+    A[191] = 0.166666666666667*G7_0 - 0.166666666666666*G7_1;
     A[192] = 0.0;
     A[193] = 0.0;
     A[194] = 0.0;
     A[195] = 0.0;
-    A[196] = 0.166666666666666*G6_0;
+    A[196] = 0.166666666666667*G6_0;
     A[197] = 0.0;
     A[198] = 0.166666666666666*G6_0 + 0.333333333333331*G6_1;
     A[199] = -0.166666666666666*G6_0;
-    A[200] = -0.166666666666667*G6_0 - 0.333333333333333*G6_1;
+    A[200] = -0.166666666666667*G6_0 - 0.333333333333334*G6_1;
     A[201] = 0.0;
-    A[202] = 0.166666666666666*G7_0;
+    A[202] = 0.166666666666667*G7_0;
     A[203] = 0.0;
     A[204] = 0.166666666666666*G7_0 + 0.333333333333331*G7_1;
     A[205] = -0.166666666666666*G7_0;
-    A[206] = -0.166666666666667*G7_0 - 0.333333333333333*G7_1;
+    A[206] = -0.166666666666667*G7_0 - 0.333333333333334*G7_1;
     A[207] = 0.0;
     A[208] = 0.0;
     A[209] = 0.0;
@@ -11662,13 +12128,13 @@ public:
     A[212] = 0.166666666666667*G6_1;
     A[213] = 0.333333333333333*G6_0 + 0.166666666666664*G6_1;
     A[214] = -0.333333333333333*G6_0 - 0.166666666666665*G6_1;
-    A[215] = -0.166666666666667*G6_1;
+    A[215] = -0.166666666666666*G6_1;
     A[216] = 0.0;
     A[217] = 0.0;
     A[218] = 0.166666666666667*G7_1;
     A[219] = 0.333333333333333*G7_0 + 0.166666666666664*G7_1;
     A[220] = -0.333333333333333*G7_0 - 0.166666666666665*G7_1;
-    A[221] = -0.166666666666667*G7_1;
+    A[221] = -0.166666666666666*G7_1;
     A[222] = 0.0;
     A[223] = 0.0;
     A[224] = 0.0;
@@ -11693,7 +12159,7 @@ public:
 
   const std::vector<bool> & enabled_coefficients() const final override
   {
-    static const std::vector<bool> enabled({true});
+    static const std::vector<bool> enabled({true, true, true});
     return enabled;
   }
 
@@ -11703,9 +12169,9 @@ public:
                        int cell_orientation) const final override
   {
     // Number of operations (multiply-add pairs) for Jacobian data:      3
-    // Number of operations (multiply-add pairs) for geometry tensor:    12
-    // Number of operations (multiply-add pairs) for tensor contraction: 42
-    // Total number of operations (multiply-add pairs):                  57
+    // Number of operations (multiply-add pairs) for geometry tensor:    30
+    // Number of operations (multiply-add pairs) for tensor contraction: 90
+    // Total number of operations (multiply-add pairs):                  123
     
     // Compute Jacobian
     double J[4];
@@ -11732,20 +12198,32 @@ public:
     const double G1_9 = det*w[0][9]*(1.0);
     const double G1_10 = det*w[0][10]*(1.0);
     const double G1_11 = det*w[0][11]*(1.0);
+    const double G2_0_0 = det*w[2][0]*w[1][0]*(1.0);
+    const double G2_0_1 = det*w[2][0]*w[1][1]*(1.0);
+    const double G2_0_2 = det*w[2][0]*w[1][2]*(1.0);
+    const double G2_0_3 = det*w[2][0]*w[1][3]*(1.0);
+    const double G2_0_4 = det*w[2][0]*w[1][4]*(1.0);
+    const double G2_0_5 = det*w[2][0]*w[1][5]*(1.0);
+    const double G3_0_6 = det*w[2][0]*w[1][6]*(1.0);
+    const double G3_0_7 = det*w[2][0]*w[1][7]*(1.0);
+    const double G3_0_8 = det*w[2][0]*w[1][8]*(1.0);
+    const double G3_0_9 = det*w[2][0]*w[1][9]*(1.0);
+    const double G3_0_10 = det*w[2][0]*w[1][10]*(1.0);
+    const double G3_0_11 = det*w[2][0]*w[1][11]*(1.0);
     
     // Compute element tensor
-    A[0] = 0.0166666666666666*G0_0 - 0.00277777777777778*G0_1 - 0.00277777777777778*G0_2 - 0.0111111111111111*G0_3;
-    A[1] = -0.00277777777777778*G0_0 + 0.0166666666666667*G0_1 - 0.00277777777777781*G0_2 - 0.0111111111111111*G0_4;
-    A[2] = -0.00277777777777778*G0_0 - 0.0027777777777778*G0_1 + 0.0166666666666667*G0_2 - 0.0111111111111111*G0_5;
-    A[3] = -0.0111111111111111*G0_0 + 0.0888888888888888*G0_3 + 0.0444444444444443*G0_4 + 0.0444444444444443*G0_5;
-    A[4] = -0.0111111111111111*G0_1 + 0.0444444444444443*G0_3 + 0.0888888888888887*G0_4 + 0.0444444444444443*G0_5;
-    A[5] = -0.0111111111111111*G0_2 + 0.0444444444444443*G0_3 + 0.0444444444444443*G0_4 + 0.0888888888888887*G0_5;
-    A[6] = 0.0166666666666666*G1_6 - 0.00277777777777778*G1_7 - 0.00277777777777778*G1_8 - 0.0111111111111111*G1_9;
-    A[7] = -0.00277777777777778*G1_6 + 0.0166666666666667*G1_7 - 0.00277777777777781*G1_8 - 0.0111111111111111*G1_10;
-    A[8] = -0.00277777777777778*G1_6 - 0.0027777777777778*G1_7 + 0.0166666666666667*G1_8 - 0.0111111111111111*G1_11;
-    A[9] = -0.0111111111111111*G1_6 + 0.0888888888888888*G1_9 + 0.0444444444444443*G1_10 + 0.0444444444444443*G1_11;
-    A[10] = -0.0111111111111111*G1_7 + 0.0444444444444443*G1_9 + 0.0888888888888887*G1_10 + 0.0444444444444443*G1_11;
-    A[11] = -0.0111111111111111*G1_8 + 0.0444444444444443*G1_9 + 0.0444444444444443*G1_10 + 0.0888888888888887*G1_11;
+    A[0] = 0.0166666666666666*G0_0 - 0.00277777777777778*G0_1 - 0.00277777777777778*G0_2 - 0.0111111111111111*G0_3 + 0.0166666666666666*G2_0_0 - 0.00277777777777778*G2_0_1 - 0.00277777777777778*G2_0_2 - 0.0111111111111111*G2_0_3;
+    A[1] = -0.00277777777777778*G0_0 + 0.0166666666666667*G0_1 - 0.00277777777777781*G0_2 - 0.0111111111111111*G0_4 - 0.00277777777777778*G2_0_0 + 0.0166666666666667*G2_0_1 - 0.00277777777777781*G2_0_2 - 0.0111111111111111*G2_0_4;
+    A[2] = -0.00277777777777778*G0_0 - 0.00277777777777781*G0_1 + 0.0166666666666667*G0_2 - 0.0111111111111111*G0_5 - 0.00277777777777778*G2_0_0 - 0.00277777777777781*G2_0_1 + 0.0166666666666667*G2_0_2 - 0.0111111111111111*G2_0_5;
+    A[3] = -0.0111111111111111*G0_0 + 0.0888888888888888*G0_3 + 0.0444444444444443*G0_4 + 0.0444444444444443*G0_5 - 0.0111111111111111*G2_0_0 + 0.0888888888888888*G2_0_3 + 0.0444444444444443*G2_0_4 + 0.0444444444444443*G2_0_5;
+    A[4] = -0.0111111111111111*G0_1 + 0.0444444444444443*G0_3 + 0.0888888888888887*G0_4 + 0.0444444444444443*G0_5 - 0.0111111111111111*G2_0_1 + 0.0444444444444443*G2_0_3 + 0.0888888888888887*G2_0_4 + 0.0444444444444443*G2_0_5;
+    A[5] = -0.0111111111111111*G0_2 + 0.0444444444444443*G0_3 + 0.0444444444444443*G0_4 + 0.0888888888888888*G0_5 - 0.0111111111111111*G2_0_2 + 0.0444444444444443*G2_0_3 + 0.0444444444444443*G2_0_4 + 0.0888888888888888*G2_0_5;
+    A[6] = 0.0166666666666666*G1_6 - 0.00277777777777778*G1_7 - 0.00277777777777778*G1_8 - 0.0111111111111111*G1_9 + 0.0166666666666666*G3_0_6 - 0.00277777777777778*G3_0_7 - 0.00277777777777778*G3_0_8 - 0.0111111111111111*G3_0_9;
+    A[7] = -0.00277777777777778*G1_6 + 0.0166666666666667*G1_7 - 0.00277777777777781*G1_8 - 0.0111111111111111*G1_10 - 0.00277777777777778*G3_0_6 + 0.0166666666666667*G3_0_7 - 0.00277777777777781*G3_0_8 - 0.0111111111111111*G3_0_10;
+    A[8] = -0.00277777777777778*G1_6 - 0.00277777777777781*G1_7 + 0.0166666666666667*G1_8 - 0.0111111111111111*G1_11 - 0.00277777777777778*G3_0_6 - 0.00277777777777781*G3_0_7 + 0.0166666666666667*G3_0_8 - 0.0111111111111111*G3_0_11;
+    A[9] = -0.0111111111111111*G1_6 + 0.0888888888888888*G1_9 + 0.0444444444444443*G1_10 + 0.0444444444444443*G1_11 - 0.0111111111111111*G3_0_6 + 0.0888888888888888*G3_0_9 + 0.0444444444444443*G3_0_10 + 0.0444444444444443*G3_0_11;
+    A[10] = -0.0111111111111111*G1_7 + 0.0444444444444443*G1_9 + 0.0888888888888887*G1_10 + 0.0444444444444443*G1_11 - 0.0111111111111111*G3_0_7 + 0.0444444444444443*G3_0_9 + 0.0888888888888887*G3_0_10 + 0.0444444444444443*G3_0_11;
+    A[11] = -0.0111111111111111*G1_8 + 0.0444444444444443*G1_9 + 0.0444444444444443*G1_10 + 0.0888888888888888*G1_11 - 0.0111111111111111*G3_0_8 + 0.0444444444444443*G3_0_9 + 0.0444444444444443*G3_0_10 + 0.0888888888888888*G3_0_11;
     A[12] = 0.0;
     A[13] = 0.0;
     A[14] = 0.0;
@@ -11770,7 +12248,7 @@ public:
 
   const char * signature() const final override
   {
-    return "851c912270a63de2a0d2d65e1513934cc83ba59e15d6ca2062cb38d14b3095a14fb13cc4deeef174f9e876e8981339c22f5626ddc5cc4eb59069196d19da1c87";
+    return "76c01ee538671e5337fd7029354a1022f8e42628631ec695585c4e2f5c09f9a235bcc2b2d5079177f66f433bdb58b0490d7bd6f7990cbd1fa7dd56ae5fdbc720";
   }
 
   std::size_t rank() const final override
@@ -11780,12 +12258,12 @@ public:
 
   std::size_t num_coefficients() const final override
   {
-    return 0;
+    return 1;
   }
 
   std::size_t original_coefficient_position(std::size_t i) const final override
   {
-    static const std::vector<std::size_t> position({});
+    static const std::vector<std::size_t> position({0});
     return position[i];
   }
 
@@ -11818,6 +12296,11 @@ public:
         return new stokes_finite_element_4();
         break;
       }
+    case 2:
+      {
+        return new stokes_finite_element_5();
+        break;
+      }
     }
     
     return 0;
@@ -11835,6 +12318,11 @@ public:
     case 1:
       {
         return new stokes_dofmap_4();
+        break;
+      }
+    case 2:
+      {
+        return new stokes_dofmap_5();
         break;
       }
     }
@@ -12021,7 +12509,7 @@ public:
 
   const char * signature() const final override
   {
-    return "e13c435cc005a4412da38ee23ad0d3cf6d5098c580cd3a1faeeb8bfa2177ce6cc5ee82811668cce1fb7d26742e62ef02e5acae25c4ae5d926278f948d0096626";
+    return "61faee836d07bfcaae51a57832e5d046ea29987382500d985edc56d8ef4abfd55bfe44ce70342e08359bc299ba2301fb9927c084b9c3438d0cb4b62163d1193d";
   }
 
   std::size_t rank() const final override
@@ -12031,12 +12519,12 @@ public:
 
   std::size_t num_coefficients() const final override
   {
-    return 1;
+    return 3;
   }
 
   std::size_t original_coefficient_position(std::size_t i) const final override
   {
-    static const std::vector<std::size_t> position({0});
+    static const std::vector<std::size_t> position({0, 1, 2});
     return position[i];
   }
 
@@ -12069,6 +12557,16 @@ public:
         return new stokes_finite_element_3();
         break;
       }
+    case 2:
+      {
+        return new stokes_finite_element_4();
+        break;
+      }
+    case 3:
+      {
+        return new stokes_finite_element_5();
+        break;
+      }
     }
     
     return 0;
@@ -12086,6 +12584,16 @@ public:
     case 1:
       {
         return new stokes_dofmap_3();
+        break;
+      }
+    case 2:
+      {
+        return new stokes_dofmap_4();
+        break;
+      }
+    case 3:
+      {
+        return new stokes_dofmap_5();
         break;
       }
     }
@@ -12304,6 +12812,54 @@ public:
 
 };
 
+class CoefficientSpace_inv_dt: public dolfin::FunctionSpace
+{
+public:
+
+  // Constructor for standard function space
+  CoefficientSpace_inv_dt(std::shared_ptr<const dolfin::Mesh> mesh):
+    dolfin::FunctionSpace(mesh,
+                          std::make_shared<const dolfin::FiniteElement>(std::make_shared<stokes_finite_element_5>()),
+                          std::make_shared<const dolfin::DofMap>(std::make_shared<stokes_dofmap_5>(), *mesh))
+  {
+    // Do nothing
+  }
+
+  // Constructor for constrained function space
+  CoefficientSpace_inv_dt(std::shared_ptr<const dolfin::Mesh> mesh, std::shared_ptr<const dolfin::SubDomain> constrained_domain):
+    dolfin::FunctionSpace(mesh,
+                          std::make_shared<const dolfin::FiniteElement>(std::make_shared<stokes_finite_element_5>()),
+                          std::make_shared<const dolfin::DofMap>(std::make_shared<stokes_dofmap_5>(), *mesh, constrained_domain))
+  {
+    // Do nothing
+  }
+
+};
+
+class CoefficientSpace_w0: public dolfin::FunctionSpace
+{
+public:
+
+  // Constructor for standard function space
+  CoefficientSpace_w0(std::shared_ptr<const dolfin::Mesh> mesh):
+    dolfin::FunctionSpace(mesh,
+                          std::make_shared<const dolfin::FiniteElement>(std::make_shared<stokes_finite_element_4>()),
+                          std::make_shared<const dolfin::DofMap>(std::make_shared<stokes_dofmap_4>(), *mesh))
+  {
+    // Do nothing
+  }
+
+  // Constructor for constrained function space
+  CoefficientSpace_w0(std::shared_ptr<const dolfin::Mesh> mesh, std::shared_ptr<const dolfin::SubDomain> constrained_domain):
+    dolfin::FunctionSpace(mesh,
+                          std::make_shared<const dolfin::FiniteElement>(std::make_shared<stokes_finite_element_4>()),
+                          std::make_shared<const dolfin::DofMap>(std::make_shared<stokes_dofmap_4>(), *mesh, constrained_domain))
+  {
+    // Do nothing
+  }
+
+};
+
 class Form_a_FunctionSpace_0: public dolfin::FunctionSpace
 {
 public:
@@ -12392,16 +12948,30 @@ public:
 
 };
 
+typedef CoefficientSpace_inv_dt Form_a_FunctionSpace_2;
+
 class Form_a: public dolfin::Form
 {
 public:
 
   // Constructor
   Form_a(std::shared_ptr<const dolfin::FunctionSpace> V1, std::shared_ptr<const dolfin::FunctionSpace> V0):
-    dolfin::Form(2, 0)
+    dolfin::Form(2, 1), inv_dt(*this, 0)
   {
     _function_spaces[0] = V0;
     _function_spaces[1] = V1;
+
+    _ufc_form = std::make_shared<const stokes_form_0>();
+  }
+
+  // Constructor
+  Form_a(std::shared_ptr<const dolfin::FunctionSpace> V1, std::shared_ptr<const dolfin::FunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> inv_dt):
+    dolfin::Form(2, 1), inv_dt(*this, 0)
+  {
+    _function_spaces[0] = V0;
+    _function_spaces[1] = V1;
+
+    this->inv_dt = inv_dt;
 
     _ufc_form = std::make_shared<const stokes_form_0>();
   }
@@ -12413,20 +12983,27 @@ public:
   /// Return the number of the coefficient with this name
   virtual std::size_t coefficient_number(const std::string& name) const
   {
+    if (name == "inv_dt")
+      return 0;
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
-                         "There are no coefficients");
+                         "Invalid coefficient");
     return 0;
   }
 
   /// Return the name of the coefficient with this number
   virtual std::string coefficient_name(std::size_t i) const
   {
+    switch (i)
+    {
+    case 0:
+      return "inv_dt";
+    }
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
-                         "There are no coefficients");
+                         "Invalid coefficient");
     return "unnamed";
   }
 
@@ -12435,8 +13012,10 @@ public:
   typedef Form_a_FunctionSpace_1 TrialSpace;
   typedef Form_a_MultiMeshFunctionSpace_0 MultiMeshTestSpace;
   typedef Form_a_MultiMeshFunctionSpace_1 MultiMeshTrialSpace;
+  typedef Form_a_FunctionSpace_2 CoefficientSpace_inv_dt;
 
   // Coefficients
+  dolfin::CoefficientAssigner inv_dt;
 };
 
 class MultiMeshForm_a: public dolfin::MultiMeshForm
@@ -12445,7 +13024,7 @@ public:
 
   // Constructor
   MultiMeshForm_a(std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V1, std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V0):
-    dolfin::MultiMeshForm(V1, V0)
+    dolfin::MultiMeshForm(V1, V0), inv_dt(*this, 0)
   {
     // Create and add standard forms
     std::size_t num_parts = V0->num_parts(); // assume all equal and pick first
@@ -12462,6 +13041,26 @@ public:
 
   }
 
+  // Constructor
+  MultiMeshForm_a(std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V1, std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> inv_dt):
+    dolfin::MultiMeshForm(V1, V0), inv_dt(*this, 0)
+  {
+    // Create and add standard forms
+    std::size_t num_parts = V0->num_parts(); // assume all equal and pick first
+    for (std::size_t part = 0; part < num_parts; part++)
+    {
+      std::shared_ptr<const dolfin::Form> a(new Form_a(V1->part(part), V0->part(part)));
+      add(a);
+    }
+
+    // Build multimesh form
+    build();
+
+    /// Assign coefficients
+    this->inv_dt = inv_dt;
+
+  }
+
   // Destructor
   ~MultiMeshForm_a()
   {}
@@ -12469,20 +13068,27 @@ public:
   /// Return the number of the coefficient with this name
   virtual std::size_t coefficient_number(const std::string& name) const
   {
+    if (name == "inv_dt")
+      return 0;
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
-                         "There are no coefficients");
+                         "Invalid coefficient");
     return 0;
   }
 
   /// Return the name of the coefficient with this number
   virtual std::string coefficient_name(std::size_t i) const
   {
+    switch (i)
+    {
+    case 0:
+      return "inv_dt";
+    }
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
-                         "There are no coefficients");
+                         "Invalid coefficient");
     return "unnamed";
   }
 
@@ -12491,8 +13097,10 @@ public:
   typedef Form_a_FunctionSpace_1 TrialSpace;
   typedef Form_a_MultiMeshFunctionSpace_0 MultiMeshTestSpace;
   typedef Form_a_MultiMeshFunctionSpace_1 MultiMeshTrialSpace;
+  typedef Form_a_FunctionSpace_2 CoefficientSpace_inv_dt;
 
   // Coefficients
+  dolfin::MultiMeshCoefficientAssigner inv_dt;
 };
 
 class Form_L_FunctionSpace_0: public dolfin::FunctionSpace
@@ -12541,13 +13149,17 @@ public:
 
 typedef CoefficientSpace_f Form_L_FunctionSpace_1;
 
+typedef CoefficientSpace_w0 Form_L_FunctionSpace_2;
+
+typedef CoefficientSpace_inv_dt Form_L_FunctionSpace_3;
+
 class Form_L: public dolfin::Form
 {
 public:
 
   // Constructor
   Form_L(std::shared_ptr<const dolfin::FunctionSpace> V0):
-    dolfin::Form(1, 1), f(*this, 0)
+    dolfin::Form(1, 3), f(*this, 0), w0(*this, 1), inv_dt(*this, 2)
   {
     _function_spaces[0] = V0;
 
@@ -12555,12 +13167,14 @@ public:
   }
 
   // Constructor
-  Form_L(std::shared_ptr<const dolfin::FunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> f):
-    dolfin::Form(1, 1), f(*this, 0)
+  Form_L(std::shared_ptr<const dolfin::FunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> f, std::shared_ptr<const dolfin::GenericFunction> w0, std::shared_ptr<const dolfin::GenericFunction> inv_dt):
+    dolfin::Form(1, 3), f(*this, 0), w0(*this, 1), inv_dt(*this, 2)
   {
     _function_spaces[0] = V0;
 
     this->f = f;
+    this->w0 = w0;
+    this->inv_dt = inv_dt;
 
     _ufc_form = std::make_shared<const stokes_form_1>();
   }
@@ -12574,6 +13188,10 @@ public:
   {
     if (name == "f")
       return 0;
+    else if (name == "w0")
+      return 1;
+    else if (name == "inv_dt")
+      return 2;
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
@@ -12588,6 +13206,10 @@ public:
     {
     case 0:
       return "f";
+    case 1:
+      return "w0";
+    case 2:
+      return "inv_dt";
     }
 
     dolfin::dolfin_error("generated code for class Form",
@@ -12600,9 +13222,13 @@ public:
   typedef Form_L_FunctionSpace_0 TestSpace;
   typedef Form_L_MultiMeshFunctionSpace_0 MultiMeshTestSpace;
   typedef Form_L_FunctionSpace_1 CoefficientSpace_f;
+  typedef Form_L_FunctionSpace_2 CoefficientSpace_w0;
+  typedef Form_L_FunctionSpace_3 CoefficientSpace_inv_dt;
 
   // Coefficients
   dolfin::CoefficientAssigner f;
+  dolfin::CoefficientAssigner w0;
+  dolfin::CoefficientAssigner inv_dt;
 };
 
 class MultiMeshForm_L: public dolfin::MultiMeshForm
@@ -12611,7 +13237,7 @@ public:
 
   // Constructor
   MultiMeshForm_L(std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V0):
-    dolfin::MultiMeshForm(V0), f(*this, 0)
+    dolfin::MultiMeshForm(V0), f(*this, 0), w0(*this, 1), inv_dt(*this, 2)
   {
     // Create and add standard forms
     std::size_t num_parts = V0->num_parts(); // assume all equal and pick first
@@ -12629,8 +13255,8 @@ public:
   }
 
   // Constructor
-  MultiMeshForm_L(std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> f):
-    dolfin::MultiMeshForm(V0), f(*this, 0)
+  MultiMeshForm_L(std::shared_ptr<const dolfin::MultiMeshFunctionSpace> V0, std::shared_ptr<const dolfin::GenericFunction> f, std::shared_ptr<const dolfin::GenericFunction> w0, std::shared_ptr<const dolfin::GenericFunction> inv_dt):
+    dolfin::MultiMeshForm(V0), f(*this, 0), w0(*this, 1), inv_dt(*this, 2)
   {
     // Create and add standard forms
     std::size_t num_parts = V0->num_parts(); // assume all equal and pick first
@@ -12645,6 +13271,8 @@ public:
 
     /// Assign coefficients
     this->f = f;
+    this->w0 = w0;
+    this->inv_dt = inv_dt;
 
   }
 
@@ -12657,6 +13285,10 @@ public:
   {
     if (name == "f")
       return 0;
+    else if (name == "w0")
+      return 1;
+    else if (name == "inv_dt")
+      return 2;
 
     dolfin::dolfin_error("generated code for class Form",
                          "access coefficient data",
@@ -12671,6 +13303,10 @@ public:
     {
     case 0:
       return "f";
+    case 1:
+      return "w0";
+    case 2:
+      return "inv_dt";
     }
 
     dolfin::dolfin_error("generated code for class Form",
@@ -12683,9 +13319,13 @@ public:
   typedef Form_L_FunctionSpace_0 TestSpace;
   typedef Form_L_MultiMeshFunctionSpace_0 MultiMeshTestSpace;
   typedef Form_L_FunctionSpace_1 CoefficientSpace_f;
+  typedef Form_L_FunctionSpace_2 CoefficientSpace_w0;
+  typedef Form_L_FunctionSpace_3 CoefficientSpace_inv_dt;
 
   // Coefficients
   dolfin::MultiMeshCoefficientAssigner f;
+  dolfin::MultiMeshCoefficientAssigner w0;
+  dolfin::MultiMeshCoefficientAssigner inv_dt;
 };
 
 // Class typedefs

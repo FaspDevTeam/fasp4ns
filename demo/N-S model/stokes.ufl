@@ -1,0 +1,14 @@
+P2 = VectorElement("Lagrange", triangle, 2)
+P1 = FiniteElement("Lagrange", triangle, 1)
+TH = P2*P1
+
+(u, p) = TrialFunctions(TH)
+(v, q) = TestFunctions(TH)
+
+f = Coefficient(P2)
+w0 = Coefficient(TH)
+(u0, p0) = (as_vector((w0[0],w0[1])), w0[2])
+inv_dt = Constant(triangle)
+a = (inner(grad(u), grad(v)) + div(v)*p + div(u)*q + dot(u,v)*inv_dt)*dx
+L = (dot(f, v)+inner(u0, v)*inv_dt)*dx
+
