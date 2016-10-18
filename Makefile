@@ -19,18 +19,20 @@ FSRCDIR=./src
 INCLUDE=-I ../faspsolver/base/include -I ./include
 FASPLIB=../faspsolver/lib/libfasp.a
 TESTLIB=./lib/libfasp4ns.a
-
-UMFPACKDIR = /opt/local
-
 BLASLIB = -framework Accelerate
+
+########################################################################      
+# Directory to UMFPACK
+########################################################################        
+UMFPACKDIR = /opt/local
 
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
-BOPT=-g -pg -O3 #-Wall #-fopenmp
+BOPT=-O3 #-g -Wall #-fopenmp
 
 COPTS=$(BOPT)
-CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=1 -DWITH_SuperLU=0
+CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=0 -DWITH_SuperLU=0
 CINCLUDES=$(INCLUDE) $(UMFPACKINCLUDE)
 CFLAGS=$(CDEFS) $(COPTS) $(CINCLUDES)
 
@@ -47,7 +49,10 @@ LIBS=$(TESTLIB) $(FASPLIB) $(BLASLIB) $(UMFPACKLIB)
 ########################################################################
 # Load user-defined parameters
 ########################################################################
-include ./make.inc
+ifeq ($(wildcard make.inc),) 
+else
+	include ./make.inc
+endif
 
 ########################################################################
 # Link options
