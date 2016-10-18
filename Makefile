@@ -49,8 +49,7 @@ LIBS=$(TESTLIB) $(FASPLIB) $(BLASLIB) $(UMFPACKLIB)
 ########################################################################
 # Load user-defined parameters
 ########################################################################
-ifeq ($(wildcard make.inc),) 
-else
+ifneq ($(wildcard ./make.inc),)
 	include ./make.inc
 endif
 
