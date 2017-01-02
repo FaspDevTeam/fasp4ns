@@ -1,5 +1,5 @@
 /*! \file precond_pnp_stokes.c
- *  \brief Preconditioners for pnp+stokes problems
+ *  \brief Preconditioners for PNP+Stokes problems
  */
 
 #include "fasp.h"

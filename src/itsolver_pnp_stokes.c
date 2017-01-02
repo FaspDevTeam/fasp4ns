@@ -12,17 +12,14 @@
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
-
-
-
 /*---------------------------------*/
 /*--      Public Functions       --*/
 /*---------------------------------*/
 
 /**
  * \fn INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A, dvector *b, dvector *x,
- *                                              itsolver_param *itparam,
- *                                              AMG_param *amgparam)
+ *                                             itsolver_param *itparam,
+ *                                             AMG_param *amgparam)
  *
  * \brief Solve Ax = b by standard Krylov methods
  *
@@ -39,15 +36,15 @@
  *
  */
 INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
-                                         dvector *b,
-                                         dvector *x,
-                                         itsolver_param *itparam,
-                                         itsolver_param *itparam_pnp,
-                                         AMG_param *amgparam_pnp,
-                                         itsolver_ns_param *itparam_stokes,
-                                         AMG_ns_param *amgparam_stokes,
-                                         const int num_velocity,
-                                         const int num_pressure)
+                                        dvector *b,
+                                        dvector *x,
+                                        itsolver_param *itparam,
+                                        itsolver_param *itparam_pnp,
+                                        AMG_param *amgparam_pnp,
+                                        itsolver_ns_param *itparam_stokes,
+                                        AMG_ns_param *amgparam_stokes,
+                                        const int num_velocity,
+                                        const int num_pressure)
 {
     const SHORT prtlvl = itparam->print_level;
     const SHORT precond_type = itparam->precond_type;

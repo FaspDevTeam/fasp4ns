@@ -1,5 +1,5 @@
 /*! \file io.c
- *  \brief Assembling for the matrix
+ *  \brief I/O functions for NS solvers
  */
 
 #include "fasp.h"

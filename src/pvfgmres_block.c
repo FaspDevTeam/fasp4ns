@@ -1,5 +1,5 @@
 /*! \file pvfgmres_block.c
- *  \brief Krylov subspace methods -- Preconditioned Variable-Restarting Flexible GMRes.
+ *  \brief Krylov subspace methods -- Preconditioned Variable-Restarting FGMRES
  *
  *  Abstract algorithm of Krylov method
  *
