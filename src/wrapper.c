@@ -1,5 +1,5 @@
 /*! \file wrapper.c
- *  \brief Wrappers for accessing functions by advanced users.
+ *  \brief Wrappers for accessing functions for advanced users
  *
  *  \note Input variables shall not need fasp.h at all!
  */

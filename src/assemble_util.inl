@@ -1,4 +1,4 @@
-/*! \file assemble_info.c
+/*! \file assemble_util.inl
  *  \brief Subroutines for assembling purpose
  */
 

@@ -1,4 +1,4 @@
-/*! \file basis.c
+/*! \file basisP2.inl
  *  \brief Basis functions and problem information
  */
  

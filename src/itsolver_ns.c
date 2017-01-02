@@ -94,7 +94,11 @@ int fasp_ns_solver_itsolver (dBLCmat *A,
 }
 
 /**
- * \fn int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, Schwarz_param *schparam)
+ * \fn int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat, dvector *b, dvector *x,
+ *                                                itsolver_ns_param *itparam,
+ *                                                AMG_ns_param *amgparam,
+ *                                                ILU_param *iluparam,
+ *                                                Schwarz_param *schparam)
  * \brief Solve Ax=b by standard Krylov methods for NS equations
  *
  * \param *A:	       pointer to the dBLCmat matrix
@@ -115,17 +119,17 @@ int fasp_ns_solver_itsolver (dBLCmat *A,
  *
  */
 int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
-                                            dvector *b,
-                                            dvector *x,
-                                            itsolver_ns_param *itparam,
-                                            AMG_ns_param *amgnsparam,
-                                            ILU_param *iluparam,
-                                            Schwarz_param *schparam)
+                                           dvector *b,
+                                           dvector *x,
+                                           itsolver_ns_param *itparam,
+                                           AMG_ns_param *amgnsparam,
+                                           ILU_param *iluparam,
+                                           Schwarz_param *schparam)
 {
     
     // parameters
-    const int print_level = itparam->print_level;
-    const int precond_type = itparam->precond_type;
+    const SHORT print_level  = itparam->print_level;
+    const SHORT precond_type = itparam->precond_type;
     const INT schwarz_mmsize = schparam->Schwarz_mmsize;
     const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
     const INT schwarz_type   = schparam->Schwarz_type;
@@ -472,13 +476,13 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
  *
  */
 int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
-                                                               dvector *b,
-                                                               dvector *x,
-                                                               itsolver_ns_param *itparam,
-                                                               AMG_ns_param *amgnsparam,
-                                                               ILU_param *iluparam,
-                                                               Schwarz_param *schparam,
-                                                               dCSRmat *Mp)
+                                                              dvector *b,
+                                                              dvector *x,
+                                                              itsolver_ns_param *itparam,
+                                                              AMG_ns_param *amgnsparam,
+                                                              ILU_param *iluparam,
+                                                              Schwarz_param *schparam,
+                                                              dCSRmat *Mp)
 {
     printf("fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass start\n");
     // parameters
@@ -716,13 +720,13 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
  *
  */
 int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (dBLCmat *Mat,
-                                                                                dvector *b,
-                                                                                dvector *x,
-                                                                                itsolver_ns_param *itparam,
-                                                                                AMG_ns_param *amgnsparam,
-                                                                                ILU_param *iluparam,
-                                                                                Schwarz_param *schparam,
-                                                                                dCSRmat *Mp)
+                                                                               dvector *b,
+                                                                               dvector *x,
+                                                                               itsolver_ns_param *itparam,
+                                                                               AMG_ns_param *amgnsparam,
+                                                                               ILU_param *iluparam,
+                                                                               Schwarz_param *schparam,
+                                                                               dCSRmat *Mp)
 {
     printf("fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass start\n");
     // parameters
@@ -963,11 +967,11 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
  * \date 11/25/2010
  */
 INT fasp_solver_dblc_krylov_ns (dBLCmat *Mat,
-                                 dvector *b,
-                                 dvector *x,
-                                 itsolver_param *itparam,
-                                 precond_ns_param *param,
-                                 precond_ns_data *precdata)
+                                dvector *b,
+                                dvector *x,
+                                itsolver_param *itparam,
+                                precond_ns_param *param,
+                                precond_ns_data *precdata)
 {
     // parameters
     const SHORT print_level  = itparam->print_level;
