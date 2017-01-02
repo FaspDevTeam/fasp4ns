@@ -80,13 +80,13 @@ typedef struct {
     /* Problem information */
     
     //! pointer to the matrix at level level_num
-    block_dCSRmat A;
+    dBLCmat A;
     
     //! restriction operator at level level_num
-    block_dCSRmat R;
+    dBLCmat R;
     
     //! prolongation operator at level level_num
-    block_dCSRmat P;
+    dBLCmat P;
     
     //! pointer to the right-hand side at level level_num
     dvector b;
@@ -471,7 +471,7 @@ typedef struct {
 } input_ns_param; /**< Input parameters */
 
 /**
- * \brief Data passed to the preconditioner for block preconditioning for block_dCSRmat format
+ * \brief Data passed to the preconditioner for block preconditioning for dBLCmat format
  *
  * This is needed for the block preconditioner for pnp+stokes system.
  */
@@ -480,13 +480,13 @@ typedef struct {
     /*-------------------------------------*/
     /* Basic data for block preconditioner */
     /*-------------------------------------*/
-    block_dCSRmat *Abcsr; /**< problem data, the blocks */
+    dBLCmat *Abcsr; /**< problem data, the blocks */
     
     dCSRmat *A_pnp_csr;      /**< data for pnp diagonal block in csr format*/
     dBSRmat *A_pnp_bsr;      /**< data for pnp diagonal block in bsr format*/
     
     dCSRmat *A_stokes_csr;      /**< data for pnp diagonal block in csr format*/
-    block_dCSRmat *A_stokes_bcsr;      /**< data for pnp diagonal block in bsr format*/
+    dBLCmat *A_stokes_bcsr;      /**< data for pnp diagonal block in bsr format*/
     
     dvector r;            /**< temp work space */
     

@@ -27,8 +27,8 @@
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_diag (REAL *r,
-                                REAL *z,
-                                void *data)
+                                   REAL *z,
+                                   void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
@@ -86,12 +86,12 @@ void fasp_precond_pnp_stokes_diag (REAL *r,
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_lower (REAL *r,
-                                 REAL *z,
-                                 void *data)
+                                    REAL *z,
+                                    void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
-    block_dCSRmat *A = precdata->Abcsr;
+    dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
     
@@ -148,12 +148,12 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_upper (REAL *r,
-                                 REAL *z,
-                                 void *data)
+                                    REAL *z,
+                                    void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
-    block_dCSRmat *A = precdata->Abcsr;
+    dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
     
@@ -210,14 +210,14 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
-                                   REAL *z,
-                                   void *data)
+                                           REAL *z,
+                                           void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
-    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    dBLCmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
     dvector *tempr = &(precdata->r);
     
     void **LU_diag = precdata->LU_diag;
@@ -246,7 +246,7 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     
     //prec_pnp.data = precdata_pnp;
     //prec_pnp.fct = precdata->pnp_fct;
-
+    
     //prec_pnp.data = precdata->ILU_pnp;
     //prec_pnp.fct = fasp_precond_dbsr_ilu;
     
@@ -266,8 +266,8 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
-
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    
     
     // restore r
     fasp_array_cp(N, tempr->val, r);
@@ -287,16 +287,16 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
-                                    REAL *z,
-                                    void *data)
+                                            REAL *z,
+                                            void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
-    block_dCSRmat *A = precdata->Abcsr;
+    dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
     //dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
-    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    dBLCmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
     
     dvector *tempr = &(precdata->r);
     
@@ -349,7 +349,7 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
     
     // restore r
     fasp_array_cp(N, tempr->val, r);
@@ -369,16 +369,16 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
  * \date   10/12/2016
  */
 void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
-                                    REAL *z,
-                                    void *data)
+                                            REAL *z,
+                                            void *data)
 {
     
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
-    block_dCSRmat *A = precdata->Abcsr;
+    dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
     //dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
-    block_dCSRmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
+    dBLCmat *A_stokes_bcsr = precdata->A_stokes_bcsr;
     
     dvector *tempr = &(precdata->r);
     
@@ -408,7 +408,7 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_bdcsr_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
     
     // r1 = r1 - A5*z2
     fasp_blas_dcsr_aAxpy(-1.0, A->blocks[1], z1.val, r0.val);
@@ -433,7 +433,7 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     //fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, NULL, 1e-3, 50, 50, 1, 0);
     //fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
-  
+    
     // restore r
     fasp_array_cp(N, tempr->val, r);
     

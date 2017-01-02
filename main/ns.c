@@ -22,13 +22,13 @@
  */
 int main (int argc, const char * argv[]) 
 {
-	block_dCSRmat A;
+	dBLCmat A;
 	dCSRmat RR,RW,WR,WW, Acsr, Mp;
 	dvector b, uh, bcsr; //xapp;
     ivector u_idx, p_idx;
 	int i,flag=0;
 	
-    /** initialize block_dCSRmat **/
+    /** initialize dBLCmat **/
     A.brow = 2;
     A.bcol = 2;
     A.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
@@ -73,7 +73,7 @@ int main (int argc, const char * argv[])
         char *fileB = "data/test_1/Matrix_B";
         char *fileC = "data/test_1/Matrix_C";
         char *filerhs= "data/test_1/RHS";
-        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     
     // --------------------------- //
@@ -572,7 +572,7 @@ int main (int argc, const char * argv[])
         char *fileB = "data/FSIMatrices/Matrix_B";
         char *fileC = "data/FSIMatrices/Matrix_C";
         char *filerhs= "data/FSIMatrices/RHS";
-        fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
 
     else if (problem_num == 701) {
@@ -590,7 +590,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 702) {
@@ -608,7 +608,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 703) {
@@ -626,7 +626,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 704) {
@@ -644,7 +644,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 705) {
@@ -662,7 +662,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 801) {
@@ -680,7 +680,7 @@ int main (int argc, const char * argv[])
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_bdcsr_read(fileA,fileB,fileC,filerhs,&A,&b);
+        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
         
 	else {
@@ -715,46 +715,46 @@ int main (int argc, const char * argv[])
     else if (precond_type == PREC_DIAG){
         /*
         if (problem_num > 100 && problem_num < 100 ){
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         /*
         else if ( problem_num > 200 && problem_num < 300 ) {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         //else {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+            flag = fasp_solver_dblc_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
         //}
     }
     else if ((precond_type == PREC_UP_TRI)|| (precond_type == PREC_UP_TRI)) {
         /*
         if (problem_num > 100 && problem_num < 100 ){
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         /*
         else if ( problem_num > 200 && problem_num < 300 ) {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         //else {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+            flag = fasp_solver_dblc_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
         //}
     }
     else {
         /*
         if (problem_num > 100 && problem_num < 100 ){
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         /*
         else if ( problem_num > 200 && problem_num < 300 ) {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
+            flag = fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam, &Mp);
         }
          */
         //else {
-            flag = fasp_solver_bdcsr_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
+            flag = fasp_solver_dblc_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
         //}
     }
 	//for (i = 0;i < 4;i++)
