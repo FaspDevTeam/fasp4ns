@@ -54,7 +54,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
     
     if (iluparam) fasp_param_ilu_init(iluparam);
     
-    if (schparam) fasp_param_Schwarz_init(schparam);
+    if (schparam) fasp_param_schwarz_init(schparam);
     
     if (inparam) {
         if (itsparam) fasp_ns_param_solver_set(itsparam,inparam);
