@@ -81,36 +81,39 @@ OBJSF += $(patsubst %.f95,%.o,$(FSRC))
 OBJSC := $(patsubst %.c,%.o,$(CSRC))
 #
 .for.o:
-	$(FC) -c $< -o $@ $(FFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(FC) -c $< -o $@ $(FFLAGS)
+	@echo 'Building F object $@'
+	@$(AR) $(TESTLIB) $@
 #
 .f.o:
-	$(FC) -c $< -o $@ $(FFLAGS) 
-	$(AR) $(TESTLIB) $@
-#
-.f77.o:
-	$(FC) -c $< -o $@ $(FFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(FC) -c $< -o $@ $(FFLAGS)
+	@echo 'Building F object $@'
+	@$(AR) $(TESTLIB) $@
 #
 .f90.o:
-	$(FC) -c $< -o $@ $(FFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(FC) -c $< -o $@ $(FFLAGS)
+	@echo 'Building F90 object $@'
+	@$(AR) $(TESTLIB) $@
 #
 .f95.o:
-	$(FC) -c $< -o $@ $(FFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(FC) -c $< -o $@ $(FFLAGS)
+	@echo 'Building F95 object $@'
+	@$(AR) $(TESTLIB) $@
 #
 .c.o:
-	$(CC) -c $< -o $@ $(CFLAGS) 
-	$(AR) $(TESTLIB) $@
-#
-.cc.o:
-	$(CPP) -c $< -o $@ $(CFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(CC) -c $< -o $@ $(CFLAGS)
+	@echo 'Building C object $@'
+	@$(AR) $(TESTLIB) $@
 #
 .cpp.o:
-	$(CPP) -c $< -o $@ $(CFLAGS) 
-	$(AR) $(TESTLIB) $@
+	@$(CPP) -c $< -o $@ $(CFLAGS)
+	@echo 'Building CPP object $@'
+	@$(AR) $(TESTLIB) $@
+#
+.cc.o:
+	@$(CPP) -c $< -o $@ $(CFLAGS)
+	@echo 'Building CPP object $@'
+	@$(AR) $(TESTLIB) $@
 #
 ########################################################################
 # List of all programs to be compiled
@@ -123,7 +126,7 @@ ALLPROG=$(TESTLIB) ns
 # Link
 ########################################################################
 
-all: $(ALLPROG) ns
+all: $(ALLPROG) ns nsf
 
 Default: 
 	ns
@@ -143,10 +146,14 @@ lib: $(OBJSC) $(OBJSF)
 ########################################################################
 
 ns: 
-	$(CC) $(CFLAGS) -c main/ns.c -o main/ns.o
-	$(FC) $(LOPT) main/ns.o $(FLFLAGS) -o ns.ex
-	$(FC) $(CFLAGS) -c main/ns.f90 -o main/nsf.o
-	$(FC) -o nsf.ex main/nsf.o $(FLFLAGS)
+	@$(CC) $(CFLAGS) -c main/ns.c -o main/ns.o
+	@$(FC) $(LOPT) main/ns.o $(FLFLAGS) -o ns.ex
+	@echo 'Building executable $@'
+
+nsf:
+	@$(FC) $(CFLAGS) -c main/ns.f90 -o main/nsf.o
+	@$(FC) -o nsf.ex main/nsf.o $(FLFLAGS)
+	@echo 'Building executable $@'
 
 ########################################################################
 # Clean up
