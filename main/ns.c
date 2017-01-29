@@ -42,9 +42,9 @@ int main (int argc, const char * argv[])
 	char *inputfile = "ini/ns.dat";
 	input_ns_param     inparam;  // parameters from input files
 	itsolver_ns_param  itparam;  // parameters for itsolver
-	AMG_ns_param      amgparam; // parameters for AMG
-	ILU_param         iluparam; // parameters for ILU
-    Schwarz_param     schparam; // parameters for Schwarz
+	AMG_ns_param       amgparam; // parameters for AMG
+	ILU_param          iluparam; // parameters for ILU
+    SWZ_param          schparam; // parameters for Schwarz
     
     fasp_ns_param_input(inputfile,&inparam);
     fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);

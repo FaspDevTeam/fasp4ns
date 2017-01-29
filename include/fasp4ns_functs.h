@@ -54,51 +54,51 @@ int fasp_ns_solver_itsolver (dBLCmat *A,
                              itsolver_ns_param *itparam);
 
 int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
-                                            dvector *b,
-                                            dvector *x,
-                                            itsolver_ns_param *itparam,
-                                            AMG_ns_param *amgnsparam,
-                                            ILU_param *iluparam,
-                                            Schwarz_param *schparam);
+                                           dvector *b,
+                                           dvector *x,
+                                           itsolver_ns_param *itparam,
+                                           AMG_ns_param *amgnsparam,
+                                           ILU_param *iluparam,
+                                           SWZ_param *schparam);
 
 int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
-                                                               dvector *b,
-                                                               dvector *x,
-                                                               itsolver_ns_param *itparam,
-                                                               AMG_ns_param *amgnsparam,
-                                                               ILU_param *iluparam,
-                                                               Schwarz_param *schparam,
-                                                               dCSRmat *Mp);
+                                                              dvector *b,
+                                                              dvector *x,
+                                                              itsolver_ns_param *itparam,
+                                                              AMG_ns_param *amgnsparam,
+                                                              ILU_param *iluparam,
+                                                              SWZ_param *schparam,
+                                                              dCSRmat *Mp);
 
 int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (dBLCmat *Mat,
-                                                                                dvector *b,
-                                                                                dvector *x,
-                                                                                itsolver_ns_param *itparam,
-                                                                                AMG_ns_param *amgnsparam,
-                                                                                ILU_param *iluparam,
-                                                                                Schwarz_param *schparam,
-                                                                                dCSRmat *Mp);
+                                                                               dvector *b,
+                                                                               dvector *x,
+                                                                               itsolver_ns_param *itparam,
+                                                                               AMG_ns_param *amgnsparam,
+                                                                               ILU_param *iluparam,
+                                                                               SWZ_param *schparam,
+                                                                               dCSRmat *Mp);
 
 INT fasp_solver_dblc_krylov_ns (dBLCmat *Mat,
-                                 dvector *b,
-                                 dvector *x,
-                                 itsolver_param *itparam,
-                                 precond_ns_param *param,
-                                 precond_ns_data *precdata);
+                                dvector *b,
+                                dvector *x,
+                                ITS_param *itparam,
+                                precond_ns_param *param,
+                                precond_ns_data *precdata);
 
 
 /*-------- In file: itsolver_pnp_stokes.c --------*/
 
 INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
-                                         dvector *b,
-                                         dvector *x,
-                                         itsolver_param *itparam,
-                                         itsolver_param *itparam_pnp,
-                                         AMG_param *amgparam_pnp,
-                                         itsolver_ns_param *itparam_stokes,
-                                         AMG_ns_param *amgparam_stokes,
-                                         const int num_velocity,
-                                         const int num_pressure);
+                                        dvector *b,
+                                        dvector *x,
+                                        ITS_param *itparam,
+                                        ITS_param *itparam_pnp,
+                                        AMG_param *amgparam_pnp,
+                                        itsolver_ns_param *itparam_stokes,
+                                        AMG_ns_param *amgparam_stokes,
+                                        const int num_velocity,
+                                        const int num_pressure);
 
 
 /*-------- In file: parameters.c --------*/
@@ -107,7 +107,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
                          itsolver_ns_param *itsparam,
                          AMG_ns_param *amgparam,
                          ILU_param *iluparam,
-                         Schwarz_param *schparam);
+                         SWZ_param *schparam);
 
 void fasp_ns_param_input_init (input_ns_param *inparam);
 
@@ -124,7 +124,7 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
 void fasp_ns_param_ilu_set (ILU_param *iluparam,
                             input_ns_param *inparam);
 
-void fasp_ns_param_schwarz_set (Schwarz_param *schparam,
+void fasp_ns_param_schwarz_set (SWZ_param *schparam,
                                 input_ns_param *inparam);
 
 

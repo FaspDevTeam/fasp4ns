@@ -132,7 +132,7 @@ Default:
 	ns
 
 headers: 
-	/util/cat $(CSRCDIR)/*.c \
+	cat $(CSRCDIR)/*.c \
 	| awk -v name="fasp4ns_functs.h" -f ./util/mkheaders.awk > ./include/fasp4ns_functs.h
 
 $(TESTLIB): $(OBJSC) $(OBJSF)

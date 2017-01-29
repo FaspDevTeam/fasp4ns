@@ -46,9 +46,9 @@ SHORT fasp_ns_param_check (input_ns_param *inparam)
         || inparam->ILU_droptol<=0
         || inparam->ILU_relax<0
         || inparam->ILU_permtol<0
-        || inparam->Schwarz_mmsize<0
-        || inparam->Schwarz_maxlvl<0
-        || inparam->Schwarz_type<0
+        || inparam->SWZ_mmsize<0
+        || inparam->SWZ_maxlvl<0
+        || inparam->SWZ_type<0
         || inparam->AMG_type_v<=0
         || inparam->AMG_type_v>3
         || inparam->AMG_cycle_type_v<=0
@@ -1348,7 +1348,7 @@ void fasp_ns_param_input (char *filenm,
             wall = fgets(buffer,500,fp); // skip rest of line
         }
         
-        else if (strcmp(buffer,"Schwarz_mmsize")==0)
+        else if (strcmp(buffer,"SWZ_mmsize")==0)
         {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1356,11 +1356,11 @@ void fasp_ns_param_input (char *filenm,
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->Schwarz_mmsize = ibuff;
+            Input->SWZ_mmsize = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-        else if (strcmp(buffer,"Schwarz_maxlvl")==0)
+        else if (strcmp(buffer,"SWZ_maxlvl")==0)
         {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1368,11 +1368,11 @@ void fasp_ns_param_input (char *filenm,
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) {status = ERROR_INPUT_PAR; break; }
-            Input->Schwarz_maxlvl = ibuff;
+            Input->SWZ_maxlvl = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         
-        else if (strcmp(buffer,"Schwarz_type")==0)
+        else if (strcmp(buffer,"SWZ_type")==0)
         {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
@@ -1380,7 +1380,7 @@ void fasp_ns_param_input (char *filenm,
             }
             val = fscanf(fp,"%d",&ibuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->Schwarz_type = ibuff;
+            Input->SWZ_type = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
         

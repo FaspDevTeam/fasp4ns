@@ -150,7 +150,7 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
     for (i = 0; i < restartplus1; i ++) z[i] = hh[restart] + restart + i*n;
     
     /* initialization */
-    fasp_array_cp(n, b->val, p[0]);
+    fasp_darray_cp(n, b->val, p[0]);
     fasp_blas_dblc_aAxpy(-1.0, A, x->val, p[0]);
     
     b_norm = fasp_blas_array_norm2(n, b->val);
@@ -213,7 +213,7 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
         
         if (r_norm <= epsilon && iter >= min_iter)
         {
-            fasp_array_cp(n, b->val, r);
+            fasp_darray_cp(n, b->val, r);
             fasp_blas_dblc_aAxpy(-1.0, A, x->val, r);
             r_norm = fasp_blas_array_norm2(n, r);
             
@@ -238,11 +238,11 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
         {
             i ++;  iter ++;
             
-            fasp_array_set(n, z[i-1], 0.0);
+            fasp_darray_set(n, z[i-1], 0.0);
             
             /* apply the preconditioner */
             if (pre == NULL)
-                fasp_array_cp(n, p[i-1], z[i-1]);
+                fasp_darray_cp(n, p[i-1], z[i-1]);
             else
                 pre->fct(p[i-1], z[i-1], pre->data);
             
@@ -309,7 +309,7 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
             rs[k] = t / hh[k][k];
         }
         
-        fasp_array_cp(n, z[i-1], r);
+        fasp_darray_cp(n, z[i-1], r);
         for (j = 0; j < n; j ++) r[j] *= rs[i-1];
         for (j = i-2; j >= 0; j --)  fasp_blas_array_axpy(n, rs[j], z[j], r);
         
@@ -317,7 +317,7 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
         
         if (r_norm  <= epsilon && iter >= min_iter)
         {
-            fasp_array_cp(n, b->val, r);
+            fasp_darray_cp(n, b->val, r);
             fasp_blas_dblc_aAxpy(-1.0, A, x->val, r);
             r_norm = fasp_blas_array_norm2(n, r);
             
@@ -330,7 +330,7 @@ INT fasp_solver_dblc_pvfgmres (dBLCmat *A,
             else
             {
                 if (print_level >= PRINT_SOME) printf("### WARNING: False convergence!\n");
-                fasp_array_cp(n, r, p[0]); i = 0;
+                fasp_darray_cp(n, r, p[0]); i = 0;
             }
         } /* end of convergence check */
         

@@ -43,7 +43,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! setup z;
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -51,7 +51,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
 #if INEXACT
     
@@ -79,7 +79,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -156,7 +156,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -164,8 +164,8 @@ void fasp_precond_ns_low_btri (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -200,7 +200,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -248,7 +248,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 /**
@@ -285,13 +285,13 @@ void fasp_precond_ns_up_btri (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -348,7 +348,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
 #if INEXACT
     
@@ -372,7 +372,7 @@ void fasp_precond_ns_up_btri (REAL *r,
 #endif
     
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 /**
@@ -401,7 +401,7 @@ void fasp_precond_ns_blu (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -409,8 +409,8 @@ void fasp_precond_ns_blu (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -445,7 +445,7 @@ void fasp_precond_ns_blu (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -499,7 +499,7 @@ void fasp_precond_ns_blu (REAL *r,
     //-------------------
 #if INEXACT
     
-    fasp_array_set(colA, zv.val, 0.0);
+    fasp_darray_set(colA, zv.val, 0.0);
     
     if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
     
@@ -514,7 +514,7 @@ void fasp_precond_ns_blu (REAL *r,
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
     
 }
 
@@ -545,7 +545,7 @@ void fasp_precond_ns_simple (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -553,8 +553,8 @@ void fasp_precond_ns_simple (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -589,7 +589,7 @@ void fasp_precond_ns_simple (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -643,14 +643,14 @@ void fasp_precond_ns_simple (REAL *r,
         if (predata->diag_A->val[i] > SMALLREAL) rv.val[i]   = rv.val[i]/predata->diag_A->val[i]; // rv = D^{-1}rv
     }
     
-    fasp_blas_array_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
+    fasp_blas_darray_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
     
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //-------------------
     //! restore r
     //-------------------
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
     
 }
 
@@ -683,7 +683,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -691,8 +691,8 @@ void fasp_precond_ns_simpler (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Compute rs = rs - B D^{-1} rv
@@ -707,7 +707,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -787,7 +787,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //-------------------
     //! restore r
     //-------------------
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
     
     //-------------------
     //! Compute residule
@@ -843,7 +843,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //-------------------
     //! Compute zs = zs + deltaS
     //-------------------
-    fasp_blas_array_axpy(colB, -1.0, deltaS->val, zs.val);
+    fasp_blas_darray_axpy(colB, -1.0, deltaS->val, zs.val);
     
     //-------------------
     //! Compute zu = zu - D^{-1}B^T deltaS
@@ -855,13 +855,13 @@ void fasp_precond_ns_simpler (REAL *r,
         if (predata->diag_A->val[i] > SMALLREAL) rv.val[i]   = rv.val[i]/predata->diag_A->val[i]; // rv = D^{-1}rv
     }
     
-    fasp_blas_array_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
+    fasp_blas_darray_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //-------------------
     //! restore r
     //-------------------
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
     
     // free
     //fasp_dvec_free (&deltaS);
@@ -894,7 +894,7 @@ void fasp_precond_ns_uzawa (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -902,8 +902,8 @@ void fasp_precond_ns_uzawa (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -939,11 +939,11 @@ void fasp_precond_ns_uzawa (REAL *r,
     //! Compute zs = omega*(-1)*(rs)
     //-------------------
     REAL omega = -1.0;
-    fasp_blas_array_axpy(colB, omega, rs.val,zs.val);
+    fasp_blas_darray_axpy(colB, omega, rs.val,zs.val);
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
     
 }
 
@@ -972,7 +972,7 @@ void fasp_precond_ns_projection (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -980,8 +980,8 @@ void fasp_precond_ns_projection (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -1012,12 +1012,12 @@ void fasp_precond_ns_projection (REAL *r,
     //! Compute residule
     //-------------------
     fasp_blas_dcsr_aAxpy(-1.0, predata->B, zv.val, rs.val);
-    fasp_array_cp(colB, rs.val, predata->sp->val);
+    fasp_darray_cp(colB, rs.val, predata->sp->val);
     
     //-------------------------
     //! Solve Schur complement -B*B^T
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -1071,12 +1071,12 @@ void fasp_precond_ns_projection (REAL *r,
     //-------------------
     //! Compute zs = sp
     //-------------------
-    fasp_array_cp(colB, predata->sp->val, zs.val);
+    fasp_darray_cp(colB, predata->sp->val, zs.val);
     
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 
@@ -1105,7 +1105,7 @@ void fasp_precond_ns_DGS (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -1113,8 +1113,8 @@ void fasp_precond_ns_DGS (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -1149,7 +1149,7 @@ void fasp_precond_ns_DGS (REAL *r,
     //-------------------------
     //! Solve Schur complement -BB^T
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -1208,7 +1208,7 @@ void fasp_precond_ns_DGS (REAL *r,
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 /**
@@ -1236,7 +1236,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //! prepare	AMG preconditioner
     AMG_data *mgl_v = predata->mgl_data_v;
     AMG_param *amgparam_v = predata->param_v;
-    itsolver_param *itparam_v = predata->itsolver_param_v;
+    ITS_param *itparam_v = predata->ITS_param_v;
     
     dvector rv; rv.row = colA; rv.val = r;
     dvector zv; zv.row = colA; zv.val = z;
@@ -1244,8 +1244,8 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     dvector zs; zs.row = colB; zs.val = z+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //-------------------
     //! Solve velocity
@@ -1280,7 +1280,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //-------------------------
     //! Solve Schur complement
     //-------------------------
-    itsolver_param *itparam_p = predata->itsolver_param_p;
+    ITS_param *itparam_p = predata->ITS_param_p;
     
 #if INEXACT
     
@@ -1333,7 +1333,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
 #endif
     
     // change the sign of the solution
-    fasp_blas_array_ax(predata->sp->row, -1.0, predata->sp->val);
+    fasp_blas_darray_ax(predata->sp->row, -1.0, predata->sp->val);
     
     //-------------------
     //! Compute zv = zv + B^T * sp
@@ -1396,12 +1396,12 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //-------------------
     //! Compute zs = -zs
     //-------------------
-    //fasp_blas_array_ax(colB,-1.0,zs.val);
+    //fasp_blas_darray_ax(colB,-1.0,zs.val);
     
     
     if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 #if 0
@@ -1451,8 +1451,8 @@ void fasp_precond_ns_sym_btri (REAL *r,
     dvector z1s; z1s.row = colB; z1s.val = (predata->w1)+colA;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     //-------------------
     //! Solve velocity
     //-------------------
@@ -1504,7 +1504,7 @@ void fasp_precond_ns_sym_btri (REAL *r,
     //fasp_blas_dvec_axpy(1.0,&z1s,&zs);
     
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 
 /**
@@ -1540,7 +1540,7 @@ void fasp_precond_ns_lsc (REAL *r,
     amgparam.ILU_levels      = predata->mgl_data->ILU_levels;
     
     //! prepare iterative parameter
-    itsolver_param  itparam;fasp_param_solver_init (&itparam);
+    ITS_param  itparam;fasp_param_solver_init (&itparam);
     itparam.print_level = 0;
     itparam.itsolver_type = SOLVER_VFGMRES;
     itparam.precond_type   = 3;
@@ -1560,8 +1560,8 @@ void fasp_precond_ns_lsc (REAL *r,
     amgparam_s.ILU_levels      = predata->mgl_data_p->ILU_levels;
     
     //! back up r, setup z;
-    fasp_array_cp(col, r, tempr);
-    fasp_array_set(col, z, 0.0);
+    fasp_darray_cp(col, r, tempr);
+    fasp_darray_set(col, z, 0.0);
     
     //! Solve M
     //mgl_s->b.row=colB;
@@ -1591,11 +1591,11 @@ void fasp_precond_ns_lsc (REAL *r,
     //	if (ABS(diagptr[i])>SMALLREAL) z[colA+i]=r[colA+i]/diagptr[i];
     //}
     
-    //tmp  = fasp_blas_array_norm2(col,z);
+    //tmp  = fasp_blas_darray_norm2(col,z);
     //printf("norm of z2=%e\n",tmp);
     
     //! Solve A by AMG
-    mgl->b.row=colA; fasp_array_cp(colA,r,mgl->b.val); // residual is an input
+    mgl->b.row=colA; fasp_darray_cp(colA,r,mgl->b.val); // residual is an input
     mgl->x.row=colA; fasp_dvec_set(colA,&mgl->x,0.0);
     
     fasp_blas_dcsr_aAxpy(-1.0,predata->Bt,(z+colA),mgl->b.val);
@@ -1628,7 +1628,7 @@ void fasp_precond_ns_lsc (REAL *r,
     }	
     
     //! restore r
-    fasp_array_cp(col, tempr, r);
+    fasp_darray_cp(col, tempr, r);
 }
 #endif 
 

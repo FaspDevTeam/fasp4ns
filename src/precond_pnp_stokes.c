@@ -41,8 +41,8 @@ void fasp_precond_pnp_stokes_diag (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
 #if  WITH_UMFPACK
@@ -69,7 +69,7 @@ void fasp_precond_pnp_stokes_diag (REAL *r,
 #endif
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 
@@ -102,8 +102,8 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
     dvector r0, r1, z0, z1;
@@ -131,7 +131,7 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
 #endif
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 
@@ -164,8 +164,8 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
     dvector r0, r1, z0, z1;
@@ -193,7 +193,7 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
 #endif
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 
@@ -229,8 +229,8 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
     dvector r0, r1, z0, z1;
@@ -270,7 +270,7 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 
@@ -309,8 +309,8 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
     dvector r0, r1, z0, z1;
@@ -352,7 +352,7 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 
@@ -391,8 +391,8 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     const INT N = N0 + N1;
     
     // back up r, setup z;
-    fasp_array_cp(N, r, tempr->val);
-    fasp_array_set(N, z, 0.0);
+    fasp_darray_cp(N, r, tempr->val);
+    fasp_darray_set(N, z, 0.0);
     
     // prepare
     dvector r0, r1, z0, z1;
@@ -435,7 +435,7 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     //fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     
     // restore r
-    fasp_array_cp(N, tempr->val, r);
+    fasp_darray_cp(N, tempr->val, r);
     
 }
 

@@ -98,7 +98,7 @@ int fasp_ns_solver_itsolver (dBLCmat *A,
  *                                                itsolver_ns_param *itparam,
  *                                                AMG_ns_param *amgparam,
  *                                                ILU_param *iluparam,
- *                                                Schwarz_param *schparam)
+ *                                                SWZ_param *schparam)
  * \brief Solve Ax=b by standard Krylov methods for NS equations
  *
  * \param *A:	       pointer to the dBLCmat matrix
@@ -124,15 +124,15 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                            itsolver_ns_param *itparam,
                                            AMG_ns_param *amgnsparam,
                                            ILU_param *iluparam,
-                                           Schwarz_param *schparam)
+                                           SWZ_param *schparam)
 {
     
     // parameters
     const SHORT print_level  = itparam->print_level;
     const SHORT precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
-    const INT schwarz_type   = schparam->Schwarz_type;
+    const INT schwarz_mmsize = schparam->SWZ_mmsize;
+    const INT schwarz_maxlvl = schparam->SWZ_maxlvl;
+    const INT schwarz_type   = schparam->SWZ_type;
     
     if (print_level>0) {
         printf("fasp_solver_dblc_krylov_navier_stokes start\n");
@@ -148,7 +148,7 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     // preconditioner data
     dCSRmat *M = Mat->blocks[3];
     dCSRmat S;
-    Schwarz_data schwarz_data;
+    SWZ_data schwarz_data;
     dvector diag_A;
     dvector diag_S;
     dCSRmat BABt;
@@ -292,23 +292,23 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //---------------------------------------//
     // Setup itsolver parameter for subblocks
     //---------------------------------------//
-    itsolver_param itsolver_param_v;
-    fasp_param_solver_init(&itsolver_param_v);
-    itsolver_param_v.print_level = itparam->print_level_v;
-    itsolver_param_v.itsolver_type = itparam->itsolver_type_v;
-    itsolver_param_v.restart = itparam->pre_restart_v;
-    itsolver_param_v.tol = itparam->pre_tol_v;
-    itsolver_param_v.maxit = itparam->pre_maxit_v;
-    itsolver_param_v.precond_type = itparam->precond_type_v;
+    ITS_param ITS_param_v;
+    fasp_param_solver_init(&ITS_param_v);
+    ITS_param_v.print_level = itparam->print_level_v;
+    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
+    ITS_param_v.restart = itparam->pre_restart_v;
+    ITS_param_v.tol = itparam->pre_tol_v;
+    ITS_param_v.maxit = itparam->pre_maxit_v;
+    ITS_param_v.precond_type = itparam->precond_type_v;
     
-    itsolver_param itsolver_param_p;
-    fasp_param_solver_init(&itsolver_param_p);
-    itsolver_param_p.print_level = itparam->print_level_p;
-    itsolver_param_p.itsolver_type = itparam->itsolver_type_p;
-    itsolver_param_p.restart = itparam->pre_restart_p;
-    itsolver_param_p.tol = itparam->pre_tol_p;
-    itsolver_param_p.maxit = itparam->pre_maxit_p;
-    itsolver_param_p.precond_type = itparam->precond_type_p;
+    ITS_param ITS_param_p;
+    fasp_param_solver_init(&ITS_param_p);
+    ITS_param_p.print_level = itparam->print_level_p;
+    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
+    ITS_param_p.restart = itparam->pre_restart_p;
+    ITS_param_p.tol = itparam->pre_tol_p;
+    ITS_param_p.maxit = itparam->pre_maxit_p;
+    ITS_param_p.precond_type = itparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
@@ -328,8 +328,8 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     precdata.param_v = &amgnsparam->param_v;
     precdata.param_p = &amgnsparam->param_p;
-    precdata.itsolver_param_v = &itsolver_param_v;
-    precdata.itsolver_param_p = &itsolver_param_p;
+    precdata.ITS_param_v = &ITS_param_v;
+    precdata.ITS_param_p = &ITS_param_p;
     precdata.mgl_data_v       = mgl_v;
     precdata.mgl_data_p       = mgl_p;
     precdata.ILU_p            = &LU_p;
@@ -457,7 +457,7 @@ int fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
 
 
 /**
- * \fn int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, Schwarz_param *schparam, dCSRmat *Mp)
+ * \fn int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, SWZ_param *schparam, dCSRmat *Mp)
  * \brief Solve Ax=b by standard Krylov methods for NS equations
  *
  * \param *A:	       pointer to the dBLCmat matrix
@@ -481,16 +481,16 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
                                                               itsolver_ns_param *itparam,
                                                               AMG_ns_param *amgnsparam,
                                                               ILU_param *iluparam,
-                                                              Schwarz_param *schparam,
+                                                              SWZ_param *schparam,
                                                               dCSRmat *Mp)
 {
     printf("fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass start\n");
     // parameters
     const int print_level = itparam->print_level;
     const int precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
-    const INT schwarz_type   = schparam->Schwarz_type;
+    const INT schwarz_mmsize = schparam->SWZ_mmsize;
+    const INT schwarz_maxlvl = schparam->SWZ_maxlvl;
+    const INT schwarz_type   = schparam->SWZ_type;
     
     // Navier-Stokes 4 by 4 matrix
     dCSRmat *A  = Mat->blocks[0];
@@ -502,7 +502,7 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
     // preconditioner data
     dCSRmat *M = Mat->blocks[3];
     dCSRmat S,P;
-    Schwarz_data schwarz_data;
+    SWZ_data schwarz_data;
     dvector diag_S;
     
     // local variable
@@ -585,23 +585,23 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
     //---------------------------------------//
     // Setup itsolver parameter for subblocks
     //---------------------------------------//
-    itsolver_param itsolver_param_v;
-    fasp_param_solver_init(&itsolver_param_v);
-    itsolver_param_v.print_level = itparam->print_level_v;
-    itsolver_param_v.itsolver_type = itparam->itsolver_type_v;
-    itsolver_param_v.restart = itparam->pre_restart_v;
-    itsolver_param_v.tol = itparam->pre_tol_v;
-    itsolver_param_v.maxit = itparam->pre_maxit_v;
-    itsolver_param_v.precond_type = itparam->precond_type_v;
+    ITS_param ITS_param_v;
+    fasp_param_solver_init(&ITS_param_v);
+    ITS_param_v.print_level = itparam->print_level_v;
+    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
+    ITS_param_v.restart = itparam->pre_restart_v;
+    ITS_param_v.tol = itparam->pre_tol_v;
+    ITS_param_v.maxit = itparam->pre_maxit_v;
+    ITS_param_v.precond_type = itparam->precond_type_v;
     
-    itsolver_param itsolver_param_p;
-    fasp_param_solver_init(&itsolver_param_p);
-    itsolver_param_p.print_level = itparam->print_level_p;
-    itsolver_param_p.itsolver_type = itparam->itsolver_type_p;
-    itsolver_param_p.restart = itparam->pre_restart_p;
-    itsolver_param_p.tol = itparam->pre_tol_p;
-    itsolver_param_p.maxit = itparam->pre_maxit_p;
-    itsolver_param_p.precond_type = itparam->precond_type_p;
+    ITS_param ITS_param_p;
+    fasp_param_solver_init(&ITS_param_p);
+    ITS_param_p.print_level = itparam->print_level_p;
+    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
+    ITS_param_p.restart = itparam->pre_restart_p;
+    ITS_param_p.tol = itparam->pre_tol_p;
+    ITS_param_p.maxit = itparam->pre_maxit_p;
+    ITS_param_p.precond_type = itparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
@@ -620,8 +620,8 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
     
     precdata.param_v = &amgnsparam->param_v;
     precdata.param_p = &amgnsparam->param_p;
-    precdata.itsolver_param_v = &itsolver_param_v;
-    precdata.itsolver_param_p = &itsolver_param_p;
+    precdata.ITS_param_v = &ITS_param_v;
+    precdata.ITS_param_p = &ITS_param_p;
     precdata.mgl_data_v       = mgl_v;
     precdata.mgl_data_p       = mgl_p;
     precdata.ILU_p            = &LU_p;
@@ -702,7 +702,7 @@ int fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
 }
 
 /**
- * \fn int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, Schwarz_param *schparam, dCSRmat *Mp)
+ * \fn int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, SWZ_param *schparam, dCSRmat *Mp)
  * \brief Solve Ax=b by standard Krylov methods for NS equations
  *
  * \param *A:	       pointer to the dBLCmat matrix
@@ -725,16 +725,16 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
                                                                                itsolver_ns_param *itparam,
                                                                                AMG_ns_param *amgnsparam,
                                                                                ILU_param *iluparam,
-                                                                               Schwarz_param *schparam,
+                                                                               SWZ_param *schparam,
                                                                                dCSRmat *Mp)
 {
     printf("fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass start\n");
     // parameters
     const int print_level = itparam->print_level;
     const int precond_type = itparam->precond_type;
-    const INT schwarz_mmsize = schparam->Schwarz_mmsize;
-    const INT schwarz_maxlvl = schparam->Schwarz_maxlvl;
-    const INT schwarz_type   = schparam->Schwarz_type;
+    const INT schwarz_mmsize = schparam->SWZ_mmsize;
+    const INT schwarz_maxlvl = schparam->SWZ_maxlvl;
+    const INT schwarz_type   = schparam->SWZ_type;
     
     // Navier-Stokes 4 by 4 matrix
     dCSRmat *A  = Mat->blocks[0];
@@ -746,7 +746,7 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
     // preconditioner data
     dCSRmat *M = Mat->blocks[3];
     dCSRmat S,P;
-    Schwarz_data schwarz_data;
+    SWZ_data schwarz_data;
     dvector diag_S;
     
     // local variable
@@ -833,23 +833,23 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
     //---------------------------------------//
     // Setup itsolver parameter for subblocks
     //---------------------------------------//
-    itsolver_param itsolver_param_v;
-    fasp_param_solver_init(&itsolver_param_v);
-    itsolver_param_v.print_level = itparam->print_level_v;
-    itsolver_param_v.itsolver_type = itparam->itsolver_type_v;
-    itsolver_param_v.restart = itparam->pre_restart_v;
-    itsolver_param_v.tol = itparam->pre_tol_v;
-    itsolver_param_v.maxit = itparam->pre_maxit_v;
-    itsolver_param_v.precond_type = itparam->precond_type_v;
+    ITS_param ITS_param_v;
+    fasp_param_solver_init(&ITS_param_v);
+    ITS_param_v.print_level = itparam->print_level_v;
+    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
+    ITS_param_v.restart = itparam->pre_restart_v;
+    ITS_param_v.tol = itparam->pre_tol_v;
+    ITS_param_v.maxit = itparam->pre_maxit_v;
+    ITS_param_v.precond_type = itparam->precond_type_v;
     
-    itsolver_param itsolver_param_p;
-    fasp_param_solver_init(&itsolver_param_p);
-    itsolver_param_p.print_level = itparam->print_level_p;
-    itsolver_param_p.itsolver_type = itparam->itsolver_type_p;
-    itsolver_param_p.restart = itparam->pre_restart_p;
-    itsolver_param_p.tol = itparam->pre_tol_p;
-    itsolver_param_p.maxit = itparam->pre_maxit_p;
-    itsolver_param_p.precond_type = itparam->precond_type_p;
+    ITS_param ITS_param_p;
+    fasp_param_solver_init(&ITS_param_p);
+    ITS_param_p.print_level = itparam->print_level_p;
+    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
+    ITS_param_p.restart = itparam->pre_restart_p;
+    ITS_param_p.tol = itparam->pre_tol_p;
+    ITS_param_p.maxit = itparam->pre_maxit_p;
+    ITS_param_p.precond_type = itparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
@@ -868,8 +868,8 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
     
     precdata.param_v = &amgnsparam->param_v;
     precdata.param_p = &amgnsparam->param_p;
-    precdata.itsolver_param_v = &itsolver_param_v;
-    precdata.itsolver_param_p = &itsolver_param_p;
+    precdata.ITS_param_v = &ITS_param_v;
+    precdata.ITS_param_p = &ITS_param_p;
     precdata.mgl_data_v       = mgl_v;
     precdata.mgl_data_p       = mgl_p;
     precdata.ILU_p            = &LU_p;
@@ -952,7 +952,7 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
 
 #if 0
 /**
- * \fn INT fasp_solver_dblc_krylov_ns (dBLCmat *A, dvector *b, dvector *x, itsolver_param *itparam, ns_param *precdata)
+ * \fn INT fasp_solver_dblc_krylov_ns (dBLCmat *A, dvector *b, dvector *x, ITS_param *itparam, ns_param *precdata)
  * \brief Solve Ax=b by standard Krylov methods
  *
  * \param *A:	       pointer to the dBLCmat matrix
@@ -969,7 +969,7 @@ int fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (d
 INT fasp_solver_dblc_krylov_ns (dBLCmat *Mat,
                                 dvector *b,
                                 dvector *x,
-                                itsolver_param *itparam,
+                                ITS_param *itparam,
                                 precond_ns_param *param,
                                 precond_ns_data *precdata)
 {

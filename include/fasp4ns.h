@@ -150,21 +150,21 @@ typedef struct {
     ILU_data LU_p;
     
     //! number of levels use Schwarz smoother for velocity
-    INT Schwarz_levels_v;
+    INT SWZ_levels_v;
     
     //! number of levels use Schwarz smoother for pressure
-    INT Schwarz_levels_p;
+    INT SWZ_levels_p;
     
     //! data of Schwarz smoother for velocity
-    Schwarz_data Schwarz_v;
+    SWZ_data SWZ_v;
     
     //! data of Schwarz smoother for pressure
-    Schwarz_data Schwarz_p;
+    SWZ_data SWZ_p;
     
 } AMG_ns_data; /**< Data for AMG */
 
 /**
- * \struct itsolver_param
+ * \struct itsolver_ns_param
  * \brief Parameters passed to iterative solvers
  */
 typedef struct {
@@ -253,12 +253,12 @@ typedef struct precond_ns_data {
     /*---------------------------------------------------*/
     /* Iterative solver paramters for the velocity block  */
     /*---------------------------------------------------*/
-    itsolver_param *itsolver_param_v;
+    ITS_param *ITS_param_v;
     
     /*---------------------------------------------------*/
     /* Iterative solver parameters for the pressure block */
     /*---------------------------------------------------*/
-    itsolver_param *itsolver_param_p;
+    ITS_param *ITS_param_p;
     
     /*---------------------------------------------------*/
     /* AMG data for the whole system  */
@@ -314,7 +314,7 @@ typedef struct precond_ns_data {
     dvector *rp; /**< residual for pressure */
     dvector *sp; /**< sol for pressure */
     ILU_data *LU_S; /**< LU date for schur */
-    Schwarz_data *schwarz_S;
+    SWZ_data *schwarz_S;
     
 	//! temporary work space
 	double *w; /**<  temporary work space for other usage */
@@ -464,9 +464,9 @@ typedef struct {
     /*---------------------------------------------------*/
     // parameter for Schwarz
     /*---------------------------------------------------*/
-	INT Schwarz_mmsize;  /**< maximal block size */
-	INT Schwarz_maxlvl;  /**< maximal levels */
-	INT Schwarz_type;    /**< type of schwarz method */
+	INT SWZ_mmsize;  /**< maximal block size */
+	INT SWZ_maxlvl;  /**< maximal levels */
+	INT SWZ_type;    /**< type of schwarz method */
     
 } input_ns_param; /**< Input parameters */
 
