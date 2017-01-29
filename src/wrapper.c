@@ -84,7 +84,7 @@ void fasp_fwrapper_krylov_ns_ (INT *nA,
     dCSRmat matA, matB, matBt, matM, matP, zero;
     dBLCmat mat; // coefficient matrix
     dvector rhs, sol; // right-hand-side, solution
-    itsolver_param  itparam;  // parameters for itsolver
+    ITS_param  itparam;  // parameters for itsolver
     precond_ns_param psparam; // parameters for ns precond
     precond_ns_data  psdata; // data for ns precond
     
@@ -208,7 +208,7 @@ void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
     itsolver_ns_param  itparam;  // parameters for itsolver
     AMG_ns_param      amgparam; // parameters for AMG
     ILU_param         iluparam; // parameters for ILU
-    Schwarz_param     schparam; // parameters for Schwarz
+    SWZ_param     schparam; // parameters for Schwarz
     
     fasp_ns_param_input(inputfile,&inparam);
     fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);
@@ -322,7 +322,7 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
     itsolver_ns_param  itparam;  // parameters for itsolver
     AMG_ns_param      amgparam; // parameters for AMG
     ILU_param         iluparam; // parameters for ILU
-    Schwarz_param     schparam; // parameters for Schwarz
+    SWZ_param     schparam; // parameters for Schwarz
     
     fasp_ns_param_input(inputfile,&inparam);
     fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &schparam);

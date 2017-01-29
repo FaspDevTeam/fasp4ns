@@ -18,8 +18,13 @@
 
 /**
  * \fn INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A, dvector *b, dvector *x,
- *                                             itsolver_param *itparam,
- *                                             AMG_param *amgparam)
+ *                                             ITS_param *itparam, 
+ *                                             ITS_param *itparam_pnp,
+ *                                             AMG_param *amgparam_pnp,
+ *                                             itsolver_ns_param *itparam_stokes,
+ *                                             AMG_ns_param *amgparam_stokes,
+ *                                             const int num_velocity,
+ *                                             const int num_pressure)
  *
  * \brief Solve Ax = b by standard Krylov methods
  *
@@ -38,8 +43,8 @@
 INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
                                         dvector *b,
                                         dvector *x,
-                                        itsolver_param *itparam,
-                                        itsolver_param *itparam_pnp,
+                                        ITS_param *itparam,
+                                        ITS_param *itparam_pnp,
                                         AMG_param *amgparam_pnp,
                                         itsolver_ns_param *itparam_stokes,
                                         AMG_ns_param *amgparam_stokes,
@@ -298,23 +303,23 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     
     // data for stokes
     // Setup itsolver parameters
-    itsolver_param itsolver_param_v;
-    fasp_param_solver_init(&itsolver_param_v);
-    itsolver_param_v.print_level = itparam_stokes->print_level_v;
-    itsolver_param_v.itsolver_type = itparam_stokes->itsolver_type_v;
-    itsolver_param_v.restart = itparam_stokes->pre_restart_v;
-    itsolver_param_v.tol = itparam_stokes->pre_tol_v;
-    itsolver_param_v.maxit = itparam_stokes->pre_maxit_v;
-    itsolver_param_v.precond_type = itparam_stokes->precond_type_v;
+    ITS_param ITS_param_v;
+    fasp_param_solver_init(&ITS_param_v);
+    ITS_param_v.print_level = itparam_stokes->print_level_v;
+    ITS_param_v.itsolver_type = itparam_stokes->itsolver_type_v;
+    ITS_param_v.restart = itparam_stokes->pre_restart_v;
+    ITS_param_v.tol = itparam_stokes->pre_tol_v;
+    ITS_param_v.maxit = itparam_stokes->pre_maxit_v;
+    ITS_param_v.precond_type = itparam_stokes->precond_type_v;
     
-    itsolver_param itsolver_param_p;
-    fasp_param_solver_init(&itsolver_param_p);
-    itsolver_param_p.print_level = itparam_stokes->print_level_p;
-    itsolver_param_p.itsolver_type = itparam_stokes->itsolver_type_p;
-    itsolver_param_p.restart = itparam_stokes->pre_restart_p;
-    itsolver_param_p.tol = itparam_stokes->pre_tol_p;
-    itsolver_param_p.maxit = itparam_stokes->pre_maxit_p;
-    itsolver_param_p.precond_type = itparam_stokes->precond_type_p;
+    ITS_param ITS_param_p;
+    fasp_param_solver_init(&ITS_param_p);
+    ITS_param_p.print_level = itparam_stokes->print_level_p;
+    ITS_param_p.itsolver_type = itparam_stokes->itsolver_type_p;
+    ITS_param_p.restart = itparam_stokes->pre_restart_p;
+    ITS_param_p.tol = itparam_stokes->pre_tol_p;
+    ITS_param_p.maxit = itparam_stokes->pre_maxit_p;
+    ITS_param_p.precond_type = itparam_stokes->precond_type_p;
     
     // data for stokes
     precond_ns_data  precdata_stokes;
@@ -330,8 +335,8 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     
     precdata_stokes.param_v = &amgparam_stokes->param_v;
     precdata_stokes.param_p = &amgparam_stokes->param_p;
-    precdata_stokes.itsolver_param_v = &itsolver_param_v;
-    precdata_stokes.itsolver_param_p = &itsolver_param_p;
+    precdata_stokes.ITS_param_v = &ITS_param_v;
+    precdata_stokes.ITS_param_p = &ITS_param_p;
     precdata_stokes.mgl_data_v       = mgl_v;
     precdata_stokes.mgl_data_p       = mgl_p;
     //precdata_stokes.ILU_p            = &LU_p;

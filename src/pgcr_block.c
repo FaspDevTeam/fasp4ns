@@ -67,14 +67,14 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
     // compute norm for right hand side
     switch (stop_type) {
         case STOP_REL_RES:
-            tempb=fasp_blas_array_norm2(nrow,b->val); // norm(b)
+            tempb=fasp_blas_darray_norm2(nrow,b->val); // norm(b)
             break;
         case STOP_REL_PRECRES:
             if (pre != NULL)
                 pre->fct(b->val,s[0].val,pre->data); /* Preconditioning */
             else
-                fasp_array_cp(nrow,b->val,s[0].val); /* No preconditioner, B=I */
-            tempb=sqrt(ABS(fasp_blas_array_dotprod(nrow,b->val,s[0].val)));
+                fasp_darray_cp(nrow,b->val,s[0].val); /* No preconditioner, B=I */
+            tempb=sqrt(ABS(fasp_blas_darray_dotprod(nrow,b->val,s[0].val)));
             break;
         case STOP_MOD_REL_RES:
             break;
@@ -84,12 +84,12 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
             goto FINISHED;
     }
     tempb=MAX(SMALLREAL,tempb);
-    tempu=MAX(SMALLREAL,fasp_blas_array_norm2(nrow,u->val));
+    tempu=MAX(SMALLREAL,fasp_blas_darray_norm2(nrow,u->val));
     
     // r = b-A*u
-    fasp_array_cp(nrow,b->val,r);
+    fasp_darray_cp(nrow,b->val,r);
     fasp_blas_dblc_aAxpy(-1.0,A,u->val,r);
-    tempe=fasp_blas_array_norm2(nrow,r);
+    tempe=fasp_blas_darray_norm2(nrow,r);
     tempb=MAX(SMALLREAL,tempe);
     switch (stop_type) {
         case STOP_REL_RES:
@@ -97,10 +97,10 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
             break;
         case STOP_REL_PRECRES:
             if (pre == NULL)
-                fasp_array_cp(nrow,r,s[0].val);
+                fasp_darray_cp(nrow,r,s[0].val);
             else
                 pre->fct(r,s[0].val,pre->data);
-            temp2=sqrt(ABS(fasp_blas_array_dotprod(nrow,r,s[0].val)));
+            temp2=sqrt(ABS(fasp_blas_darray_dotprod(nrow,r,s[0].val)));
             relres1=temp2/tempb;
             break;
         case STOP_MOD_REL_RES:
@@ -117,7 +117,7 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
         for (j=0;j<m;++j)
         {
             if (pre == NULL) {
-                fasp_array_cp(nrow,r,s[j].val);  /* No preconditioner, B=I */
+                fasp_darray_cp(nrow,r,s[j].val);  /* No preconditioner, B=I */
             }
             else {
                 pre->fct(r,s[j].val,pre->data); /* Preconditioning */
@@ -126,25 +126,25 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
             fasp_blas_dblc_aAxpy(1.0,A,s[j].val,v[j].val);
             for (i=0;i<j;++i)
             {
-                alpha = fasp_blas_array_dotprod(nrow,v[j].val,v[i].val);
-                fasp_blas_array_axpy(nrow, -alpha, v[i].val, v[j].val);
-                fasp_blas_array_axpy(nrow, -alpha, s[i].val, s[j].val);
+                alpha = fasp_blas_darray_dotprod(nrow,v[j].val,v[i].val);
+                fasp_blas_darray_axpy(nrow, -alpha, v[i].val, v[j].val);
+                fasp_blas_darray_axpy(nrow, -alpha, s[i].val, s[j].val);
             }
             
-            beta = fasp_blas_array_norm2(nrow,v[j].val);
-            fasp_blas_array_ax(nrow,1.0/beta,v[j].val);
-            fasp_blas_array_ax(nrow,1.0/beta,s[j].val);
+            beta = fasp_blas_darray_norm2(nrow,v[j].val);
+            fasp_blas_darray_ax(nrow,1.0/beta,v[j].val);
+            fasp_blas_darray_ax(nrow,1.0/beta,s[j].val);
             
-            gamma=fasp_blas_array_dotprod(nrow,v[j].val,r);
-            fasp_blas_array_axpy(nrow, gamma, s[j].val, u->val);
-            //fasp_blas_array_axpy(nrow, -gamma, v[j].val, r);
+            gamma=fasp_blas_darray_dotprod(nrow,v[j].val,r);
+            fasp_blas_darray_axpy(nrow, gamma, s[j].val, u->val);
+            //fasp_blas_darray_axpy(nrow, -gamma, v[j].val, r);
             
             // r = b-A*u
-            fasp_array_cp(nrow,b->val,r);
+            fasp_darray_cp(nrow,b->val,r);
             fasp_blas_dblc_aAxpy(-1.0,A,u->val,r);
             
             // absolute and relative residuals
-            absres=sqrt(fasp_blas_array_dotprod(nrow,r,r));
+            absres=sqrt(fasp_blas_darray_dotprod(nrow,r,r));
             tempu=sqrt(fasp_blas_dvec_dotprod(u,u));
             switch (stop_type) {
                 case STOP_REL_RES:
@@ -152,10 +152,10 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
                     break;
                 case STOP_REL_PRECRES:
                     if (pre == NULL)
-                        fasp_array_cp(nrow,r,s[j].val);
+                        fasp_darray_cp(nrow,r,s[j].val);
                     else
                         pre->fct(r,s[j].val,pre->data);
-                    temp2=sqrt(ABS(fasp_blas_array_dotprod(nrow,r,s[j].val)));
+                    temp2=sqrt(ABS(fasp_blas_darray_dotprod(nrow,r,s[j].val)));
                     relres1=temp2/tempb;
                     break;
                 case STOP_MOD_REL_RES:
@@ -172,7 +172,7 @@ int fasp_solver_dblc_pgcr (dBLCmat *A,
             absres0=absres;
             
             // solution check, if soultion is too small, return ERROR_SOLVER_SOLSTAG.
-            infnormu = fasp_blas_array_norminf(nrow, u->val);
+            infnormu = fasp_blas_darray_norminf(nrow, u->val);
             if (infnormu <= sol_inf_tol)
             {
                 print_message(print_level, "GMRes stops: infinity norm of the solution is too small!\n");

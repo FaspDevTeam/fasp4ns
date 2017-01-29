@@ -17,10 +17,10 @@
 
 /**
  * \fn void fasp_ns_param_init (input_ns_param *inparam,
- *                              itsolver_param *itsparam,
+ *                              ITS_param *itsparam,
  *                              AMG_param *amgparam,
  *                              ILU_param *iluparam,
- *                              Schwarz_param *schparam)
+ *                              SWZ_param *schparam)
  *
  * \brief Initialize parameters, global variables, etc
  *
@@ -41,7 +41,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
                          itsolver_ns_param *itsparam,
                          AMG_ns_param *amgparam,
                          ILU_param *iluparam,
-                         Schwarz_param *schparam)
+                         SWZ_param *schparam)
 {
 #if CHMEM_MODE
     total_alloc_mem   = 0; // initialize total memeory amount
@@ -121,9 +121,9 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
     inparam->ILU_permtol              = 0.0;
     
     // Schwarz method parameters
-    inparam->Schwarz_mmsize           = 200;
-    inparam->Schwarz_maxlvl           = 2;
-    inparam->Schwarz_type             = 1;
+    inparam->SWZ_mmsize           = 200;
+    inparam->SWZ_maxlvl           = 2;
+    inparam->SWZ_type             = 1;
     
     // AMG method parameters
     inparam->AMG_type_v                 = UA_AMG;
@@ -372,10 +372,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_v.ILU_droptol          = inparam->ILU_droptol;
     param->param_v.ILU_relax            = inparam->ILU_relax;
     param->param_v.ILU_permtol          = inparam->ILU_permtol;
-    param->param_v.Schwarz_levels       = inparam->AMG_schwarz_levels_v;
-    param->param_v.Schwarz_mmsize       = inparam->Schwarz_mmsize;
-    param->param_v.Schwarz_maxlvl       = inparam->Schwarz_maxlvl;
-    param->param_v.Schwarz_type         = inparam->Schwarz_type;
+    param->param_v.SWZ_levels       = inparam->AMG_schwarz_levels_v;
+    param->param_v.SWZ_mmsize       = inparam->SWZ_mmsize;
+    param->param_v.SWZ_maxlvl       = inparam->SWZ_maxlvl;
+    param->param_v.SWZ_type         = inparam->SWZ_type;
     
     
     // iterative solver parameter for the pressure block
@@ -434,10 +434,10 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
     param->param_p.ILU_droptol          = inparam->ILU_droptol;
     param->param_p.ILU_relax            = inparam->ILU_relax;
     param->param_p.ILU_permtol          = inparam->ILU_permtol;
-    param->param_p.Schwarz_levels       = inparam->AMG_schwarz_levels_p;
-    param->param_p.Schwarz_mmsize       = inparam->Schwarz_mmsize;
-    param->param_p.Schwarz_maxlvl       = inparam->Schwarz_maxlvl;
-    param->param_p.Schwarz_type         = inparam->Schwarz_type;
+    param->param_p.SWZ_levels       = inparam->AMG_schwarz_levels_p;
+    param->param_p.SWZ_mmsize       = inparam->SWZ_mmsize;
+    param->param_p.SWZ_maxlvl       = inparam->SWZ_maxlvl;
+    param->param_p.SWZ_type         = inparam->SWZ_type;
     /*
      param->AMG_type    = inparam->AMG_type;
      param->print_level = inparam->print_level;
@@ -536,9 +536,9 @@ void fasp_ns_param_amg_set (AMG_ns_param *param,
      
      param->schwarz_levels       = inparam->AMG_schwarz_levels;
      param->p_schwarz_levels     = inparam->AMG_p_schwarz_levels;
-     param->schwarz_mmsize       = inparam->Schwarz_mmsize;
-     param->schwarz_maxlvl       = inparam->Schwarz_maxlvl;
-     param->schwarz_type         = inparam->Schwarz_type;
+     param->schwarz_mmsize       = inparam->SWZ_mmsize;
+     param->schwarz_maxlvl       = inparam->SWZ_maxlvl;
+     param->schwarz_type         = inparam->SWZ_type;
      */
 }
 
@@ -585,7 +585,7 @@ void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
 /**
  * \fn void fasp_param_solver_set (itsolver_ns_param *itsparam, input_ns_param *inparam)
  *
- * \brief Set itsolver_param with INPUT
+ * \brief Set ITS_param with INPUT
  *
  * \param itsparam   Parameters for iterative solvers
  * \param inparam    Input parameters
@@ -666,9 +666,9 @@ void fasp_ns_param_ilu_set (ILU_param *iluparam,
 }
 
 /**
- * \fn void fasp_ns_param_schwarz_set (Schwarz_param *schparam, input_ns_param *inparam)
+ * \fn void fasp_ns_param_schwarz_set (SWZ_param *schparam, input_ns_param *inparam)
  *
- * \brief Set Schwarz_param with INPUT
+ * \brief Set SWZ_param with INPUT
  *
  * \param schparam    Parameters for Schwarz method
  * \param inparam     Input parameters
@@ -676,13 +676,13 @@ void fasp_ns_param_ilu_set (ILU_param *iluparam,
  * \author Lu Wang
  * \date   2014/02/11
  */
-void fasp_ns_param_schwarz_set (Schwarz_param *schparam,
+void fasp_ns_param_schwarz_set (SWZ_param *schparam,
                                 input_ns_param *inparam)
 {
     schparam->print_level    = inparam->print_level;
-    schparam->Schwarz_type   = inparam->Schwarz_type;
-    schparam->Schwarz_maxlvl = inparam->Schwarz_maxlvl;
-    schparam->Schwarz_mmsize = inparam->Schwarz_mmsize;
+    schparam->SWZ_type   = inparam->SWZ_type;
+    schparam->SWZ_maxlvl = inparam->SWZ_maxlvl;
+    schparam->SWZ_mmsize = inparam->SWZ_mmsize;
 }
 
 
