@@ -47,8 +47,8 @@ void fasp_dblc_read (char *fileA,
     
     // read file A
     FILE *fp=fopen(fileA,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileA);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileA);
         exit(ERROR_OPEN_FILE);
     }
     
@@ -70,15 +70,14 @@ void fasp_dblc_read (char *fileA,
         A->blocks[0]->val[i]=value;
     }
     fclose(fp);
+
     fp=fopen(fileB,"r");
-    
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileB);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileB);
         exit(ERROR_OPEN_FILE);
     }
     
     printf("fasp_dblc_read: reading file %s...\n", fileB);
-    
     wall = fscanf(fp,"%d %d",&numB,&nnzb); // read dimension of the problem
     fasp_dcsr_alloc (numB,numA,nnzb,A->blocks[2]);
     
@@ -101,13 +100,12 @@ void fasp_dblc_read (char *fileA,
     fasp_dcsr_trans(A->blocks[2],A->blocks[1]);
     
     fp=fopen(fileC,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileC);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileC);
         exit(ERROR_OPEN_FILE);
     }
     
     printf("fasp_dblc_read: reading file %s...\n", fileC);
-    
     wall = fscanf(fp,"%d %d",&numB,&nnzc); // read dimension of the problem
     fasp_dcsr_alloc (numB,numB,nnzc,A->blocks[3]);
     
@@ -129,10 +127,11 @@ void fasp_dblc_read (char *fileA,
     fclose(fp);
     
     fp=fopen(filerhs,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",filerhs);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",filerhs);
         exit(ERROR_OPEN_FILE);
     }
+
     printf("fasp_dblc_read: reading file %s...\n", filerhs);
     fasp_dvec_alloc (numA+numB,r);
     for (i=0;i<numA+numB;++i) {
@@ -175,8 +174,8 @@ void fasp_dblc_read_1(char *fileA,
     
     // read file A
     FILE *fp=fopen(fileA,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileA);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileA);
         exit(ERROR_OPEN_FILE);
     }
     
@@ -198,10 +197,10 @@ void fasp_dblc_read_1(char *fileA,
         A->blocks[0]->val[i]=value;
     }
     fclose(fp);
+
     fp=fopen(fileB,"r");
-    
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileB);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileB);
         exit(ERROR_OPEN_FILE);
     }
     
@@ -229,8 +228,8 @@ void fasp_dblc_read_1(char *fileA,
     fasp_dcsr_trans(A->blocks[2],A->blocks[1]);
     
     fp=fopen(fileC,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",fileC);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",fileC);
         exit(ERROR_OPEN_FILE);
     }
     
@@ -257,10 +256,11 @@ void fasp_dblc_read_1(char *fileA,
     fclose(fp);
     
     fp=fopen(filerhs,"r");
-    if (fasp_mem_check((void *)fp,NULL,ERROR_OPEN_FILE) < 0) {
-        printf("### ERROR: opening file %s failed!\n",filerhs);
+    if ( fp == NULL ) {
+        printf("### ERROR: Opening file %s failed!\n",filerhs);
         exit(ERROR_OPEN_FILE);
     }
+
     printf("fasp_dblc_read: reading file %s...\n", filerhs);
     fasp_dvec_alloc (numA+numB,r);
     for (i=0;i<numA+numB;++i) {
