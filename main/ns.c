@@ -31,8 +31,12 @@ int main (int argc, const char * argv[])
     /** initialize dBLCmat **/
     A.brow = 2;
     A.bcol = 2;
+    
     A.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
-    fasp_mem_check((void *)A.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
+    if ( A.blocks == NULL ) {
+        printf("### ERROR: Cannot allocate memory %s!\n", __FUNCTION__);
+        return ERROR_ALLOC_MEM;
+    }
     A.blocks[0] = &RR;
     A.blocks[1] = &RW;
     A.blocks[2] = &WR;

@@ -194,8 +194,12 @@ void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
     /** initialize dBLCmat **/
     A.brow = 2;
     A.bcol = 2;
+    
     A.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
-    fasp_mem_check((void *)A.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
+    if ( A.blocks == NULL ) {
+        printf("### ERROR: Cannot allocate memory %s!\n", __FUNCTION__);
+        exit(ERROR_ALLOC_MEM);
+    }
     A.blocks[0] = &matA;
     A.blocks[1] = &matBt;
     A.blocks[2] = &matB;
@@ -309,7 +313,10 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
     A.brow = 2;
     A.bcol = 2;
     A.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
-    fasp_mem_check((void *)A.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
+    if ( A.blocks == NULL ) {
+        printf("### ERROR: Cannot allocate memory %s!\n", __FUNCTION__);
+        exit(ERROR_ALLOC_MEM);
+    }
     A.blocks[0] = &matA;
     A.blocks[1] = &matBt;
     A.blocks[2] = &matB;
