@@ -20,7 +20,7 @@
  *                              ITS_param *itsparam,
  *                              AMG_param *amgparam,
  *                              ILU_param *iluparam,
- *                              SWZ_param *schparam)
+ *                              SWZ_param *swzparam)
  *
  * \brief Initialize parameters, global variables, etc
  *
@@ -28,7 +28,7 @@
  * \param itsparam      Iterative solver parameters
  * \param amgparam      AMG parameters
  * \param iluparam      ILU parameters
- * \param schparam      Schwarz parameters
+ * \param swzparam      Schwarz parameters
  *
  * \author Lu Wang
  * \date   2014/02/11
@@ -41,7 +41,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
                          itsolver_ns_param *itsparam,
                          AMG_ns_param *amgparam,
                          ILU_param *iluparam,
-                         SWZ_param *schparam)
+                         SWZ_param *swzparam)
 {
 #if CHMEM_MODE
     total_alloc_mem   = 0; // initialize total memeory amount
@@ -54,13 +54,13 @@ void fasp_ns_param_init (input_ns_param *inparam,
     
     if (iluparam) fasp_param_ilu_init(iluparam);
     
-    if (schparam) fasp_param_schwarz_init(schparam);
+    if (swzparam) fasp_param_swz_init(swzparam);
     
     if (inparam) {
         if (itsparam) fasp_ns_param_solver_set(itsparam,inparam);
         if (amgparam) fasp_ns_param_amg_set(amgparam,inparam);
         if (iluparam) fasp_ns_param_ilu_set(iluparam,inparam);
-        if (schparam) fasp_ns_param_schwarz_set(schparam,inparam);
+        if (swzparam) fasp_ns_param_swz_set(swzparam,inparam);
     }
     else {
         printf("### WARNING: No input specified. Use default values instead!\n");
@@ -666,25 +666,24 @@ void fasp_ns_param_ilu_set (ILU_param *iluparam,
 }
 
 /**
- * \fn void fasp_ns_param_schwarz_set (SWZ_param *schparam, input_ns_param *inparam)
+ * \fn void fasp_ns_param_swz_set (SWZ_param *swzparam, input_ns_param *inparam)
  *
  * \brief Set SWZ_param with INPUT
  *
- * \param schparam    Parameters for Schwarz method
+ * \param swzparam    Parameters for Schwarz method
  * \param inparam     Input parameters
  *
  * \author Lu Wang
  * \date   2014/02/11
  */
-void fasp_ns_param_schwarz_set (SWZ_param *schparam,
-                                input_ns_param *inparam)
+void fasp_ns_param_swz_set (SWZ_param *swzparam,
+                            input_ns_param *inparam)
 {
-    schparam->print_level    = inparam->print_level;
-    schparam->SWZ_type   = inparam->SWZ_type;
-    schparam->SWZ_maxlvl = inparam->SWZ_maxlvl;
-    schparam->SWZ_mmsize = inparam->SWZ_mmsize;
+    swzparam->print_level    = inparam->print_level;
+    swzparam->SWZ_type   = inparam->SWZ_type;
+    swzparam->SWZ_maxlvl = inparam->SWZ_maxlvl;
+    swzparam->SWZ_mmsize = inparam->SWZ_mmsize;
 }
-
 
 /**
  * \fn fasp_ns_amg_to_amg_param (AMG_param *amgparam, AMG_ns_param *inparam)

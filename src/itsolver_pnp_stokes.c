@@ -188,7 +188,6 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
             A_stokes_bcsr.brow = 2;
             A_stokes_bcsr.bcol = 2;
             A_stokes_bcsr.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
-            fasp_mem_check((void *)A_stokes_bcsr.blocks, "block matrix:cannot allocate memory!\n", ERROR_ALLOC_MEM);
             for (i=0; i<4 ;i++) {
                 A_stokes_bcsr.blocks[i] = (dCSRmat *)fasp_mem_calloc(1, sizeof(dCSRmat));
             }
