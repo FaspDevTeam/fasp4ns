@@ -107,7 +107,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
                          itsolver_ns_param *itsparam,
                          AMG_ns_param *amgparam,
                          ILU_param *iluparam,
-                         SWZ_param *schparam);
+                         SWZ_param *swzparam);
 
 void fasp_ns_param_input_init (input_ns_param *inparam);
 
@@ -124,8 +124,8 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
 void fasp_ns_param_ilu_set (ILU_param *iluparam,
                             input_ns_param *inparam);
 
-void fasp_ns_param_schwarz_set (SWZ_param *schparam,
-                                input_ns_param *inparam);
+void fasp_ns_param_swz_set (SWZ_param *swzparam,
+                            input_ns_param *inparam);
 
 
 /*-------- In file: pgcr_block.c --------*/
