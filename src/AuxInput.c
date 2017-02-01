@@ -1,10 +1,17 @@
-/*! \file input.c
+/*! \file  AuxInput.c
+ *
  *  \brief Read input parameters
+ *
+ *  \note  This file contains Level-0 (Aux) functions.
+ *
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
  */
 
 #include "fasp.h"
 #include "fasp_functs.h"
-
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
@@ -13,7 +20,7 @@
 /*---------------------------------*/
 
 /**
- * \fn SHORT fasp_param_check (input_ns_param *inparam)
+ * \fn SHORT fasp_param_check (const input_ns_param *inparam)
  *
  * \brief Simple check on input parameters
  *
@@ -22,12 +29,9 @@
  * \author Chensong Zhang
  * \date   09/29/2013
  *
- *
- * \note Xiaozhe Hu modified on 02/21/2014
- * \note: modified by Xiaozhe Hu on May. 27, 2014
- *
+ * Modified by Xiaozhe Hu on May. 27, 2014
  */
-SHORT fasp_ns_param_check (input_ns_param *inparam)
+SHORT fasp_ns_param_check (const input_ns_param *inparam)
 {
     SHORT status = FASP_SUCCESS;
     
@@ -123,9 +127,7 @@ SHORT fasp_ns_param_check (input_ns_param *inparam)
  * \author Lu Wang
  * \date   02/15/2012
  *
- * \note Xiaozhe Hu modified on 02/21/2014
- * \note: modified by Xiaozhe Hu on May. 27, 2014
- *
+ * Modified by Xiaozhe Hu on May. 27, 2014
  */
 void fasp_ns_param_input (char *filenm,
                           input_ns_param *Input)
@@ -1388,7 +1390,7 @@ void fasp_ns_param_input (char *filenm,
         {
             status = ERROR_INPUT_PAR;
             break;
-        }		
+        }
     }
     
     fclose(fp);
@@ -1401,7 +1403,7 @@ void fasp_ns_param_input (char *filenm,
 #endif
     
     // if meet unexpected input, stop the program
-    fasp_chkerr(status,"fasp_param_input");
+    fasp_chkerr(status, __FUNCTION__);
 }
 
 /*---------------------------------*/

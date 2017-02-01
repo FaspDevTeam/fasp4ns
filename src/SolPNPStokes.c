@@ -1,14 +1,23 @@
-/*! \file itsolver_pnp_stokes.c
- *  \brief Iterative solvers for pnp+stokes system (main file)
+/*! \file  SolPNPStokes.c
+ *
+ *  \brief Iterative solvers for PNP-Stokes system (main file)
+ *
+ *  \note  This file contains Level-5 (Sol) functions. It requires:
+ *         PreNavierStokes.c and PrePNPStokes.c
+ *
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
+ *
+ *  // TODO: Fix Doxygen. --Chensong
  */
 
 #include <math.h>
 #include <time.h>
 
 #include "fasp.h"
-#include "fasp_block.h"
 #include "fasp_functs.h"
-
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
@@ -480,13 +489,6 @@ FINISHED:
     
     return status;
 }
-
-
-
-
-
-
-
 
 /*---------------------------------*/
 /*--        End of File          --*/
