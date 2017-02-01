@@ -1,18 +1,25 @@
-/*! \file precond_pnp_stokes.c
+/*! \file  PrePNPStokes.c
+ *
  *  \brief Preconditioners for PNP+Stokes problems
+ *
+ *  \note  This file contains Level-4 (Pre) functions.
+ *
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
+ *
+ *  // TODO: Fix Doxygen. --Chensong
  */
 
 #include "fasp.h"
 #include "fasp_functs.h"
-
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
-
 
 /*---------------------------------*/
 /*--      Public Functions       --*/
 /*---------------------------------*/
-
 
 /**
  * \fn void fasp_precond_pnp_stokes_diag (REAL *r, REAL *z, void *data)
