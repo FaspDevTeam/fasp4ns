@@ -43,9 +43,10 @@ endif()
 #add_definitions(-DHAS_FASP)
 #add_library(FASPVector SHARED FASPVector.cpp)
 LINK_DIRECTORIES(../../../faspsolver/lib ../../lib)
-include_directories(../../include  ../../../faspsolver/base/include)
+include_directories(../../include  ../../../faspsolver/base/include ../)
 # Executable
-add_executable(${PROJECT_NAME} main.cpp fasp_solver.cpp)
+add_executable(${PROJECT_NAME} main.cpp ../fasp_solver.cpp)
 
+add_definitions( "-lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm")
 # Target libraries
 target_link_libraries(${PROJECT_NAME} ${DOLFIN_LIBRARIES} libfasp4ns.a libfasp.a)
