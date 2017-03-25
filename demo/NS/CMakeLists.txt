@@ -2,10 +2,12 @@
 #
 #     cmake/scripts/generate-cmakefiles
 #
-# Require CMake 2.8
+# This file uses relative directories. Should be used in the current directory. 
+#
+# Require CMake 2.8 or later
 cmake_minimum_required(VERSION 2.8)
 
-set(PROJECT_NAME test)
+set(PROJECT_NAME test_ns)
 project(${PROJECT_NAME})
 
 # Set verbose output while testing CMake
@@ -30,8 +32,6 @@ else()
   # Compiler definitions
   add_definitions(${DOLFIN_CXX_DEFINITIONS})
   
-
-
   # Compiler flags
   set(CMAKE_CXX_FLAGS "${DOLFIN_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 
@@ -40,13 +40,12 @@ else()
   include_directories(SYSTEM ${DOLFIN_3RD_PARTY_INCLUDE_DIRS})
 endif()
 
-#add_definitions(-DHAS_FASP)
-#add_library(FASPVector SHARED FASPVector.cpp)
 LINK_DIRECTORIES(../../../faspsolver/lib ../../lib)
 include_directories(../../include  ../../../faspsolver/base/include ../)
-# Executable
-add_executable(${PROJECT_NAME} main.cpp ../fasp_solver.cpp)
 
-add_definitions( "-lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm")
+# Executable
+add_executable(${PROJECT_NAME} main.cpp fasp_solver.cpp)
+
 # Target libraries
 target_link_libraries(${PROJECT_NAME} ${DOLFIN_LIBRARIES} libfasp4ns.a libfasp.a)
+#add_definitions("-lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -lmkl_blacs_intelmpi_lp64")
