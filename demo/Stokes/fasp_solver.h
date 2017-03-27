@@ -1,14 +1,14 @@
 /** \file fasp_solver.h
  *  \brief solver from FASP
+ *
  *  \author Kai Yang
- *  \date 09/26/2013
+ *  \date   09/26/2013
  */
 
 #include <dolfin.h>
 #include <stdio.h>
 
-extern "C"
-{
+extern "C" {
 #include "fasp.h"
 #include "fasp_functs.h"
 #include "fasp4ns.h"
@@ -68,24 +68,24 @@ namespace FASPFSI {
         
         void assign_idx (FunctionSpace * W);
         
-        //added by Chen Yuyan
-        void print_FS (){
-            std::cout<<FS.row<<","<<FS.col<<std::endl;
+        // added by Chen Yuyan
+        void print_FS () {
+            std::cout << FS.row << "," << FS.col << std::endl;
         }
         
-        void write_A (const char *filename){
+        void write_A (const char *filename) {
             fasp_matrix_write (filename, &blkFS.blocks[0], 1);
         }
         
-        void write_B (const char *filename){
+        void write_B (const char *filename) {
             fasp_matrix_write (filename, &blkFS.blocks[2], 1);
         }
         
-        void write_C (const char *filename){
+        void write_C (const char *filename) {
             fasp_matrix_write (filename, &blkFS.blocks[3], 1);
         }
         
-        void write_b (const char *filename){
+        void write_b (const char *filename) {
             fasp_dvec_write (filename, &b_FS);
         }
 
@@ -93,9 +93,10 @@ namespace FASPFSI {
         INT *Iv,*Ip;
         dCSRmat FS;
         dvector b_FS;
+        dvector u_FS;
         dvector blk_b_FS;
         dvector blk_u_FS;
-        dvector u_FS;
+
         dBLCmat blkFS;
         dCSRmat M_P;
         
@@ -113,8 +114,8 @@ namespace FASPFSI {
         input_ns_param     inparam;  // parameters from input files
         itsolver_ns_param  itparam;  // parameters for itsolver
         AMG_ns_param       amgparam; // parameters for AMG
-        ILU_param       iluparam; // parameters for ILU
-        SWZ_param   schparam; // parameters for Schwarz
+        ILU_param          iluparam; // parameters for ILU
+        SWZ_param          swzparam; // parameters for Schwarz
     };
     
 }

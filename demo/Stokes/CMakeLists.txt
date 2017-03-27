@@ -43,6 +43,9 @@ endif()
 LINK_DIRECTORIES(../../../faspsolver/lib ../../lib)
 include_directories(../../include  ../../../faspsolver/base/include ../)
 
+#set (CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}
+#     "${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}} -g -pg")
+		  
 # Executable
 add_executable(${PROJECT_NAME} main.cpp fasp_solver.cpp)
 
