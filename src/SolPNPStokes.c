@@ -87,14 +87,12 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     iluparam_pnp.ILU_relax   = amgparam_pnp->ILU_relax;
     iluparam_pnp.ILU_type    = amgparam_pnp->ILU_type;
     ILU_data ILU_pnp;
-    //dvector diag_pnp;
     
     // data for stokes
-    AMG_data *mgl_v=fasp_amg_data_create(amgparam_stokes->param_v.max_levels);
-    dvector res_p = fasp_dvec_create(num_pressure);
-    dvector sol_p = fasp_dvec_create(num_pressure);
+    AMG_data *mgl_v = fasp_amg_data_create(amgparam_stokes->param_v.max_levels);
     AMG_data *mgl_p;
-    //ILU_data LU_p;
+    dvector   res_p = fasp_dvec_create(num_pressure);
+    dvector   sol_p = fasp_dvec_create(num_pressure);
     
 #if WITH_UMFPACK
     void **LU_diag = (void **)fasp_mem_calloc(2, sizeof(void *));
@@ -341,28 +339,25 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
         precdata_stokes.BABt  = &BABt;
     }
     
-    precdata_stokes.param_v = &amgparam_stokes->param_v;
-    precdata_stokes.param_p = &amgparam_stokes->param_p;
-    precdata_stokes.ITS_param_v = &ITS_param_v;
-    precdata_stokes.ITS_param_p = &ITS_param_p;
-    precdata_stokes.mgl_data_v       = mgl_v;
-    precdata_stokes.mgl_data_p       = mgl_p;
-    //precdata_stokes.ILU_p            = &LU_p;
+    precdata_stokes.param_v         = &amgparam_stokes->param_v;
+    precdata_stokes.param_p         = &amgparam_stokes->param_p;
+    precdata_stokes.ITS_param_v     = &ITS_param_v;
+    precdata_stokes.ITS_param_p     = &ITS_param_p;
+    precdata_stokes.mgl_data_v      = mgl_v;
+    precdata_stokes.mgl_data_p      = mgl_p;
     
-    precdata_stokes.max_levels     = mgl_v[0].num_levels;
-    precdata_stokes.print_level    = amgparam_stokes->param_v.print_level;
-    precdata_stokes.maxit          = amgparam_stokes->param_v.maxit;
-    precdata_stokes.amg_tol        = amgparam_stokes->param_v.tol;
-    precdata_stokes.cycle_type     = amgparam_stokes->param_v.cycle_type;
-    precdata_stokes.smoother       = amgparam_stokes->param_v.smoother;
-    precdata_stokes.presmooth_iter = amgparam_stokes->param_v.presmooth_iter;
-    precdata_stokes.postsmooth_iter= amgparam_stokes->param_v.postsmooth_iter;
-    precdata_stokes.relaxation     = amgparam_stokes->param_v.relaxation;
-    precdata_stokes.coarse_scaling = amgparam_stokes->param_v.coarse_scaling;
+    precdata_stokes.max_levels      = mgl_v[0].num_levels;
+    precdata_stokes.print_level     = amgparam_stokes->param_v.print_level;
+    precdata_stokes.maxit           = amgparam_stokes->param_v.maxit;
+    precdata_stokes.amg_tol         = amgparam_stokes->param_v.tol;
+    precdata_stokes.cycle_type      = amgparam_stokes->param_v.cycle_type;
+    precdata_stokes.smoother        = amgparam_stokes->param_v.smoother;
+    precdata_stokes.presmooth_iter  = amgparam_stokes->param_v.presmooth_iter;
+    precdata_stokes.postsmooth_iter = amgparam_stokes->param_v.postsmooth_iter;
+    precdata_stokes.relaxation      = amgparam_stokes->param_v.relaxation;
+    precdata_stokes.coarse_scaling  = amgparam_stokes->param_v.coarse_scaling;
     
-    //precdata.diag_A = &diag_A;
-    precdata_stokes.S = &S;
-    //precdata.diag_S = &diag_S;
+    precdata_stokes.S  = &S;
     precdata_stokes.rp = &res_p;
     precdata_stokes.sp = &sol_p;
     
@@ -372,16 +367,17 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     precond_pnp_stokes_data precdata;
     precdata.Abcsr = A;
     
+#if WITH_UMFPACK
     // LU if exact solve
     precdata.LU_diag = LU_diag;
-    
+#endif
+
     // pnp part
     precdata.A_pnp_csr = &A_pnp_csr;
     precdata.A_pnp_bsr = &A_pnp_bsr;
     precdata.precdata_pnp = &precdata_pnp;
     precdata.pnp_fct = fasp_precond_dbsr_amg;
     precdata.ILU_pnp = &ILU_pnp;
-    //precdata.diag_pnp = &diag_pnp;
     
     // stokes part
     precdata.A_stokes_csr = &A_stokes_csr;
