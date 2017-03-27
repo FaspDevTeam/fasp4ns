@@ -127,7 +127,7 @@ SHORT fasp_ns_param_check (const input_ns_param *inparam)
  * \author Lu Wang
  * \date   02/15/2012
  *
- * Modified by Xiaozhe Hu on May. 27, 2014
+ * Modified by Chensong Zhang on 03/27/2017: check unexpected error;
  */
 void fasp_ns_param_input (char *filenm,
                           input_ns_param *Input)
@@ -155,8 +155,9 @@ void fasp_ns_param_input (char *filenm,
         char  sbuff[500];
         
         val = fscanf(fp,"%s",buffer);
+
         if (val==EOF) break;
-        if (val!=1){ status = ERROR_INPUT_PAR; break; }
+        if (val!=1) { status = ERROR_INPUT_PAR; break; }
         if (buffer[0]=='[' || buffer[0]=='%' || buffer[0]=='|') {
             wall = fgets(buffer,500,fp); // skip rest of line
             continue;
@@ -426,7 +427,6 @@ void fasp_ns_param_input (char *filenm,
             Input->AMG_schwarz_levels_v = ibuff;
             fgets(buffer,500,fp); // skip rest of line
         }
-        
         
         else if (strcmp(buffer,"AMG_type_v")==0)
         {
@@ -1395,6 +1395,9 @@ void fasp_ns_param_input (char *filenm,
     
     fclose(fp);
     
+    // if meet unexpected input, stop the program
+    fasp_chkerr(status, __FUNCTION__);
+
     // sanity checks
     status = fasp_ns_param_check(Input);
     
@@ -1402,7 +1405,6 @@ void fasp_ns_param_input (char *filenm,
     printf("### DEBUG: Reading input status = %d\n", status);
 #endif
     
-    // if meet unexpected input, stop the program
     fasp_chkerr(status, __FUNCTION__);
 }
 

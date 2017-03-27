@@ -95,7 +95,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
             break;
             
         default:
-            printf("Error: wrong itertive solver type %d!\n", SolverType);
+            printf("### ERROR: Wrong itertive solver type %d!\n", SolverType);
             iter = ERROR_SOLVER_TYPE;
     }
     
@@ -171,12 +171,16 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //------ setup phase ------//
     setup_start = clock();
     
+#if DEBUG_MODE > 0
+    printf("### DEBUG: n = %d, m = %d, nnz = %d\n", n, m, nnzA);
+#endif
+    
     //-----------------------//
     // setup AMG for velocity
     //-----------------------//
-    
     AMG_data *mgl_v=fasp_amg_data_create(amgnsparam->param_v.max_levels);
     mgl_v[0].A=fasp_dcsr_create(n,n,nnzA);
+    
     if (precond_type > 10) {
         
         dCSRmat BtB;
@@ -191,6 +195,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     else {
         fasp_dcsr_cp(A,&mgl_v[0].A);
     }
+
     mgl_v[0].b=fasp_dvec_create(n); mgl_v[0].x=fasp_dvec_create(n);
     
     // setup AMG
@@ -211,7 +216,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     // get diagonal of A
     fasp_dcsr_getdiag(n, &mgl_v[0].A, &diag_A);
-    
+
     //-------------------------//
     // setup Schur complement S
     //-------------------------//
@@ -360,8 +365,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     precdata.S = &S;
     precdata.diag_S = &diag_S;
     precdata.rp = &res_p;
-    precdata.sp = &sol_p;
-    
+    precdata.sp = &sol_p;    
     precdata.w = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
     
     switch (precond_type) {
@@ -466,7 +470,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     return status;
 }
 
-
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat, dvector *b, dvector *x, itsolver_ns_param *itparam, AMG_ns_param *amgparam, ILU_param *iluparam, SWZ_param *schparam, dCSRmat *Mp)
  * \brief Solve Ax=b by standard Krylov methods for NS equations
@@ -529,7 +532,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
     //-----------------------//
     // setup AMG for velocity
     //-----------------------//
-    
     AMG_data *mgl_v=fasp_amg_data_create(amgnsparam->param_v.max_levels);
     mgl_v[0].A=fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
     mgl_v[0].b=fasp_dvec_create(n); mgl_v[0].x=fasp_dvec_create(n);

@@ -1,9 +1,3 @@
-/*
- * fasp4ns.h
- *
- *
- */
-
 /*! \file fasp4ns.h
  *  \brief Main header file for FASP4NS package
  *
