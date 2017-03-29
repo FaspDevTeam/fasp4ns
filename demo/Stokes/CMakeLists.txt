@@ -15,6 +15,7 @@ project(${PROJECT_NAME})
 
 # Set CMake behavior
 cmake_policy(SET CMP0004 NEW)
+cmake_policy(SET CMP0015 NEW)
 
 # Get DOLFIN configuration data (DOLFINConfig.cmake must be in
 # DOLFIN_CMAKE_CONFIG_PATH)
