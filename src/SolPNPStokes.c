@@ -423,7 +423,7 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     if ( prtlvl >= PRINT_MIN ) {
         fasp_gettime(&setup_end);
         setup_duration = setup_end - setup_start;
-        print_cputime("Setup totally", setup_duration);
+        fasp_cputime("Setup totally", setup_duration);
     }
     
     
@@ -437,7 +437,7 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
     solver_duration = solver_end - solver_start;
     
     if ( prtlvl >= PRINT_MIN )
-        print_cputime("Krylov method totally", solver_duration);
+        fasp_cputime("Krylov method totally", solver_duration);
     
 FINISHED:
     
