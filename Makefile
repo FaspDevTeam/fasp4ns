@@ -24,7 +24,9 @@ BLASLIB = -framework Accelerate
 ########################################################################      
 # Directory to UMFPACK
 ########################################################################        
-UMFPACKDIR = /opt/local
+UMFPACKDIR = /opt/local/
+# or to a user lib location like
+#    /Users/zhangcs/Packages/
 
 ########################################################################      
 # Compiling options                                                             
