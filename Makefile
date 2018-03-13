@@ -10,16 +10,16 @@
 # Compilers and dependences
 ########################################################################
 AR=ar ruc
-CC=gcc-mp-5
-CPP=g++-mp-5
-FC=gfortran-mp-5
+CC=gcc
+CPP=g++
+FC=gfortran
 
 CSRCDIR=./src
 FSRCDIR=./src
 INCLUDE=-I ../faspsolver/base/include -I ./include
 FASPLIB=../faspsolver/lib/libfasp.a
 TESTLIB=./lib/libfasp4ns.a
-BLASLIB = -framework Accelerate
+BLASLIB=-framework Accelerate
 
 ########################################################################      
 # Directory to UMFPACK
@@ -122,16 +122,16 @@ OBJSC := $(patsubst %.c,%.o,$(CSRC))
 ########################################################################
 
 # Everything
-ALLPROG=$(TESTLIB) ns
+ALLPROG=$(TESTLIB) NavierStokes
 
 ########################################################################
 # Link
 ########################################################################
 
-all: $(ALLPROG) ns nsf
+all: $(ALLPROG) NavierStokes NavierStokesFortran StokesBrinkman
 
 Default: 
-	ns
+	NavierStokes
 
 headers: 
 	cat $(CSRCDIR)/*.c \
@@ -147,14 +147,20 @@ lib: $(OBJSC) $(OBJSF)
 # Some test problems
 ########################################################################
 
-ns: 
+NavierStokes:
 	@$(CC) $(CFLAGS) -c main/ns.c -o main/ns.o
 	@$(FC) $(LOPT) main/ns.o $(FLFLAGS) -o ns.ex
 	@echo 'Building executable $@'
 
-nsf:
+NavierStokesFortran:
 	@$(FC) $(CFLAGS) -c main/ns.f90 -o main/nsf.o
 	@$(FC) -o nsf.ex main/nsf.o $(FLFLAGS)
+	@echo 'Building executable $@'
+
+StokesBrinkman:
+	@$(FC) $(CFLAGS) -c main/matrixsolverFasp.f90 -o main/matrixsolverFasp.o
+	@$(FC) $(CFLAGS) -c main/Stokes-Brinkman.f90 -o main/Stokes-Brinkman.o
+	@$(FC) -o sb.ex main/matrixsolverFasp.o main/Stokes-Brinkman.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
 ########################################################################
