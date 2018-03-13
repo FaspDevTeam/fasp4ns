@@ -7,12 +7,10 @@ program ns
 
   double precision, dimension(:), allocatable :: u,rhs
   double precision, dimension(:), allocatable :: a,b,c
-  integer,                dimension(:), allocatable :: ia,ja,ib,jb,ic,jc
+  integer,          dimension(:), allocatable :: ia,ja,ib,jb,ic,jc
 
-  integer                :: iufile, nA, nnzA,nB,nnzB,nC,nnzC,ntol,i
-
-  ! Step 0: user defined variables
-  iufile = 1
+  integer :: nA,nnzA,nB,nnzB,nC,nnzC,ntol,i
+  integer :: iufile=1
 
   ! Step 1: read A and b 
 
@@ -43,7 +41,6 @@ program ns
   read(iufile,*) (b(i),i=1,nnzB)   
 
   close(iufile)
-  
 
   !===> Read data C from file
 
@@ -72,9 +69,12 @@ program ns
 
   !===> Initial guess
   allocate(u(1:ntol))
-  u=0.0d0 
+  u = 0.0d0 
 
-  call fasp_fwrapper_krylov_navier_stokes(nA,nnzA, ia,ja,a,nB,nnzB, ib,jb,b,nC,nnzC,ic,jc,c,rhs,u);
+  call fasp_fwrapper_krylov_navier_stokes_sym (nA,nnzA,ia,ja,a,  &
+                                               nB,nnzB,ib,jb,b,  &
+                                               nC,nnzC,ic,jc,c,  &
+                                               rhs,u)
 
   ! Step 3: Clean up memory
   deallocate(ia,ja,a)

@@ -16,15 +16,16 @@
  * \fn int main (int argc, const char * argv[])
  *
  * This is the main function for test purpose.
- * Lu Wang
+ * \author Lu Wang
  *
- * \note Xiaozhe Hu modified on 02/21/2014
+ * Modified by Xiaozhe Hu on 02/21/2014
+ * Modified by Chensong Zhang on 03/13/2018
  */
 int main (int argc, const char * argv[]) 
 {
 	dBLCmat A;
 	dCSRmat RR,RW,WR,WW, Acsr, Mp;
-	dvector b, uh, bcsr; //xapp;
+	dvector b, uh, bcsr;
     ivector u_idx, p_idx;
 	int i,flag=0;
 	
@@ -73,10 +74,10 @@ int main (int argc, const char * argv[])
 	
 	/* Assemble A and b. P1 FE discretization for Poisson. */
 	if (problem_num == 1) {
-        char *fileA = "data/test_1/Matrix_A";
-        char *fileB = "data/test_1/Matrix_B";
-        char *fileC = "data/test_1/Matrix_C";
-        char *filerhs= "data/test_1/RHS";
+        char *fileA   = "data/test_1/Matrix_A";
+        char *fileB   = "data/test_1/Matrix_B";
+        char *fileC   = "data/test_1/Matrix_C";
+        char *filerhs = "data/test_1/RHS";
         fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
 	}
     
@@ -89,10 +90,8 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/Stokes-P2P0/1/A11.dat";
         char *fileB   = "data/Stokes-P2P0/1/A12.dat";
         char *fileBt  = "data/Stokes-P2P0/1/A21.dat";
-        //char *fileC   = "data/P2P0-with-divdiv/set-1/App.dat";
         char *filerhs = "data/Stokes-P2P0/1/b.dat";
-        
-        char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
+        char *fileMp  = "data/Stokes-P2P0/1/Mp.dat";
         
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
@@ -112,17 +111,12 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P0/2/A12.dat";
         char *fileBt  = "data/Stokes-P2P0/2/A21.dat";
         char *filerhs = "data/Stokes-P2P0/2/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -133,17 +127,12 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P0/3/A12.dat";
         char *fileBt  = "data/Stokes-P2P0/3/A21.dat";
         char *filerhs = "data/Stokes-P2P0/3/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -155,16 +144,12 @@ int main (int argc, const char * argv[])
         char *fileBt  = "data/Stokes-P2P0/4/A21.dat";
         char *filerhs = "data/Stokes-P2P0/4/b.dat";
         
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -175,17 +160,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P0/5/A12.dat";
         char *fileBt  = "data/Stokes-P2P0/5/A21.dat";
         char *filerhs = "data/Stokes-P2P0/5/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -196,17 +177,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P0/6/A12.dat";
         char *fileBt  = "data/Stokes-P2P0/6/A21.dat";
         char *filerhs = "data/Stokes-P2P0/6/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -217,17 +194,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P1/1/A12.dat";
         char *fileBt  = "data/Stokes-P2P1/1/A21.dat";
         char *filerhs = "data/Stokes-P2P1/1/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -238,17 +211,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P1/2/A12.dat";
         char *fileBt  = "data/Stokes-P2P1/2/A21.dat";
         char *filerhs = "data/Stokes-P2P1/2/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -259,17 +228,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P1/3/A12.dat";
         char *fileBt  = "data/Stokes-P2P1/3/A21.dat";
         char *filerhs = "data/Stokes-P2P1/3/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -280,17 +245,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P1/4/A12.dat";
         char *fileBt  = "data/Stokes-P2P1/4/A21.dat";
         char *filerhs = "data/Stokes-P2P1/4/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -301,17 +262,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-P2P1/5/A12.dat";
         char *fileBt  = "data/Stokes-P2P1/5/A21.dat";
         char *filerhs = "data/Stokes-P2P1/5/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -322,17 +279,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-RTP0/1/A12.dat";
         char *fileBt  = "data/Stokes-RTP0/1/A21.dat";
         char *filerhs = "data/Stokes-RTP0/1/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -343,17 +296,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-RTP0/2/A12.dat";
         char *fileBt  = "data/Stokes-RTP0/2/A21.dat";
         char *filerhs = "data/Stokes-RTP0/2/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -364,17 +313,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-RTP0/3/A12.dat";
         char *fileBt  = "data/Stokes-RTP0/3/A21.dat";
         char *filerhs = "data/Stokes-RTP0/3/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -385,17 +330,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-RTP0/4/A12.dat";
         char *fileBt  = "data/Stokes-RTP0/4/A21.dat";
         char *filerhs = "data/Stokes-RTP0/4/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -406,17 +347,13 @@ int main (int argc, const char * argv[])
         char *fileB   = "data/Stokes-RTP0/5/A12.dat";
         char *fileBt  = "data/Stokes-RTP0/5/A21.dat";
         char *filerhs = "data/Stokes-RTP0/5/b.dat";
-        
-        //char *fileMp   = "data/Stokes-P2P0/1/Mp.dat";
-        
+
         fasp_dcoo_read(fileA,  A.blocks[0]);
         fasp_dcoo_read(fileB,  A.blocks[1]);
         fasp_dcoo_read(fileBt, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
-        
-        //fasp_dcoo_read(fileMp,  &Mp);
-        
+
         fasp_dvec_read(filerhs, &b);
         
     }
@@ -453,8 +390,7 @@ int main (int argc, const char * argv[])
         
         for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
         for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
-        
-        
+
     }
     
     else if (problem_num == 402) {
@@ -490,7 +426,6 @@ int main (int argc, const char * argv[])
         for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
         for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
         
-        
     }
     
     else if (problem_num == 403) {
@@ -525,8 +460,7 @@ int main (int argc, const char * argv[])
         
         for (i=0; i<u_idx.row; i++) b.val[i] = bcsr.val[u_idx.val[i]];
         for (i=u_idx.row; i<bcsr.row; i++) b.val[i] = bcsr.val[p_idx.val[i-u_idx.row]];
-        
-        
+
     }
     
     else if (problem_num == 501) {
@@ -536,8 +470,7 @@ int main (int argc, const char * argv[])
         char *fileBt  = "data/P2P0-with-divdiv/set-1/Aup.dat";
         char *fileC   = "data/P2P0-with-divdiv/set-1/App.dat";
         char *filerhs = "data/P2P0-with-divdiv/set-1/b.dat";
-        
-        char *fileMp   = "data/P2P0-with-divdiv/set-1/Mp.dat";
+        char *fileMp  = "data/P2P0-with-divdiv/set-1/Mp.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
@@ -545,7 +478,6 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileC, A.blocks[3]);
         
         fasp_dcoo_read(fileMp, &Mp);
-        
         fasp_dvec_read(filerhs,&b);
         
     }
@@ -557,8 +489,7 @@ int main (int argc, const char * argv[])
         char *fileBt  = "data/P2P0-with-divdiv/set-2/Aup.dat";
         char *fileC   = "data/P2P0-with-divdiv/set-2/App.dat";
         char *filerhs = "data/P2P0-with-divdiv/set-2/b.dat";
-        
-        char *fileMp   = "data/P2P0-with-divdiv/set-2/Mp.dat";
+        char *fileMp  = "data/P2P0-with-divdiv/set-2/Mp.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
@@ -566,16 +497,15 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileC, A.blocks[3]);
         
         fasp_dcoo_read(fileMp, &Mp);
-        
         fasp_dvec_read(filerhs,&b);
         
     }
     
     else if (problem_num == 601) {
-        char *fileA = "data/FSIMatrices/Matrix_A";
-        char *fileB = "data/FSIMatrices/Matrix_B";
-        char *fileC = "data/FSIMatrices/Matrix_C";
-        char *filerhs= "data/FSIMatrices/RHS";
+        char *fileA   = "data/FSIMatrices/Matrix_A";
+        char *fileB   = "data/FSIMatrices/Matrix_B";
+        char *fileC   = "data/FSIMatrices/Matrix_C";
+        char *filerhs = "data/FSIMatrices/RHS";
         fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
 
@@ -589,12 +519,11 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 702) {
@@ -607,12 +536,11 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
         
         fasp_dvec_read(filerhs, &b);
-        
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
+
     }
     
     else if (problem_num == 703) {
@@ -625,12 +553,11 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 704) {
@@ -643,12 +570,11 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 705) {
@@ -661,12 +587,11 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileA, A.blocks[0]);
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
-        //fasp_dcoo_read(fileC, A.blocks[3]);
+
         A.blocks[3] = NULL;
         
         fasp_dvec_read(filerhs, &b);
         
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
     
     else if (problem_num == 801) {
@@ -680,11 +605,7 @@ int main (int argc, const char * argv[])
         fasp_dcoo_read(fileBt,A.blocks[1]);
         fasp_dcoo_read(fileB, A.blocks[2]);
         fasp_dcoo_read(fileC, A.blocks[3]);
-        //A.blocks[3] = NULL;
-        
         fasp_dvec_read(filerhs, &b);
-        
-        //fasp_dblc_read(fileA,fileB,fileC,filerhs,&A,&b);
     }
         
 	else {
@@ -761,15 +682,14 @@ int main (int argc, const char * argv[])
             flag = fasp_solver_dblc_krylov_navier_stokes(&A, &b, &uh, &itparam, &amgparam, &iluparam, &schparam);
         //}
     }
-	//for (i = 0;i < 4;i++)
-    //    fasp_dcsr_free(&A.blocks[i]);
+
     fasp_dcsr_free(&RR);
     fasp_dcsr_free(&RW);
     fasp_dcsr_free(&WR);
-    //fasp_dcsr_free(&WW);
 	fasp_dvec_free(&b);
     fasp_dvec_free(&uh);
     free(A.blocks);
-	printf("Finish\n");
+
+    printf("Finish\n");
 	return flag;
 }
