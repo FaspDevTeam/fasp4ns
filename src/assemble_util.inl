@@ -1,19 +1,26 @@
 /*! \file assemble_util.inl
  *  \brief Subroutines for assembling purpose
+ *
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2009--2018 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
  */
 
 /**
- * \fn iCSRmat getCSRfromIntT(idenmat *T, int nNode)
+ * \fn static iCSRmat getCSRfromIntT (idenmat *T, int nNode)
  * \brief Get CSR structure of trianglution T.
  *
- * \param *T     pointer to the idenmat
+ * \param T      pointer to the idenmat
  * \param nNode  the number of nodes
+ *
  * \return       trianglution T in CSR format
  *
  * \author Xuehai Huang
  * \date 03/29/2009
  */
-static iCSRmat getCSRfromIntT(idenmat *T, int nNode)
+static iCSRmat getCSRfromIntT (idenmat *T,
+                               int nNode)
 {
 	iCSRmat element;
 	int i,j;
@@ -40,20 +47,25 @@ static iCSRmat getCSRfromIntT(idenmat *T, int nNode)
 }
 
 /**
- * \fn static void assemble_stiffmat(iCSRmat *elements, iCSRmat *elementsTran, ddenmat *nodes, dCSRmat *A)
+ * \fn static void assemble_stiffmat (iCSRmat *elements, iCSRmat *elementsTran,
+ *                                    ddenmat *nodes, dCSRmat *A)
  * \brief assemble stiffness matrix 
  *
- * \param *elements      pointer to the structure of the triangulation
- * \param *elementsTran  pointer to the transpose of *elements
- * \param *nodes         pointer to the nodes location of the triangulation
- * \param *A             pointer to stiffness matrix
+ * \param elements      pointer to the structure of the triangulation
+ * \param elementsTran  pointer to the transpose of *elements
+ * \param nodes         pointer to the nodes location of the triangulation
+ * \param A             pointer to stiffness matrix
  *
- *	 \note this subroutine follows Ludmil' note about CSR.
+ * \note This subroutine follows the CSR note by Ludmil.
  *
  * \author Xuehai Huang
  * \date 03/29/2009
  */
-static void assemble_stiffmat(iCSRmat *elements, iCSRmat *elementsTran, ddenmat *nodes, dCSRmat *A, iCSRmat *edgesTran)
+static void assemble_stiffmat (iCSRmat *elements,
+                               iCSRmat *elementsTran,
+                               ddenmat *nodes,
+                               dCSRmat *A,
+                               iCSRmat *edgesTran)
 {
 	/* yangkai: use the information of edgesTran to get the CSR structure of A directly, 
 	 * because, for triangle elements, A_ij is nonzero if and only if nodes i and j are 
@@ -82,7 +94,8 @@ static void assemble_stiffmat(iCSRmat *elements, iCSRmat *elementsTran, ddenmat 
 	A->JA=(int*)fasp_mem_calloc(JAlen, sizeof(int));
 	total_alloc_mem += JAlen*sizeof(int);
 	
-	// count is for counting the JA number in A since A-JA and edgesTran-val are different in number 	
+	// count is for counting the JA number in A since A->JA and edgesTran-val
+    // are different in number
 	for (count=i=0;i<Arow;++i) {
 		A->IA[i]=edgesTran->IA[i]+i;
 		A->JA[count]=i; count++;
@@ -131,26 +144,31 @@ static void assemble_stiffmat(iCSRmat *elements, iCSRmat *elementsTran, ddenmat 
 }
 
 /**
- * \fn void getEdgeInfo(iCSRmat *elements, iCSRmat *elementsTran, idenmat *edges, iCSRmat *edgesTran)
+ * \fn static void getEdgeInfo (iCSRmat *elements, iCSRmat *elementsTran,
+ *                              idenmat *edges, iCSRmat *edgesTran)
  * \brief get edges information from elements
  *
- * \param *elements      pointer to the structure of the triangulation
- * \param *elementsTran  pointer to the transpose of *elements
- * \param *edges         the first two columns store the two vertice corresponding to the edge; 
- *				                the 3rd and 4th columns store the triangles which the edge belongs to;
- *				                if the edge is a boundary, the 4th column will stores -1;
- *				                the first column is in ascend order.
- * \param *edgesTran     the relation between nodes and edges. JA stores edge index, A stores another vertex
+ * \param elements      pointer to the structure of the triangulation
+ * \param elementsTran  pointer to the transpose of *elements
+ * \param edges         the first two columns store the two vertice corresponding to
+ *                      the edge; the 3rd and 4th columns store the triangles which
+ *                      the edge belongs to; if the edge is a boundary, the 4th column
+ *                      will stores -1; the first column is in ascend order.
+ * \param edgesTran     the relation between nodes and edges. JA stores edge index,
+ *                      A stores another vertex
  *
  * \note  ALgorithm: node-->element-->edge
  *
- * TODO: modify the algorithm for finding edges, alloc should not be used in the loop; 
- * first count the edges and then allocate. --Chensong
+ * TODO:  Modify the algorithm for finding edges, alloc should not be used inside
+ *        the loop; first count the edges and then allocate. --Chensong
  *
  * \author Xuehai Huang, Kai Yang
- * \date 03/29/2009
+ * \date   03/29/2009
  */
-static void getEdgeInfo(iCSRmat *elements, iCSRmat *elementsTran, idenmat *edges, iCSRmat *edgesTran)
+static void getEdgeInfo (iCSRmat *elements,
+                         iCSRmat *elementsTran,
+                         idenmat *edges,
+                         iCSRmat *edgesTran)
 {
 	int i,j,k,l;
 	int element, len;	
@@ -270,22 +288,37 @@ static void getEdgeInfo(iCSRmat *elements, iCSRmat *elementsTran, idenmat *edges
 }
 
 /**
- * \fn int getGridInfo(ddenmat *nodes, iCSRmat *elements, idenmat *edges, iCSRmat *elementsTran, iCSRmat *edgesTran, ivector *isInNode, ivector *nodeCEdge)
- * \brief generate the coarse grid information and store it into point, element, edge respectively
+ * \fn static int getGridInfo (ddenmat *nodes, iCSRmat *elements, idenmat *edges,
+ *                             iCSRmat *elementsTran, iCSRmat *edgesTran,
+ *                             ivector *isInNode, ivector *nodeCEdge)
+ * \brief generate the coarse grid info and store it into point, element, edge
  *
- * \param *nodes         the first column stores the x coordinate of points, the second column stores the y coordinate of points
- * \param *elements      using CSR format to store 3 nodes corresponding to the element
- * \param *edges         the first two columns store the two vertice, the third column stores the affiliated element
- * \param *elementsTran  pointer to the transpose of *elements
- * \param *edgesTran     the relation between nodes and edges. JA stores edge index, A stores another vertex
- * \param *isInNode      if the node is interior node, it will be 0; if the node is on the boundary, it will be -1
- * \param *nodeCEdge     record the index of coarse edge which the node belong to; if the node is located in the coarset grid, it will be set -1
+ * \param nodes         the first column stores the x coordinate of points, the second
+ *                      column stores the y coordinate of points
+ * \param elements      using CSR format to store 3 nodes corresponding to the element
+ * \param edges         the first two columns store the two vertice, the third column
+ *                      stores the affiliated element
+ * \param elementsTran  pointer to the transpose of elements
+ * \param edgesTran     the relation between nodes and edges. JA stores edge index,
+ *                      A stores another vertex
+ * \param isInNode      if the node is interior node, it will be 0; if the node is on
+ *                      the boundary, it will be -1
+ * \param nodeCEdge     record the index of coarse edge which the node belong to; if
+ *                      the node is located in the coarset grid, it will be set -1
+ *
  * \return               1 if succeed 0 if fail
  *
  * \author Lu Wang
- * \date 12/13/2011
+ * \date   12/13/2011
  */
-static int getGridInfo(ddenmat *nodes, iCSRmat *elements, idenmat *edges, iCSRmat *elementsTran, iCSRmat *edgesTran, ivector *isInNode, ivector *nodeCEdge,int gridnum)
+static int getGridInfo (ddenmat *nodes,
+                        iCSRmat *elements,
+                        idenmat *edges,
+                        iCSRmat *elementsTran,
+                        iCSRmat *edgesTran,
+                        ivector *isInNode,
+                        ivector *nodeCEdge,
+                        int gridnum)
 {
 	int NumNode, Ncoor, NumElem, Nnode,NumEdge,NumbNode;
 	int i,j;
@@ -362,23 +395,35 @@ static int getGridInfo(ddenmat *nodes, iCSRmat *elements, idenmat *edges, iCSRma
 }
 
 /**
- * \fn void extractNondirichletMatrix(dCSRmat *A, dvector *b, dCSRmat *A11, dvector *b1, ivector *isInNode, ivector *dirichlet, ivector *nondirichlet, ivector *index, dvector *uh)
- * \brief extract stiffness matrix by removing the corresponding dirichlet boundary condition  
+ * \fn static void extractNondirichletMatrix (dCSRmat *A, dvector *b, dCSRmat *A11,
+ *                                            dvector *b1, ivector *isInNode,
+ *                                            ivector *dirichlet, ivector *nondirichlet,
+ *                                            ivector *index, dvector *uh)
+ * \brief Extract stiffness matrix by removing the Dirichlet boundary condition
  *
- * \param *A            pointer to the stiffness matrix with dirichelt boundary condition(without removed)
- * \param *b            pointer to the right hand side with dirichelt boundary condition(without removed)
- * \param *A11          pointer to the stiffness matrix without dirichelt boundary condition(removed)
- * \param *b1           pointer to the right hand side without dirichelt boundary condition(removed)
- * \param *isInNode     if the node is interior node, it will be 0; if the node is on the boundary, it will be -1---- mod: if it is dirichlet boundary it will be 1
- * \param *dirichlet    pointer to the indicator of the dirichlet boundary
- * \param *nondirichlet pointer to the indicator of the node which is not in the dirichlet boundary
- * \param *index        pointer to the transpose of *dirichlet and *nondirichlet
- * \param *uh           pointer to the dirichlet boundary value
+ * \param A            pointer to the stiffness matrix with dirichelt boundary condition(without removed)
+ * \param b            pointer to the right hand side with dirichelt boundary condition(without removed)
+ * \param A11          pointer to the stiffness matrix without dirichelt boundary condition(removed)
+ * \param b1           pointer to the right hand side without dirichelt boundary condition(removed)
+ * \param isInNode     if the node is interior node, it will be 0; if the node is on
+ *                     the boundary, it will be -1---- mod: if it is dirichlet boundary it will be 1
+ * \param dirichlet    pointer to the indicator of the dirichlet boundary
+ * \param nondirichlet pointer to the indicator of the node which is not in the dirichlet boundary
+ * \param index        pointer to the transpose of *dirichlet and *nondirichlet
+ * \param uh           pointer to the dirichlet boundary value
  *
  * \author Xuehai Huang
- * \date 03/29/2009
+ * \date   03/29/2009
  */
-static void extractNondirichletMatrix(dCSRmat *A, dvector *b, dCSRmat *A11, dvector *b1, ivector *isInNode, ivector *dirichlet, ivector *nondirichlet, ivector *index, dvector *uh)
+static void extractNondirichletMatrix (dCSRmat *A,
+                                       dvector *b,
+                                       dCSRmat *A11,
+                                       dvector *b1,
+                                       ivector *isInNode,
+                                       ivector *dirichlet,
+                                       ivector *nondirichlet,
+                                       ivector *index,
+                                       dvector *uh)
 {
 	// achiveve A11 due to dirichlet boundary condition
 	int i,j,k,l,i1,j1;

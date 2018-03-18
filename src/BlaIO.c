@@ -5,7 +5,7 @@
  *  \note  This file contains Level-1 (Bla) functions.
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
@@ -27,11 +27,12 @@
  *                          char *filerhs, dBLCmat *A, dvector *r)
  * \brief Read E and rhs from file in block_dSTRmat format
  *
- * \param fileA      file name of A
- * \param fileB      file name of B
- * \param fileC      file name of C
- * \param fileArhs   file name of right hand side
- * \param A          pointer to the dBLCmat
+ * \param fileA    file name of A
+ * \param fileB    file name of B
+ * \param fileC    file name of C
+ * \param filerhs  file name of right hand side
+ * \param A        pointer to the dBLCmat matrix
+ * \param r        pointer to the right-hand side vector
  *
  * \note
  * E = (A B^T)
@@ -160,21 +161,22 @@ void fasp_dblc_read (char *fileA,
  * \param filerhs    file name of right-hand side
  * \param A          pointer to the dBLCmat
  * \param r          pointer to the right-hand side
+ *
  * \note
- * E = (A B^T)
- *     (B C)
- * File format:
- *   This routine reads a dCSRmat matrix from files in the following format:
+ *      E = (A B^T)
+ *          (B C)
+ * \note File format:
+ *       This routine reads a dCSRmat matrix from files in the following format:
  *
  * \author Xiaozhe Hu
  * \date   11/01/2013
  */
-void fasp_dblc_read_1 (char *fileA,
-                       char *fileB,
-                       char *fileC,
-                       char *filerhs,
-                       dBLCmat *A,
-                       dvector *r)
+void fasp_dblc_read1 (char *fileA,
+                      char *fileB,
+                      char *fileC,
+                      char *filerhs,
+                      dBLCmat *A,
+                      dvector *r)
 {
     int numA,nnz,numB,nnzb,nnzc;
     int i, k, n;
@@ -277,17 +279,21 @@ void fasp_dblc_read_1 (char *fileA,
 }
 
 /**
- * \fn void fasp_dblc_read_ruth (char *fileA, char *fileB, char *fileC, 
- *                               char *fileD, char *filerhs, char *filex0, 
+ * \fn void fasp_dblc_read_ruth (char *fileA, char *fileB, char *fileC,
+ *                               char *fileD, char *filerhs, char *filex0,
  *                               dBLCmat *A, dvector *r, dvector *x0)
  *
  * \brief Read E and rhs from file in block_dSTRmat format
  *
- * \param fileA      file name of A
- * \param fileB      file name of B
- * \param fileC      file name of C
- * \param fileArhs   file name of right hand side
- * \param A          pointer to the dBLCmat
+ * \param fileA    file name of A
+ * \param fileB    file name of B
+ * \param fileC    file name of C
+ * \param fileD    file name of D
+ * \param filerhs  file name of the right-hand side
+ * \param filex0   file name of the initial guess
+ * \param A        pointer to the dBLCmat matrix
+ * \param r        pointer to the right-hand side vector
+ * \param x0       pointer to the initial guess
  *
  * \note
  * E = (A B^T)
@@ -315,6 +321,7 @@ void fasp_dblc_read_ruth (char *fileA,
     fasp_dvec_read (filerhs,r);
     fasp_dvec_read (filex0,x0);
 }
+
 /*---------------------------------*/
 /*--        End of File          --*/
 /*---------------------------------*/

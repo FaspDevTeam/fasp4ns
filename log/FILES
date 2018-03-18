@@ -1,0 +1,16 @@
+     507 ./include/fasp4ns.h
+     245 ./include/fasp4ns_functs.h
+      39 ./include/messages_ns.h
+     519 ./src/assemble_util.inl
+      98 ./src/basisP0.inl
+      98 ./src/basisP2.inl
+     125 ./src/functs.inl
+    1337 ./src/AuxInput.c
+     506 ./src/AuxParam.c
+     320 ./src/BlaIO.c
+    1646 ./src/PreNavierStokes.c
+     451 ./src/PrePNPStokes.c
+    1103 ./src/SolNavierStokes.c
+     491 ./src/SolPNPStokes.c
+     282 ./src/SolWrapper.c
+    7767 total

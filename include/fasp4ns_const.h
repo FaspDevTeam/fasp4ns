@@ -1,21 +1,16 @@
-/*
- * message_ns.h
+/*! \file  fasp4ns_const.h
+ *
+ *  \brief Constants used in the FASP4NS package
+ *
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2008--2018 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
  *
  */
 
-/*! \file message_ns.h
- *  \brief Main header file for FASP4NS package
- */ 
-#ifndef __FASP_NS_MESSAGES__		/*-- allow multiple inclusions --*/
-#define __FASP_NS_MESSAGES__
-
-/** 
- * \brief Definition of iterative solver types
- */
-#define SOLVER_MinRes       3  /**< Minimal Residual */
-#define SOLVER_GMRES        4  /**< GMRES Method */
-#define SOLVER_FGMRES       5  /**< FGMRES Method */
-//#define SOLVER_GCR          6  /**< GCR Method */
+#ifndef __FASP_NS_CONST__ /*-- allow multiple inclusions --*/
+#define __FASP_NS_CONST__
 
 /** 
  * \brief Definition of preconditioner types
@@ -26,6 +21,9 @@
 #define PREC_UP_TRI         3  /**< with upper block triangle preconditioner */
 #define PREC_SYM_TRI        4 /**< with symmetric block triangle preconditioner */
 
+/**
+ * \brief Definition of colors
+ */
 #define COLOR_RED     "\x1b[31m"
 #define COLOR_GREEN   "\x1b[32m"
 #define COLOR_YELLOW  "\x1b[33m"
@@ -34,6 +32,6 @@
 #define COLOR_CYAN    "\x1b[36m"
 #define COLOR_RESET   "\x1b[0m"
 
-
 #endif
-/* Ene of message_ns.h */
+
+/* Ene of fasp4ns_const.h */
