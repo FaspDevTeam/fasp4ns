@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "StokesBrinkman", "StokesBrinkman\StokesBrinkman.vfproj", "{F6956280-AC4F-4313-A6FF-7368738BBC5E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D281BB32-968F-47EA-BA1F-84A30122BDFF} = {D281BB32-968F-47EA-BA1F-84A30122BDFF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fasp4ns_lib", "fasp4ns_lib\fasp4ns_lib.vcxproj", "{D281BB32-968F-47EA-BA1F-84A30122BDFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6956280-AC4F-4313-A6FF-7368738BBC5E}.Release|x64.ActiveCfg = Release|x64
+		{F6956280-AC4F-4313-A6FF-7368738BBC5E}.Release|x64.Build.0 = Release|x64
+		{D281BB32-968F-47EA-BA1F-84A30122BDFF}.Release|x64.ActiveCfg = Release|x64
+		{D281BB32-968F-47EA-BA1F-84A30122BDFF}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
