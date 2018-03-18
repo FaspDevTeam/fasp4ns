@@ -5,7 +5,7 @@
  *  \note  This file contains Level-0 (Aux) functions.
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  */
@@ -14,6 +14,7 @@
 
 #include "fasp.h"
 #include "fasp_functs.h"
+
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
@@ -24,7 +25,7 @@
 /**
  * \fn void fasp_ns_param_init (input_ns_param *inparam,
  *                              ITS_param *itsparam,
- *                              AMG_param *amgparam,
+ *                              AMG_ns_param *amgparam,
  *                              ILU_param *iluparam,
  *                              SWZ_param *swzparam)
  *
@@ -72,7 +73,7 @@ void fasp_ns_param_init (input_ns_param *inparam,
 }
 
 /**
- * \fn void fasp_param_input_init (input_ns_param *inparam)
+ * \fn void fasp_ns_param_input_init (input_ns_param *inparam)
  *
  * \brief Initialize input parameters
  *
@@ -196,7 +197,7 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
 }
 
 /**
- * \fn void fasp_param_amg_init (AMG_param *amgparam)
+ * \fn void fasp_ns_param_amg_init (AMG_param *amgparam)
  *
  * \brief Initialize AMG parameters
  *
@@ -353,16 +354,16 @@ void fasp_ns_param_amg_set (AMG_ns_param   *param,
 /**
  * \fn void fasp_ns_param_solver_init (itsolver_ns_param *itsparam)
  *
- * \brief Initialize AMG parameters
+ * \brief Initialize parameters for iterative solvers
  *
- * \param amgparam    Parameters for AMG
+ * \param itsparam    Parameters for AMG
  *
  * \author Lu Wang
  * \date   2014/02/11
  *
  * Modified by Xiaozhe Hu on 02/21/2014
  */
-void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
+void fasp_ns_param_solver_init (itsolver_ns_param *itsparam)
 {
     itsparam->itsolver_type   = SOLVER_CG;
     itsparam->precond_type    = PREC_AMG;
@@ -390,7 +391,8 @@ void fasp_ns_param_solver_init(itsolver_ns_param *itsparam)
 }
 
 /**
- * \fn void fasp_param_solver_set (itsolver_ns_param *itsparam, input_ns_param *inparam)
+ * \fn void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
+ *                                    input_ns_param *inparam)
  *
  * \brief Set ITS_param with INPUT
  *

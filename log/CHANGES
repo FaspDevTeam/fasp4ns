@@ -1,0 +1,16 @@
+File Name: CHANGES
+
+03/18/2018 FASP4NS 0.2.0:
+=======================================
+|| This is a major change of package ||
+=======================================
+- Compatible with FASPSOLVER 2.0.7.
+- Update copyright information.
+- Add log files.
+- Add doc files.
+- Add VS10 settings.
+- Fix Doxygen problems in all files.
+- Several changes to long function names.
+
+08/22/2012 FASP4NS 0.1.0:
+- Initial version based on FASP4MONIX

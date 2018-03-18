@@ -1,13 +1,17 @@
-/*! \file fasp4ns.h
+/*! \file  fasp4ns.h
+ *
  *  \brief Main header file for FASP4NS package
  *
- * \note: modified by Xiaozhe Hu on Feb. 21, 2014
- * \note: modified by Xiaozhe Hu on May. 27, 2014
- */ 
-#include "messages_ns.h"
-#include "fasp.h"
+ *---------------------------------------------------------------------------------
+ *  Copyright (C) 2008--2018 by the FASP team. All rights reserved.
+ *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
+ *---------------------------------------------------------------------------------
+ */
 
-#ifndef __FASP4NS_HEADER__/*-- allow multiple inclusions --*/
+#include "fasp.h"
+#include "fasp4ns_const.h"
+
+#ifndef __FASP4NS_HEADER__ /*-- allow multiple inclusions --*/
 #define __FASP4NS_HEADER__
 
 /*-----------------------*/

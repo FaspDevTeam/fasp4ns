@@ -6,7 +6,7 @@
  *         PreNavierStokes.c and PrePNPStokes.c
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2012--2017 by the FASP team. All rights reserved.
+ *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
@@ -37,11 +37,16 @@
  *
  * \brief Solve Ax = b by standard Krylov methods
  *
- * \param A         Pointer to the coeff matrix in dBLCmat format
- * \param b         Pointer to the right hand side in dvector format
- * \param x         Pointer to the approx solution in dvector format
- * \param itparam   Pointer to parameters for iterative solvers
- * \param amgparam  Pointer to parameters for AMG solvers
+ * \param A               Pointer to the coeff matrix in dBLCmat format
+ * \param b               Pointer to the right hand side in dvector format
+ * \param x               Pointer to the approx solution in dvector format
+ * \param itparam         Pointer to parameters for iterative solvers
+ * \param itparam_pnp     Pointer to parameters for iterative solvers for PNP
+ * \param amgparam_pnp    Pointer to parameters for AMG solvers for PNP
+ * \param itparam_stokes  Pointer to parameters for iterative solvers for Stokes
+ * \param amgparam_stokes Pointer to parameters for AMG solvers for Stokes
+ * \param num_velocity    Size of velocity vector
+ * \param num_pressure    Size of pressure vector
  *
  * \return          Iteration number if converges; ERROR otherwise.
  *

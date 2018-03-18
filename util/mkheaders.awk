@@ -10,6 +10,7 @@
 # modified by Xiaozhe Hu for CUDA ( 09/20/2011 )
 # modified by Chensong Zhang to fix the CPP bug in VC++ ( 12/13/2011 )
 # modified by Chensong Zhang to update output format ( 01/31/2017 )
+# modified by Chensong Zhang to update copyright info ( 03/18/2018 )
 
 BEGIN {
   inheader=0;
@@ -18,7 +19,7 @@ BEGIN {
   print " *  \\brief Function decoration for the FASP package"
   print " *"
   print " *---------------------------------------------------------------------------------"
-  print " *  Copyright (C) 2008--2017 by the FASP team. All rights reserved.                "
+  print " *  Copyright (C) 2008--2018 by the FASP team. All rights reserved.                "
   print " *  Released under the terms of the GNU Lesser General Public License 3.0 or later."
   print " *---------------------------------------------------------------------------------"
   print " *"

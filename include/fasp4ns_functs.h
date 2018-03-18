@@ -3,7 +3,7 @@
  *  \brief Function decoration for the FASP package
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2008--2017 by the FASP team. All rights reserved.                
+ *  Copyright (C) 2008--2018 by the FASP team. All rights reserved.                
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
@@ -33,10 +33,10 @@ void fasp_ns_param_input_init (input_ns_param *inparam);
 
 void fasp_ns_param_amg_init (AMG_ns_param *amgparam);
 
-void fasp_ns_param_amg_set (AMG_ns_param *param,
+void fasp_ns_param_amg_set (AMG_ns_param   *param,
                             input_ns_param *inparam);
 
-void fasp_ns_param_solver_init(itsolver_ns_param *itsparam);
+void fasp_ns_param_solver_init (itsolver_ns_param *itsparam);
 
 void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
                                input_ns_param *inparam);
@@ -57,12 +57,12 @@ void fasp_dblc_read (char *fileA,
                      dBLCmat *A,
                      dvector *r);
 
-void fasp_dblc_read_1 (char *fileA,
-                       char *fileB,
-                       char *fileC,
-                       char *filerhs,
-                       dBLCmat *A,
-                       dvector *r);
+void fasp_dblc_read1 (char *fileA,
+                      char *fileB,
+                      char *fileC,
+                      char *filerhs,
+                      dBLCmat *A,
+                      dvector *r);
 
 void fasp_dblc_read_ruth (char *fileA,
                           char *fileB,
@@ -165,27 +165,27 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                              dvector *b,
                                              dvector *x,
                                              itsolver_ns_param *itparam,
-                                             AMG_ns_param *amgnsparam,
+                                             AMG_ns_param *amgparam,
                                              ILU_param *iluparam,
-                                             SWZ_param *schparam);
+                                             SWZ_param *swzparam);
 
-SHORT fasp_solver_dblc_krylov_navier_stokes_with_pressure_mass (dBLCmat *Mat,
-                                                                dvector *b,
-                                                                dvector *x,
-                                                                itsolver_ns_param *itparam,
-                                                                AMG_ns_param *amgnsparam,
-                                                                ILU_param *iluparam,
-                                                                SWZ_param *schparam,
-                                                                dCSRmat *Mp);
+SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
+                                                   dvector *b,
+                                                   dvector *x,
+                                                   itsolver_ns_param *itparam,
+                                                   AMG_ns_param *amgparam,
+                                                   ILU_param *iluparam,
+                                                   SWZ_param *swzparam,
+                                                   dCSRmat *Mp);
 
-SHORT fasp_solver_dblc_krylov_navier_stokes_schur_complement_with_pressure_mass (dBLCmat *Mat,
-                                                                                 dvector *b,
-                                                                                 dvector *x,
-                                                                                 itsolver_ns_param *itparam,
-                                                                                 AMG_ns_param *amgnsparam,
-                                                                                 ILU_param *iluparam,
-                                                                                 SWZ_param *schparam,
-                                                                                 dCSRmat *Mp);
+SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
+                                                         dvector *b,
+                                                         dvector *x,
+                                                         itsolver_ns_param *itparam,
+                                                         AMG_ns_param *amgparam,
+                                                         ILU_param *iluparam,
+                                                         SWZ_param *swzparam,
+                                                         dCSRmat *Mp);
 
 
 /*-------- In file: SolPNPStokes.c --------*/
@@ -203,24 +203,6 @@ INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
 
 
 /*-------- In file: SolWrapper.c --------*/
-
-void fasp_fwrapper_krylov_navier_stokes_ (INT *nA,
-                                          INT *nnzA,
-                                          INT *ia,
-                                          INT *ja,
-                                          REAL *aval,
-                                          INT *nB,
-                                          INT *nnzB,
-                                          INT *ib,
-                                          INT *jb,
-                                          REAL *bval,
-                                          INT *nC,
-                                          INT *nnzC,
-                                          INT *ic,
-                                          INT *jc,
-                                          REAL *cval,
-                                          REAL *b,
-                                          REAL *u);
 
 void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
                                                INT *nnzA,
@@ -241,5 +223,23 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
                                                REAL *cval,
                                                REAL *b,
                                                REAL *u);
+
+void fasp_fwrapper_krylov_navier_stokes_sym_ (INT *nA,
+                                              INT *nnzA,
+                                              INT *ia,
+                                              INT *ja,
+                                              REAL *aval,
+                                              INT *nB,
+                                              INT *nnzB,
+                                              INT *ib,
+                                              INT *jb,
+                                              REAL *bval,
+                                              INT *nC,
+                                              INT *nnzC,
+                                              INT *ic,
+                                              INT *jc,
+                                              REAL *cval,
+                                              REAL *b,
+                                              REAL *u);
 
 /* Ene of fasp4ns_functs.h */
