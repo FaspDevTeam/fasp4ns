@@ -8,12 +8,11 @@
  *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
- *
- *  // TODO: Fix Doxygen. --Chensong
  */
 
 #include "fasp.h"
 #include "fasp_functs.h"
+
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
@@ -23,6 +22,7 @@
 
 /**
  * \fn void fasp_precond_pnp_stokes_diag (REAL *r, REAL *z, void *data)
+ *
  * \brief block diagonal preconditioning (3x3 block matrix, each diagonal block
  *        is solved exactly)
  *
@@ -37,7 +37,6 @@ void fasp_precond_pnp_stokes_diag (REAL *r,
                                    REAL *z,
                                    void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dCSRmat *A_stokes_csr = precdata->A_stokes_csr;
@@ -77,11 +76,11 @@ void fasp_precond_pnp_stokes_diag (REAL *r,
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /**
  * \fn void fasp_precond_pnp_stokes_lower (REAL *r, REAL *z, void *data)
+ *
  * \brief block lower triangular preconditioning (3x3 block matrix, each diagonal
  *        block is solved exactly)
  *
@@ -96,7 +95,6 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
                                     REAL *z,
                                     void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
@@ -139,11 +137,11 @@ void fasp_precond_pnp_stokes_lower (REAL *r,
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /**
  * \fn void fasp_precond_pnp_stokes_upper (REAL *r, REAL *z, void *data)
+ *
  * \brief block upper triangular preconditioning (3x3 block matrix, each diagonal
  *        block is solved exactly)
  *
@@ -158,7 +156,6 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
                                     REAL *z,
                                     void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
@@ -201,11 +198,11 @@ void fasp_precond_pnp_stokes_upper (REAL *r,
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /**
  * \fn void fasp_precond_pnp_stokes_diag_inexact (REAL *r, REAL *z, void *data)
+ *
  * \brief block diagonal preconditioning (3x3 block matrix, each diagonal block
  *        is solved inexactly)
  *
@@ -220,7 +217,6 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
                                            REAL *z,
                                            void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
     dBSRmat *A_pnp_bsr = precdata->A_pnp_bsr;
@@ -275,14 +271,13 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     
     fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
     
-    
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /**
  * \fn void fasp_precond_pnp_stokes_lower_inexact (REAL *r, REAL *z, void *data)
+ *
  * \brief block lower triangular preconditioning (3x3 block matrix, each diagonal
  *        block is solved exactly)
  *
@@ -297,7 +292,6 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
                                             REAL *z,
                                             void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
@@ -360,11 +354,11 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /**
  * \fn void fasp_precond_pnp_stokes_upper_inexact (REAL *r, REAL *z, void *data)
+ *
  * \brief block upper triangular preconditioning (3x3 block matrix, each diagonal
  *        block is solved exactly)
  *
@@ -379,7 +373,6 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
                                             REAL *z,
                                             void *data)
 {
-    
     precond_pnp_stokes_data *precdata=(precond_pnp_stokes_data *)data;
     dBLCmat *A = precdata->Abcsr;
     dCSRmat *A_pnp_csr = precdata->A_pnp_csr;
@@ -443,7 +436,6 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
-    
 }
 
 /*---------------------------------*/

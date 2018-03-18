@@ -9,8 +9,6 @@
  *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
- *
- *  // TODO: Fix Doxygen. --Chensong
  */
 
 #include "fasp.h"
@@ -56,7 +54,7 @@
  * \author Lu Wang
  * \date   03/20/2014
  *
- * Modified by Chensong Zhang on 03/16/2018
+ * Modified by Chensong Zhang on 03/16/2018: Fixed format problem
  */
 void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
                                                INT *nnzA,
@@ -184,7 +182,7 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
  * \author Lu Wang
  * \date   03/14/2012
  *
- * Modified by Chensong Zhang on 03/13/2018
+ * Modified by Chensong Zhang on 03/16/2018: Fixed format problem
  */
 void fasp_fwrapper_krylov_navier_stokes_sym_ (INT *nA,
                                               INT *nnzA,

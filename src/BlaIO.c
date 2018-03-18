@@ -9,12 +9,12 @@
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
- *  // TODO: Fix Doxygen. --Chensong
- *  // TODO: Remove unused functions. --Chensong
+ *  TODO: Need to simplify these functions!!! --Chensong
  */
 
 #include "fasp.h"
 #include "fasp_functs.h"
+
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
@@ -23,29 +23,30 @@
 /*---------------------------------*/
 
 /**
- * \fn void fasp_dblc_read (char *fileA, char *fileB, char *fileC,
+ * \fn void fasp_dblc_read (char *fileA11, char *fileA21, char *fileA22,
  *                          char *filerhs, dBLCmat *A, dvector *r)
- * \brief Read E and rhs from file in block_dSTRmat format
  *
- * \param fileA    file name of A
- * \param fileB    file name of B
- * \param fileC    file name of C
+ * \brief Read the dBLCmat and right-hand side from files
+ *
+ * \param fileA11    file name of A
+ * \param fileA21    file name of B
+ * \param fileA22    file name of C
  * \param filerhs  file name of right hand side
  * \param A        pointer to the dBLCmat matrix
  * \param r        pointer to the right-hand side vector
  *
  * \note
- * E = (A B^T)
- *     (B C)
+ *      E = (A B^T)
+ *          (B C)
  * File format:
  *   This routine reads a dCSRmat matrix from files in the following format:
  *
  * \author Lu WANG
  * \date   02/24/2012
  */
-void fasp_dblc_read (char *fileA,
-                     char *fileB,
-                     char *fileC,
+void fasp_dblc_read (char *fileA11,
+                     char *fileA21,
+                     char *fileA22,
                      char *filerhs,
                      dBLCmat *A,
                      dvector *r)
@@ -55,17 +56,17 @@ void fasp_dblc_read (char *fileA,
     int ivalue,wall;
     double value;
     
-    // read file A
-    FILE *fp=fopen(fileA,"r");
+    // read matrix A11
+    FILE *fp = fopen(fileA11,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n", fileA);
+        printf("### ERROR: Opening file %s failed!\n", fileA11);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileA);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA11);
     
     wall = fscanf(fp,"%d %d",&numA,&nnz); // read dimension of the problem
     fasp_dcsr_alloc (numA,numA,nnz,A->blocks[0]);
-    // read matrix A
+
     for (i=0;i<numA+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[0]->IA[i]=ivalue;
@@ -80,17 +81,17 @@ void fasp_dblc_read (char *fileA,
     }
     fclose(fp);
     
-    fp=fopen(fileB,"r");
+    // read matrix A21
+    fp=fopen(fileA21,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n",fileB);
+        printf("### ERROR: Opening file %s failed!\n",fileA21);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileB);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA21);
     
     wall = fscanf(fp,"%d %d",&numB,&nnzb); // read dimension of the problem
     fasp_dcsr_alloc (numB,numA,nnzb,A->blocks[2]);
     
-    // read matrix B
     for (i=0;i<numB+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[2]->IA[i]=ivalue;
@@ -106,19 +107,21 @@ void fasp_dblc_read (char *fileA,
         A->blocks[2]->val[i]=value;
     }
     fclose(fp);
+
+    // get matrix A12
     fasp_dcsr_trans(A->blocks[2],A->blocks[1]);
     
-    fp=fopen(fileC,"r");
+    // read matrix A22
+    fp=fopen(fileA22,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n",fileC);
+        printf("### ERROR: Opening file %s failed!\n",fileA22);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileC);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA22);
     
     wall = fscanf(fp,"%d %d",&numB,&nnzc); // read dimension of the problem
     fasp_dcsr_alloc (numB,numB,nnzc,A->blocks[3]);
     
-    // read matrix B
     for (i=0;i<numB+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[3]->IA[i]=ivalue;
@@ -134,7 +137,8 @@ void fasp_dblc_read (char *fileA,
         A->blocks[3]->val[i]=value;
     }
     fclose(fp);
-    
+
+    // read rhs
     fp=fopen(filerhs,"r");
     if ( fp == NULL ) {
         printf("### ERROR: Opening file %s failed!\n",filerhs);
@@ -151,29 +155,28 @@ void fasp_dblc_read (char *fileA,
 }
 
 /**
- * \fn void fasp_dblc_read1 (char *fileA, char *fileB, char *fileC, char *filerhs,
- *                           dBLCmat *A, dvector *r)
- * \brief Read E and rhs from file in block_dSTRmat format
+ * \fn void fasp_dblc_read1 (char *fileA11, char *fileA21, char *fileA22,
+ *                           char *filerhs, dBLCmat *A, dvector *r)
  *
- * \param fileA      file name of A
- * \param fileB      file name of B
- * \param fileC      file name of C
- * \param filerhs    file name of right-hand side
- * \param A          pointer to the dBLCmat
- * \param r          pointer to the right-hand side
+ * \brief Read A and rhs from files
+ *
+ * \param fileA11  file name of A
+ * \param fileA21  file name of B
+ * \param fileA22  file name of C
+ * \param filerhs  file name of right-hand side
+ * \param A        pointer to the dBLCmat
+ * \param r        pointer to the right-hand side
  *
  * \note
- *      E = (A B^T)
- *          (B C)
- * \note File format:
- *       This routine reads a dCSRmat matrix from files in the following format:
+ *      A = (A11 A12)
+ *          (A21 A22)
  *
  * \author Xiaozhe Hu
  * \date   11/01/2013
  */
-void fasp_dblc_read1 (char *fileA,
-                      char *fileB,
-                      char *fileC,
+void fasp_dblc_read1 (char *fileA11,
+                      char *fileA21,
+                      char *fileA22,
                       char *filerhs,
                       dBLCmat *A,
                       dvector *r)
@@ -183,17 +186,17 @@ void fasp_dblc_read1 (char *fileA,
     int ivalue,wall;
     double value;
     
-    // read file A
-    FILE *fp=fopen(fileA,"r");
+    // read matrix A11
+    FILE *fp = fopen(fileA11,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n",fileA);
+        printf("### ERROR: Opening file %s failed!\n",fileA11);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileA);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA11);
     
     wall = fscanf(fp,"%d %d",&numA,&nnz); // read dimension of the problem
-    fasp_dcsr_alloc (numA,numA,nnz,A->blocks[0]);
-    // read matrix A
+    fasp_dcsr_alloc(numA,numA,nnz,A->blocks[0]);
+
     for (i=0;i<numA+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[0]->IA[i]=ivalue;
@@ -208,17 +211,17 @@ void fasp_dblc_read1 (char *fileA,
     }
     fclose(fp);
     
-    fp=fopen(fileB,"r");
+    // read matrix A21
+    fp = fopen(fileA21,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n",fileB);
+        printf("### ERROR: Opening file %s failed!\n",fileA21);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileB);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA21);
     
     wall = fscanf(fp,"%d %d",&numB,&nnzb); // read dimension of the problem
-    fasp_dcsr_alloc (numB,numA,nnzb,A->blocks[2]);
+    fasp_dcsr_alloc(numB,numA,nnzb,A->blocks[2]);
     
-    // read matrix B
     for (i=0;i<numB+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[2]->IA[i]=ivalue;
@@ -234,19 +237,21 @@ void fasp_dblc_read1 (char *fileA,
         A->blocks[2]->val[i]=value;
     }
     fclose(fp);
+
+    // get matrix A12
     fasp_dcsr_trans(A->blocks[2],A->blocks[1]);
     
-    fp=fopen(fileC,"r");
+    // read matrix A22
+    fp = fopen(fileA22,"r");
     if ( fp == NULL ) {
-        printf("### ERROR: Opening file %s failed!\n",fileC);
+        printf("### ERROR: Opening file %s failed!\n",fileA22);
         exit(ERROR_OPEN_FILE);
     }
-    printf("%s: reading file %s...\n", __FUNCTION__, fileC);
+    printf("%s: reading file %s...\n", __FUNCTION__, fileA22);
     
     wall = fscanf(fp,"%d %d",&numB,&nnzc); // read dimension of the problem
-    fasp_dcsr_alloc (numB,numB,nnzc,A->blocks[3]);
+    fasp_dcsr_alloc(numB,numB,nnzc,A->blocks[3]);
     
-    // read matrix B
     for (i=0;i<numB+1;++i) {
         wall = fscanf(fp, "%d", &ivalue);
         A->blocks[3]->IA[i]=ivalue;
@@ -263,6 +268,7 @@ void fasp_dblc_read1 (char *fileA,
     }
     fclose(fp);
     
+    // read rhs
     fp=fopen(filerhs,"r");
     if ( fp == NULL ) {
         printf("### ERROR: Opening file %s failed!\n",filerhs);
@@ -279,16 +285,16 @@ void fasp_dblc_read1 (char *fileA,
 }
 
 /**
- * \fn void fasp_dblc_read_ruth (char *fileA, char *fileB, char *fileC,
- *                               char *fileD, char *filerhs, char *filex0,
+ * \fn void fasp_dblc_read_ruth (char *fileA11, char *fileA12, char *fileA21,
+ *                               char *fileA22, char *filerhs, char *filex0,
  *                               dBLCmat *A, dvector *r, dvector *x0)
  *
- * \brief Read E and rhs from file in block_dSTRmat format
+ * \brief Read the dBLCmat matrix and rhs from files
  *
- * \param fileA    file name of A
- * \param fileB    file name of B
- * \param fileC    file name of C
- * \param fileD    file name of D
+ * \param fileA11  file name of A
+ * \param fileA12  file name of B
+ * \param fileA21  file name of C
+ * \param fileA22  file name of D
  * \param filerhs  file name of the right-hand side
  * \param filex0   file name of the initial guess
  * \param A        pointer to the dBLCmat matrix
@@ -296,28 +302,27 @@ void fasp_dblc_read1 (char *fileA,
  * \param x0       pointer to the initial guess
  *
  * \note
- * E = (A B^T)
- *     (B C)
- * File format:
- *   This routine reads a dCSRmat matrix from files in the following format:
+ *      A = (A11 A12)
+ *          (A21 A22)
  *
  * \author Lu WANG
  * \date   02/24/2012
  */
-void fasp_dblc_read_ruth (char *fileA,
-                          char *fileB,
-                          char *fileC,
-                          char *fileD,
+void fasp_dblc_read_ruth (char *fileA11,
+                          char *fileA12,
+                          char *fileA21,
+                          char *fileA22,
                           char *filerhs,
                           char *filex0,
                           dBLCmat *A,
                           dvector *r,
                           dvector *x0)
 {
-    fasp_dcoo_read (fileA,A->blocks[0]);
-    fasp_dcoo_read (fileB,A->blocks[1]);
-    fasp_dcoo_read (fileC,A->blocks[2]);
-    fasp_dcoo_read (fileD,A->blocks[3]);
+    fasp_dcoo_read (fileA11,A->blocks[0]);
+    fasp_dcoo_read (fileA12,A->blocks[1]);
+    fasp_dcoo_read (fileA21,A->blocks[2]);
+    fasp_dcoo_read (fileA22,A->blocks[3]);
+
     fasp_dvec_read (filerhs,r);
     fasp_dvec_read (filex0,x0);
 }

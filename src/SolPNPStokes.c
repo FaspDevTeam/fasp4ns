@@ -9,8 +9,6 @@
  *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
- *
- *  // TODO: Fix Doxygen. --Chensong
  */
 
 #include <math.h>
@@ -52,7 +50,6 @@
  *
  * \author Xiaozhe Hu
  * \date   10/12/2016
- *
  */
 INT fasp_solver_dblc_krylov_pnp_stokes (dBLCmat *A,
                                         dvector *b,
