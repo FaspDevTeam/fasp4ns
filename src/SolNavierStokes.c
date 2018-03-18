@@ -10,8 +10,7 @@
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
- *  // TODO: Fix Doxygen. --Chensong
- *  // TODO: Shorten function names. --Chensong
+ *  TODO: Clean up these functions! --Chensong
  */
 
 #include <math.h>
@@ -66,42 +65,55 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
     const SHORT MaxIt      = itparam->maxit;
     const SHORT restart    = itparam->restart;
     const REAL  tol        = itparam->tol;
-    
-    clock_t solver_start=clock();
-    INT iter;
+
+    INT iter = ERROR_SOLVER_TYPE;
+    REAL solver_start, solver_end, solver_duration;
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
+    printf("### DEBUG: rhs/sol size: %d %d\n", b->row, x->row);
+#endif
+
+    fasp_gettime(&solver_start);
+
     switch (SolverType) {
             
-            case SOLVER_BiCGstab:
+        case SOLVER_BiCGstab:
             iter = fasp_solver_dblc_pbcgs(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
             break;
             
-            case SOLVER_MinRes:
+        case SOLVER_MinRes:
             iter = fasp_solver_dblc_pminres(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
             break;
             
-            case SOLVER_VGMRES:
+        case SOLVER_VGMRES:
             iter = fasp_solver_dblc_pvgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
             break;
             
-            case SOLVER_VFGMRES:
+        case SOLVER_VFGMRES:
             iter = fasp_solver_dblc_pvfgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
             break;
             
-            case SOLVER_GCR:
+        case SOLVER_GCR:
             iter = fasp_solver_dblc_pgcr(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
             break;
             
-            default:
+        default:
             printf("### ERROR: Wrong itertive solver type %d!\n", SolverType);
             iter = ERROR_SOLVER_TYPE;
+
     }
     
-    if ((PrtLvl>1) && (iter >= 0)) {
-        clock_t solver_end=clock();
-        REAL solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
-        printf("Iterative solver costs %f seconds.\n", solver_duration);
+    if ( (PrtLvl > PRINT_MIN) && (iter >= 0) ) {
+        fasp_gettime(&solver_end);
+        solver_duration = solver_end - solver_start;
+        fasp_cputime("Iterative method", solver_duration);
     }
-    
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [--End--] %s ...\n", __FUNCTION__);
+#endif
+
     return iter;
 }
 
@@ -145,7 +157,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     const INT schwarz_type   = swzparam->SWZ_type;
     
 #if DEBUG_MODE > 0
-    printf("### DEBUG: %s ...... [Start]\n", __FUNCTION__);
+    printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
 #endif
     
     // Navier-Stokes 2 by 2 matrix
@@ -368,67 +380,67 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     precdata.w = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
     
     switch (precond_type) {
-            case 1:
+        case 1:
             prec.fct = fasp_precond_ns_bdiag;
             break;
-            case 2:
+        case 2:
             prec.fct = fasp_precond_ns_low_btri;
             break;
-            case 3:
+        case 3:
             prec.fct = fasp_precond_ns_up_btri;
             break;
-            case 4:
+        case 4:
             prec.fct = fasp_precond_ns_blu;
             break;
-            case 5:
+        case 5:
             prec.fct = fasp_precond_ns_simple;
             break;
-            case 6:
+        case 6:
             prec.fct = fasp_precond_ns_simpler;
             break;
-            case 7:
+        case 7:
             prec.fct = fasp_precond_ns_uzawa;
             break;
-            case 8:
+        case 8:
             prec.fct = fasp_precond_ns_projection;
             break;
-            case 9:
+        case 9:
             prec.fct = fasp_precond_ns_DGS;
             break;
-            case 10:
+        case 10:
             prec.fct = fasp_precond_ns_LSCDGS;
             break;
-            case 11:
+        case 11:
             prec.fct = fasp_precond_ns_bdiag;
             break;
-            case 12:
+        case 12:
             prec.fct = fasp_precond_ns_low_btri;
             break;
-            case 13:
+        case 13:
             prec.fct = fasp_precond_ns_up_btri;
             break;
-            case 14:
+        case 14:
             prec.fct = fasp_precond_ns_blu;
             break;
-            case 15:
+        case 15:
             prec.fct = fasp_precond_ns_simple;
             break;
-            case 16:
+        case 16:
             prec.fct = fasp_precond_ns_simpler;
             break;
-            case 17:
+        case 17:
             prec.fct = fasp_precond_ns_uzawa;
             break;
-            case 18:
+        case 18:
             prec.fct = fasp_precond_ns_projection;
             break;
-            case 19:
+        case 19:
             prec.fct = fasp_precond_ns_DGS;
             break;
-            case 20:
+        case 20:
             prec.fct = fasp_precond_ns_LSCDGS;
             break;
-            default:
+        default:
             printf("### ERROR: Unknown preconditioner type!\n");
             exit(ERROR_SOLVER_PRECTYPE);
     }
@@ -465,7 +477,11 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     fasp_dcsr_free(&S);
     if (precond_type == 10 || precond_type == 20) fasp_dcsr_free(&BABt);
     fasp_dvec_free(&diag_A);
-    
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [--End--] %s ...\n", __FUNCTION__);
+#endif
+
     return status;
 }
 

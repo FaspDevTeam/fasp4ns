@@ -50,24 +50,24 @@ void fasp_ns_param_swz_set (SWZ_param *swzparam,
 
 /*-------- In file: BlaIO.c --------*/
 
-void fasp_dblc_read (char *fileA,
-                     char *fileB,
-                     char *fileC,
+void fasp_dblc_read (char *fileA11,
+                     char *fileA21,
+                     char *fileA22,
                      char *filerhs,
                      dBLCmat *A,
                      dvector *r);
 
-void fasp_dblc_read1 (char *fileA,
-                      char *fileB,
-                      char *fileC,
+void fasp_dblc_read1 (char *fileA11,
+                      char *fileA21,
+                      char *fileA22,
                       char *filerhs,
                       dBLCmat *A,
                       dvector *r);
 
-void fasp_dblc_read_ruth (char *fileA,
-                          char *fileB,
-                          char *fileC,
-                          char *fileD,
+void fasp_dblc_read_ruth (char *fileA11,
+                          char *fileA12,
+                          char *fileA21,
+                          char *fileA22,
                           char *filerhs,
                           char *filex0,
                           dBLCmat *A,
