@@ -11,6 +11,7 @@ File Name: CHANGES
 - Add VS10 settings.
 - Fix Doxygen problems in all files.
 - Several changes to long function names.
+- Add Stokes-Brinkman test example from Yuan Tao.
 
 08/22/2012 FASP4NS 0.1.0:
 - Initial version based on FASP4MONIX
