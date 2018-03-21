@@ -45,8 +45,8 @@ program StokesBrinkman
 
     Lx = 0.1
     Ly = 0.1
-    nx = 3
-    ny = 3
+    nx = 300
+    ny = 300
     dx = Lx / nx
     dy = Ly / ny
     nb = nx * ny

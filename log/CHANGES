@@ -1,5 +1,8 @@
 File Name: CHANGES
 
+03/21/2018 FASP4NS 0.2.1:
+- Fix interface to Stokes-Brinkman; solver works now.
+
 03/18/2018 FASP4NS 0.2.0:
 =======================================
 || This is a major change of package ||
