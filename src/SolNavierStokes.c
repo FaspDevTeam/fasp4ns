@@ -36,14 +36,14 @@ static inline void get_schur_pmass (dCSRmat *, dCSRmat *, dCSRmat *,
 
 /**
  * \fn SHORT fasp_ns_solver_itsolver (dCSRmat *A, dvector *b, dvector *x,
- *                                    precond *prec, itsolver_ns_param *itparam)
+ *                                    precond *prec, itsolver_ns_param *itsparam)
  * \brief Solve Ax=b by standard Krylov methods
  *
  * \param A        pointer to the block dCSRmat matrix
  * \param b        pointer to the dvector of right hand side
  * \param x        pointer to the dvector of dofs
  * \param prec     pointer to the preconditioner data
- * \param itparam  pointer to parameters for iterative solvers
+ * \param itsparam  pointer to parameters for iterative solvers
  *
  * \return         the number of iterations
  *
@@ -57,14 +57,14 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
                                dvector *b,
                                dvector *x,
                                precond *prec,
-                               itsolver_ns_param *itparam)
+                               itsolver_ns_param *itsparam)
 {
-    const SHORT PrtLvl     = itparam->print_level;
-    const SHORT SolverType = itparam->itsolver_type;
-    const SHORT StopType   = itparam->stop_type;
-    const SHORT MaxIt      = itparam->maxit;
-    const SHORT restart    = itparam->restart;
-    const REAL  tol        = itparam->tol;
+    const SHORT PrtLvl     = itsparam->print_level;
+    const SHORT SolverType = itsparam->itsolver_type;
+    const SHORT StopType   = itsparam->stop_type;
+    const SHORT MaxIt      = itsparam->maxit;
+    const SHORT restart    = itsparam->restart;
+    const REAL  tol        = itsparam->tol;
 
     INT iter = ERROR_SOLVER_TYPE;
     REAL solver_start, solver_end, solver_duration;
@@ -119,7 +119,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
 
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat, dvector *b, dvector *x,
- *                                                  itsolver_ns_param *itparam,
+ *                                                  itsolver_ns_param *itsparam,
  *                                                  AMG_ns_param *amgparam,
  *                                                  ILU_param *iluparam,
  *                                                  SWZ_param *swzparam)
@@ -128,7 +128,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
  * \param Mat       pointer to the dBLCmat matrix
  * \param b         pointer to the dvector of right hand side
  * \param x         pointer to the dvector of dofs
- * \param itparam   pointer to parameters for iterative solvers
+ * \param itsparam   pointer to parameters for iterative solvers
  * \param amgparam  pionter to AMG parameters for N-S
  * \param iluparam  pionter to ILU parameters
  * \param swzparam  pionter to Schwarz parameters
@@ -144,14 +144,14 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
 SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                              dvector *b,
                                              dvector *x,
-                                             itsolver_ns_param *itparam,
+                                             itsolver_ns_param *itsparam,
                                              AMG_ns_param *amgparam,
                                              ILU_param *iluparam,
                                              SWZ_param *swzparam)
 {
     // parameters
-    const SHORT PrtLvl       = itparam->print_level;
-    const SHORT precond_type = itparam->precond_type;
+    const SHORT PrtLvl       = itsparam->print_level;
+    const SHORT precond_type = itsparam->precond_type;
     const INT schwarz_mmsize = swzparam->SWZ_mmsize;
     const INT schwarz_maxlvl = swzparam->SWZ_maxlvl;
     const INT schwarz_type   = swzparam->SWZ_type;
@@ -214,13 +214,13 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     // setup AMG
     switch (amgparam->param_v.AMG_type) {
-            case CLASSIC_AMG:
+        case CLASSIC_AMG:
             fasp_amg_setup_rs(mgl_v, &amgparam->param_v); break;
-            case SA_AMG:
+        case SA_AMG:
             fasp_amg_setup_sa(mgl_v, &amgparam->param_v); break;
-            case UA_AMG:
+        case UA_AMG:
             fasp_amg_setup_ua(mgl_v, &amgparam->param_v); break;
-            default:
+        default:
             printf("### ERROR: Wrong AMG type %d!\n",amgparam->param_v.AMG_type);
             exit(ERROR_INPUT_PAR);
     }
@@ -233,7 +233,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //---------------------------//
     
     if ( precond_type == 8  || precond_type == 9 ||
-        precond_type == 18 || precond_type == 19 ) {
+         precond_type == 18 || precond_type == 19 ) {
 
         fasp_blas_dcsr_mxm(B, Bt, &S);
         
@@ -286,31 +286,33 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     AMG_data *mgl_p;
     ILU_data LU_p;
     
-    if ( itparam->precond_type_p == 1 ) {
+    if ( itsparam->precond_type_p == 1 ) {
         fasp_dcsr_getdiag(0,&S,&diag_S);
     }
-    else if ( itparam->precond_type_p == 2 ) {
+
+    else if ( itsparam->precond_type_p == 2 ) {
         // Setup AMG for Schur Complement
         dCSRmat *As = &S;
         const INT nnzS = As->nnz;
-        mgl_p=fasp_amg_data_create(amgparam->param_p.max_levels);
-        mgl_p[0].A=fasp_dcsr_create(m,m,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
-        mgl_p[0].b=fasp_dvec_create(m); mgl_p[0].x=fasp_dvec_create(m);
-        // setup AMG
+        mgl_p = fasp_amg_data_create(amgparam->param_p.max_levels);
+        mgl_p[0].A = fasp_dcsr_create(m,m,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
+        mgl_p[0].b = fasp_dvec_create(m); mgl_p[0].x = fasp_dvec_create(m);
+
         switch (amgparam->param_p.AMG_type) {
-                case CLASSIC_AMG:
+            case CLASSIC_AMG:
                 fasp_amg_setup_rs(mgl_p, &amgparam->param_p); break;
-                case SA_AMG:
+            case SA_AMG:
                 fasp_amg_setup_sa(mgl_p, &amgparam->param_p); break;
-                case UA_AMG:
+            case UA_AMG:
                 fasp_amg_setup_ua(mgl_p, &amgparam->param_p); break;
-                default:
+            default:
                 printf("### ERROR: Wrong AMG type %d for Schur Complement!\n",
                        amgparam->param_p.AMG_type);
                 exit(ERROR_INPUT_PAR);
         }
     }
-    else if ( itparam->precond_type_p == 4 ) {
+
+    else if ( itsparam->precond_type_p == 4 ) {
         // setup ILU for Schur Complement
         fasp_ilu_dcsr_setup(&S, &LU_p, iluparam);
         fasp_mem_iludata_check(&LU_p);
@@ -321,28 +323,28 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //---------------------------------------//
     ITS_param ITS_param_v;
     fasp_param_solver_init(&ITS_param_v);
-    ITS_param_v.print_level = itparam->print_level_v;
-    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
-    ITS_param_v.restart = itparam->pre_restart_v;
-    ITS_param_v.tol = itparam->pre_tol_v;
-    ITS_param_v.maxit = itparam->pre_maxit_v;
-    ITS_param_v.precond_type = itparam->precond_type_v;
+    ITS_param_v.print_level = itsparam->print_level_v;
+    ITS_param_v.itsolver_type = itsparam->itsolver_type_v;
+    ITS_param_v.restart = itsparam->pre_restart_v;
+    ITS_param_v.tol = itsparam->pre_tol_v;
+    ITS_param_v.maxit = itsparam->pre_maxit_v;
+    ITS_param_v.precond_type = itsparam->precond_type_v;
     
     ITS_param ITS_param_p;
     fasp_param_solver_init(&ITS_param_p);
-    ITS_param_p.print_level = itparam->print_level_p;
-    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
-    ITS_param_p.restart = itparam->pre_restart_p;
-    ITS_param_p.tol = itparam->pre_tol_p;
-    ITS_param_p.maxit = itparam->pre_maxit_p;
-    ITS_param_p.precond_type = itparam->precond_type_p;
+    ITS_param_p.print_level = itsparam->print_level_p;
+    ITS_param_p.itsolver_type = itsparam->itsolver_type_p;
+    ITS_param_p.restart = itsparam->pre_restart_p;
+    ITS_param_p.tol = itsparam->pre_tol_p;
+    ITS_param_p.maxit = itsparam->pre_maxit_p;
+    ITS_param_p.precond_type = itsparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
     //-------------------------//
     precond prec;
     precond_ns_data precdata;
-    prec.data = &precdata;
+    prec.data     = &precdata;
     
     precdata.colA = n;
     precdata.colB = m;
@@ -361,88 +363,67 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     precdata.mgl_data_p  = mgl_p;
     precdata.ILU_p       = &LU_p;
     
-    precdata.max_levels     = mgl_v[0].num_levels;
-    precdata.print_level    = amgparam->param_v.print_level;
-    precdata.maxit          = amgparam->param_v.maxit;
-    precdata.amg_tol        = amgparam->param_v.tol;
-    precdata.cycle_type     = amgparam->param_v.cycle_type;
-    precdata.smoother       = amgparam->param_v.smoother;
-    precdata.presmooth_iter = amgparam->param_v.presmooth_iter;
-    precdata.postsmooth_iter= amgparam->param_v.postsmooth_iter;
-    precdata.relaxation     = amgparam->param_v.relaxation;
-    precdata.coarse_scaling = amgparam->param_v.coarse_scaling;
+    precdata.max_levels      = mgl_v[0].num_levels;
+    precdata.print_level     = amgparam->param_v.print_level;
+    precdata.maxit           = amgparam->param_v.maxit;
+    precdata.amg_tol         = amgparam->param_v.tol;
+    precdata.cycle_type      = amgparam->param_v.cycle_type;
+    precdata.smoother        = amgparam->param_v.smoother;
+    precdata.presmooth_iter  = amgparam->param_v.presmooth_iter;
+    precdata.postsmooth_iter = amgparam->param_v.postsmooth_iter;
+    precdata.relaxation      = amgparam->param_v.relaxation;
+    precdata.coarse_scaling  = amgparam->param_v.coarse_scaling;
     
     precdata.diag_A = &diag_A;
-    precdata.S = &S;
     precdata.diag_S = &diag_S;
+    precdata.S  = &S;
     precdata.rp = &res_p;
     precdata.sp = &sol_p;
-    precdata.w = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
+    precdata.w  = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
     
     switch (precond_type) {
         case 1:
-            prec.fct = fasp_precond_ns_bdiag;
-            break;
+            prec.fct = fasp_precond_ns_bdiag; break;
         case 2:
-            prec.fct = fasp_precond_ns_low_btri;
-            break;
+            prec.fct = fasp_precond_ns_low_btri; break;
         case 3:
-            prec.fct = fasp_precond_ns_up_btri;
-            break;
+            prec.fct = fasp_precond_ns_up_btri; break;
         case 4:
-            prec.fct = fasp_precond_ns_blu;
-            break;
+            prec.fct = fasp_precond_ns_blu; break;
         case 5:
-            prec.fct = fasp_precond_ns_simple;
-            break;
+            prec.fct = fasp_precond_ns_simple; break;
         case 6:
-            prec.fct = fasp_precond_ns_simpler;
-            break;
+            prec.fct = fasp_precond_ns_simpler; break;
         case 7:
-            prec.fct = fasp_precond_ns_uzawa;
-            break;
+            prec.fct = fasp_precond_ns_uzawa; break;
         case 8:
-            prec.fct = fasp_precond_ns_projection;
-            break;
+            prec.fct = fasp_precond_ns_projection; break;
         case 9:
-            prec.fct = fasp_precond_ns_DGS;
-            break;
+            prec.fct = fasp_precond_ns_DGS; break;
         case 10:
-            prec.fct = fasp_precond_ns_LSCDGS;
-            break;
+            prec.fct = fasp_precond_ns_LSCDGS; break;
         case 11:
-            prec.fct = fasp_precond_ns_bdiag;
-            break;
+            prec.fct = fasp_precond_ns_bdiag; break;
         case 12:
-            prec.fct = fasp_precond_ns_low_btri;
-            break;
+            prec.fct = fasp_precond_ns_low_btri; break;
         case 13:
-            prec.fct = fasp_precond_ns_up_btri;
-            break;
+            prec.fct = fasp_precond_ns_up_btri; break;
         case 14:
-            prec.fct = fasp_precond_ns_blu;
-            break;
+            prec.fct = fasp_precond_ns_blu; break;
         case 15:
-            prec.fct = fasp_precond_ns_simple;
-            break;
+            prec.fct = fasp_precond_ns_simple; break;
         case 16:
-            prec.fct = fasp_precond_ns_simpler;
-            break;
+            prec.fct = fasp_precond_ns_simpler; break;
         case 17:
-            prec.fct = fasp_precond_ns_uzawa;
-            break;
+            prec.fct = fasp_precond_ns_uzawa; break;
         case 18:
-            prec.fct = fasp_precond_ns_projection;
-            break;
+            prec.fct = fasp_precond_ns_projection; break;
         case 19:
-            prec.fct = fasp_precond_ns_DGS;
-            break;
+            prec.fct = fasp_precond_ns_DGS; break;
         case 20:
-            prec.fct = fasp_precond_ns_LSCDGS;
-            break;
+            prec.fct = fasp_precond_ns_LSCDGS; break;
         default:
-            printf("### ERROR: Unknown preconditioner type!\n");
-            exit(ERROR_SOLVER_PRECTYPE);
+            printf("### WARNING: Unknown preconditioner type!\n");
     }
     
     setup_end = clock();
@@ -453,10 +434,16 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     }
     
     //------ solve phase ------//
-    solver_start=clock();
-    //status=fasp_ns_solver_itsolver(Mat,b,x,&prec,itparam);
-    status=fasp_ns_solver_itsolver(Mat,b,x,NULL,itparam);
-    solver_end=clock();
+    solver_start = clock();
+
+    switch (precond_type) {
+        case 0:
+            status = fasp_ns_solver_itsolver(Mat,b,x,NULL,itsparam); break;
+        default:
+            status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
+    }
+
+    solver_end = clock();
     
     if (PrtLvl>0) {
         solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
@@ -465,18 +452,17 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
         printf("Total costs %f seconds.\n", setup_duration + solver_duration);
     }
     
-    //FINISHED:
     // clean up memory
     if (mgl_v) fasp_amg_data_free(mgl_v,&amgparam->param_v);
-    if (itparam->precond_type_p == 1) fasp_dvec_free(&diag_S);
-    if (itparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
+    if (itsparam->precond_type_p == 1) fasp_dvec_free(&diag_S);
+    if (itsparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
     
     fasp_mem_free(precdata.w);
     fasp_dvec_free(&res_p);
     fasp_dvec_free(&sol_p);
+    fasp_dvec_free(&diag_A);
     fasp_dcsr_free(&S);
     if (precond_type == 10 || precond_type == 20) fasp_dcsr_free(&BABt);
-    fasp_dvec_free(&diag_A);
 
 #if DEBUG_MODE > 0
     printf("### DEBUG: [--End--] %s ...\n", __FUNCTION__);
@@ -487,7 +473,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
 
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat, dvector *b,
- *                                                        dvector *x, itsolver_ns_param *itparam,
+ *                                                        dvector *x,
+ *                                                        itsolver_ns_param *itsparam,
  *                                                        AMG_ns_param *amgparam,
  *                                                        ILU_param *iluparam,
  *                                                        SWZ_param *swzparam,
@@ -497,7 +484,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
  * \param Mat       pointer to the dBLCmat matrix
  * \param b	        pointer to the dvector of right hand side
  * \param x	        pointer to the dvector of dofs
- * \param itparam   pointer to parameters for iterative solvers
+ * \param itsparam  pointer to parameters for iterative solvers
  * \param amgparam  AMG parameters for NS
  * \param iluparam  ILU parameters
  * \param swzparam  Schwarz parameters
@@ -514,15 +501,15 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
 SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
                                                    dvector *b,
                                                    dvector *x,
-                                                   itsolver_ns_param *itparam,
+                                                   itsolver_ns_param *itsparam,
                                                    AMG_ns_param *amgparam,
                                                    ILU_param *iluparam,
                                                    SWZ_param *swzparam,
                                                    dCSRmat *Mp)
 {
     // parameters
-    const SHORT PrtLvl = itparam->print_level;
-    const SHORT precond_type = itparam->precond_type;
+    const SHORT PrtLvl = itsparam->print_level;
+    const SHORT precond_type = itsparam->precond_type;
     const INT schwarz_mmsize = swzparam->SWZ_mmsize;
     const INT schwarz_maxlvl = swzparam->SWZ_maxlvl;
     const INT schwarz_type   = swzparam->SWZ_type;
@@ -546,7 +533,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     SHORT   status = FASP_SUCCESS;
     
 #if DEBUG_MODE > 0
-    printf("### DEBUG: %s ...... [Start]\n", __FUNCTION__);
+    printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
 #endif
     
     //------ setup phase ------//
@@ -555,22 +542,22 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     //-----------------------//
     // setup AMG for velocity
     //-----------------------//
-    AMG_data *mgl_v=fasp_amg_data_create(amgparam->param_v.max_levels);
-    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
-    mgl_v[0].b=fasp_dvec_create(n); mgl_v[0].x=fasp_dvec_create(n);
+    AMG_data *mgl_v = fasp_amg_data_create(amgparam->param_v.max_levels);
+    mgl_v[0].A = fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
+    mgl_v[0].b = fasp_dvec_create(n); mgl_v[0].x = fasp_dvec_create(n);
     
     // setup AMG
     switch (amgparam->param_v.AMG_type) {
-            case CLASSIC_AMG:
+        case CLASSIC_AMG:
             fasp_amg_setup_rs(mgl_v, &amgparam->param_v);
             break;
-            case SA_AMG:
+        case SA_AMG:
             fasp_amg_setup_sa(mgl_v, &amgparam->param_v);
             break;
-            case UA_AMG:
+        case UA_AMG:
             fasp_amg_setup_ua(mgl_v, &amgparam->param_v);
             break;
-            default:
+        default:
             printf("### ERROR: Wrong AMG type %d!\n",amgparam->param_v.AMG_type);
             exit(ERROR_INPUT_PAR);
     }
@@ -588,34 +575,34 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     AMG_data *mgl_p;
     ILU_data LU_p;
     
-    if ( itparam->precond_type_p == 1 ) {
+    if ( itsparam->precond_type_p == 1 ) {
         fasp_dcsr_getdiag(0,&S,&diag_S);
     }
-    else if ( itparam->precond_type_p == 2 ) {
+    else if ( itsparam->precond_type_p == 2 ) {
         // setup AMG for Schur Complement
         dCSRmat *As = &S;
         const INT nnzS = As->nnz;
         mgl_p=fasp_amg_data_create(amgparam->param_p.max_levels);
         mgl_p[0].A=fasp_dcsr_create(m,m,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
         mgl_p[0].b=fasp_dvec_create(m); mgl_p[0].x=fasp_dvec_create(m);
-        // setup AMG
+
         switch ( amgparam->param_p.AMG_type ) {
-                case CLASSIC_AMG:
+            case CLASSIC_AMG:
                 fasp_amg_setup_rs(mgl_p, &amgparam->param_p);
                 break;
-                case SA_AMG:
+            case SA_AMG:
                 fasp_amg_setup_sa(mgl_p, &amgparam->param_p);
                 break;
-                case UA_AMG:
+            case UA_AMG:
                 fasp_amg_setup_ua(mgl_p, &amgparam->param_p);
                 break;
-                default:
+            default:
                 printf("### ERROR: Wrong AMG type %d for Schur Complement!\n",
                        amgparam->param_p.AMG_type);
                 exit(ERROR_INPUT_PAR);
         }
     }
-    else if ( itparam->precond_type_p == 4 ) {
+    else if ( itsparam->precond_type_p == 4 ) {
         // setup ILU for Schur Complement
         fasp_ilu_dcsr_setup(&S, &LU_p, iluparam);
         fasp_mem_iludata_check(&LU_p);
@@ -626,21 +613,21 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     //---------------------------------------//
     ITS_param ITS_param_v;
     fasp_param_solver_init(&ITS_param_v);
-    ITS_param_v.print_level = itparam->print_level_v;
-    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
-    ITS_param_v.restart = itparam->pre_restart_v;
-    ITS_param_v.tol = itparam->pre_tol_v;
-    ITS_param_v.maxit = itparam->pre_maxit_v;
-    ITS_param_v.precond_type = itparam->precond_type_v;
+    ITS_param_v.print_level = itsparam->print_level_v;
+    ITS_param_v.itsolver_type = itsparam->itsolver_type_v;
+    ITS_param_v.restart = itsparam->pre_restart_v;
+    ITS_param_v.tol = itsparam->pre_tol_v;
+    ITS_param_v.maxit = itsparam->pre_maxit_v;
+    ITS_param_v.precond_type = itsparam->precond_type_v;
     
     ITS_param ITS_param_p;
     fasp_param_solver_init(&ITS_param_p);
-    ITS_param_p.print_level = itparam->print_level_p;
-    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
-    ITS_param_p.restart = itparam->pre_restart_p;
-    ITS_param_p.tol = itparam->pre_tol_p;
-    ITS_param_p.maxit = itparam->pre_maxit_p;
-    ITS_param_p.precond_type = itparam->precond_type_p;
+    ITS_param_p.print_level = itsparam->print_level_p;
+    ITS_param_p.itsolver_type = itsparam->itsolver_type_p;
+    ITS_param_p.restart = itsparam->pre_restart_p;
+    ITS_param_p.tol = itsparam->pre_tol_p;
+    ITS_param_p.maxit = itsparam->pre_maxit_p;
+    ITS_param_p.precond_type = itsparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
@@ -675,8 +662,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     precdata.postsmooth_iter= amgparam->param_v.postsmooth_iter;
     precdata.relaxation     = amgparam->param_v.relaxation;
     precdata.coarse_scaling = amgparam->param_v.coarse_scaling;
-    
-    
+
     precdata.S = &S;
     precdata.diag_S = &diag_S;
     precdata.rp = &res_p;
@@ -685,15 +671,15 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     precdata.w = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
     
     switch (precond_type) {
-            case 1:
+        case 1:
             prec.fct = fasp_precond_ns_bdiag; break;
-            case 2:
+        case 2:
             prec.fct = fasp_precond_ns_low_btri; break;
-            case 3:
+        case 3:
             prec.fct = fasp_precond_ns_up_btri; break;
-            case 4:
+        case 4:
             prec.fct = fasp_precond_ns_blu; break;
-            default:
+        default:
             printf("### ERROR: Unknown preconditioner type!\n");
             exit(ERROR_SOLVER_PRECTYPE);
     }
@@ -706,9 +692,9 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     }
     
     //------ solver phase ------//
-    solver_start=clock();
-    status=fasp_ns_solver_itsolver(Mat,b,x,&prec,itparam);
-    solver_end=clock();
+    solver_start = clock();
+    status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
+    solver_end = clock();
     
     if (PrtLvl>0) {
         solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
@@ -719,21 +705,25 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     
     // clean up memory
     if (mgl_v) fasp_amg_data_free(mgl_v,&amgparam->param_v);
-    if (itparam->precond_type_p == 1) fasp_dvec_free(&diag_S);
-    if (itparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
+    if (itsparam->precond_type_p == 1) fasp_dvec_free(&diag_S);
+    if (itsparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
     
     fasp_mem_free(precdata.w);
     fasp_dvec_free(&res_p);
     fasp_dvec_free(&sol_p);
     fasp_dcsr_free(&S);
-    
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [-End-] %s ...\n", __FUNCTION__);
+#endif
+
     return status;
 }
 
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat, dvector *b,
  *                                                              dvector *x,
- *                                                              itsolver_ns_param *itparam,
+ *                                                              itsolver_ns_param *itsparam,
  *                                                              AMG_ns_param *amgparam,
  *                                                              ILU_param *iluparam,
  *                                                              SWZ_param *swzparam,
@@ -743,7 +733,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
  * \param Mat       pointer to the dBLCmat matrix
  * \param b	        pointer to the dvector of right hand side
  * \param x	        pointer to the dvector of dofs
- * \param itparam   pointer to parameters for iterative solvers
+ * \param itsparam  pointer to parameters for iterative solvers
  * \param amgparam  AMG parameters for NS
  * \param iluparam  ILU parameters
  * \param swzparam  Schwarz parameters
@@ -761,19 +751,15 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
 SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
                                                          dvector *b,
                                                          dvector *x,
-                                                         itsolver_ns_param *itparam,
+                                                         itsolver_ns_param *itsparam,
                                                          AMG_ns_param *amgparam,
                                                          ILU_param *iluparam,
                                                          SWZ_param *swzparam,
                                                          dCSRmat *Mp)
 {
-#if DEBUG_MODE > 0
-    printf("### DEBUG: %s ...... [Start]\n", __FUNCTION__);
-#endif
-    
     // parameters
-    const SHORT PrtLvl = itparam->print_level;
-    const SHORT precond_type = itparam->precond_type;
+    const SHORT PrtLvl = itsparam->print_level;
+    const SHORT precond_type = itsparam->precond_type;
     const INT schwarz_mmsize = swzparam->SWZ_mmsize;
     const INT schwarz_maxlvl = swzparam->SWZ_maxlvl;
     const INT schwarz_type   = swzparam->SWZ_type;
@@ -795,7 +781,11 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     clock_t solver_start, solver_end, setup_start, setup_end;
     REAL solver_duration, setup_duration;
     SHORT status=FASP_SUCCESS;
-    
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
+#endif
+
     //------ setup phase ------//
     setup_start = clock();
     
@@ -803,23 +793,22 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     // setup AMG for velocity
     //-----------------------//
     
-    AMG_data *mgl_v=fasp_amg_data_create(amgparam->param_v.max_levels);
-    
-    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
-    mgl_v[0].b=fasp_dvec_create(n); mgl_v[0].x=fasp_dvec_create(n);
+    AMG_data *mgl_v = fasp_amg_data_create(amgparam->param_v.max_levels);
+    mgl_v[0].A = fasp_dcsr_create(n,n,nnzA); fasp_dcsr_cp(A,&mgl_v[0].A);
+    mgl_v[0].b = fasp_dvec_create(n); mgl_v[0].x = fasp_dvec_create(n);
     
     // setup AMG
     switch (amgparam->param_v.AMG_type) {
-            case CLASSIC_AMG:
+        case CLASSIC_AMG:
             fasp_amg_setup_rs(mgl_v, &amgparam->param_v);
             break;
-            case SA_AMG:
+        case SA_AMG:
             fasp_amg_setup_sa(mgl_v, &amgparam->param_v);
             break;
-            case UA_AMG:
+        case UA_AMG:
             fasp_amg_setup_ua(mgl_v, &amgparam->param_v);
             break;
-            default:
+        default:
             printf("### ERROR: Wrong AMG type %d!\n",amgparam->param_v.AMG_type);
             exit(ERROR_INPUT_PAR);
     }
@@ -837,34 +826,36 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     AMG_data *mgl_p;
     ILU_data LU_p;
     
-    if (itparam->precond_type_p == 1){
+    if (itsparam->precond_type_p == 1){
         fasp_dcsr_getdiag(0,&S,&diag_S);
     }
-    else if (itparam->precond_type_p == 2) {
+
+    else if (itsparam->precond_type_p == 2) {
         // Setup AMG for Schur Complement
         dCSRmat *As = &S;
         const INT nnzS = As->nnz;
         mgl_p=fasp_amg_data_create(amgparam->param_p.max_levels);
         mgl_p[0].A=fasp_dcsr_create(m,m,nnzS); fasp_dcsr_cp(As,&mgl_p[0].A);
         mgl_p[0].b=fasp_dvec_create(m); mgl_p[0].x=fasp_dvec_create(m);
-        // setup AMG
+
         switch (amgparam->param_p.AMG_type) {
-                case CLASSIC_AMG:
+            case CLASSIC_AMG:
                 fasp_amg_setup_rs(mgl_p, &amgparam->param_p);
                 break;
-                case SA_AMG:
+            case SA_AMG:
                 fasp_amg_setup_sa(mgl_p, &amgparam->param_p);
                 break;
-                case UA_AMG:
+            case UA_AMG:
                 fasp_amg_setup_ua(mgl_p, &amgparam->param_p);
                 break;
-                default:
+            default:
                 printf("### ERROR: Wrong AMG type %d for Schur Complement!\n",
                        amgparam->param_p.AMG_type);
                 exit(ERROR_INPUT_PAR);
         }
     }
-    else if (itparam->precond_type_p == 4) {
+
+    else if (itsparam->precond_type_p == 4) {
         // setup ILU for Schur Complement
         fasp_ilu_dcsr_setup(&S, &LU_p, iluparam);
         fasp_mem_iludata_check(&LU_p);
@@ -875,21 +866,21 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     //---------------------------------------//
     ITS_param ITS_param_v;
     fasp_param_solver_init(&ITS_param_v);
-    ITS_param_v.print_level = itparam->print_level_v;
-    ITS_param_v.itsolver_type = itparam->itsolver_type_v;
-    ITS_param_v.restart = itparam->pre_restart_v;
-    ITS_param_v.tol = itparam->pre_tol_v;
-    ITS_param_v.maxit = itparam->pre_maxit_v;
-    ITS_param_v.precond_type = itparam->precond_type_v;
+    ITS_param_v.print_level = itsparam->print_level_v;
+    ITS_param_v.itsolver_type = itsparam->itsolver_type_v;
+    ITS_param_v.restart = itsparam->pre_restart_v;
+    ITS_param_v.tol = itsparam->pre_tol_v;
+    ITS_param_v.maxit = itsparam->pre_maxit_v;
+    ITS_param_v.precond_type = itsparam->precond_type_v;
     
     ITS_param ITS_param_p;
     fasp_param_solver_init(&ITS_param_p);
-    ITS_param_p.print_level = itparam->print_level_p;
-    ITS_param_p.itsolver_type = itparam->itsolver_type_p;
-    ITS_param_p.restart = itparam->pre_restart_p;
-    ITS_param_p.tol = itparam->pre_tol_p;
-    ITS_param_p.maxit = itparam->pre_maxit_p;
-    ITS_param_p.precond_type = itparam->precond_type_p;
+    ITS_param_p.print_level = itsparam->print_level_p;
+    ITS_param_p.itsolver_type = itsparam->itsolver_type_p;
+    ITS_param_p.restart = itsparam->pre_restart_p;
+    ITS_param_p.tol = itsparam->pre_tol_p;
+    ITS_param_p.maxit = itsparam->pre_maxit_p;
+    ITS_param_p.precond_type = itsparam->precond_type_p;
     
     //-------------------------//
     // setup preconditioner
@@ -933,19 +924,19 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     precdata.w = (REAL *)fasp_mem_calloc(precdata.col,sizeof(double));
     
     switch (precond_type) {
-            case 1:
+        case 1:
             prec.fct = fasp_precond_ns_bdiag;
             break;
-            case 2:
+        case 2:
             prec.fct = fasp_precond_ns_low_btri;
             break;
-            case 3:
+        case 3:
             prec.fct = fasp_precond_ns_up_btri;
             break;
-            case 4:
+        case 4:
             prec.fct = fasp_precond_ns_blu;
             break;
-            default:
+        default:
             printf("### ERROR: Unknown preconditioner type!\n");
             exit(ERROR_SOLVER_PRECTYPE);
     }
@@ -959,7 +950,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     
     //------ solver phase ------//
     solver_start=clock();
-    status=fasp_ns_solver_itsolver(Mat,b,x,&prec,itparam);
+    status=fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
     solver_end=clock();
     
     if (PrtLvl>0) {
@@ -969,17 +960,20 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
         printf("Total costs %f seconds.\n", setup_duration + solver_duration);
     }
     
-    //FINISHED:
     // clean up memory
     if (mgl_v) fasp_amg_data_free(mgl_v,&amgparam->param_v);
-    if (itparam->precond_type_p == 1){fasp_dvec_free(&diag_S);}
-    if (itparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
+    if (itsparam->precond_type_p == 1) fasp_dvec_free(&diag_S);
+    if (itsparam->precond_type_p == 2) fasp_amg_data_free(mgl_p,&amgparam->param_p);
     
     fasp_mem_free(precdata.w);
     fasp_dvec_free(&res_p);
     fasp_dvec_free(&sol_p);
-    fasp_dcsr_free (&S);
-    
+    fasp_dcsr_free(&S);
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: [-End-] %s ...\n", __FUNCTION__);
+#endif
+
     return status;
 }
 
@@ -1017,8 +1011,7 @@ static inline void get_schur_diagA (dCSRmat *B,
     fasp_dcsr_getdiag(A->row,A,&diag_A);
     
     // TODO: this part should be rewritten so that we do not form matrix invA explicitly!  -- Xiaozhe
-    for (i=0;i<colA;i++)
-    {
+    for ( i=0; i<colA; i++ ) {
         invA.IA[i] = i;
         invA.JA[i] = i;
         if (diag_A.val[i] > SMALLREAL) invA.val[i]   = 1.0/diag_A.val[i];
@@ -1072,8 +1065,9 @@ static inline void get_schur_diagA (dCSRmat *B,
  * \date   07/20/2014
  *
  * \note Assume pressure block App=0 !!!
- * \note Assume B*diag(A)^{-1}*Bt has the right sign, i.e, it approximates -\Delta_p !!!
- * \note Still test the code !!!
+ * \note Assume B*diag(A)^{-1}*Bt has the right sign \approx -\Delta_p !!!
+ *
+ * TODO: Still need to test the code !!! --Chensong
  */
 static inline void get_schur_pmass (dCSRmat *B,
                                     dCSRmat *Bt,

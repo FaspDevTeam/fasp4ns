@@ -1,4 +1,4 @@
-SUBROUTINE matrixsolverFasp(aij, rhs, Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+SUBROUTINE matrixsolverFasp(aij,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
     
 ! This subroutine sets the matrix in CSR format, and solve the maxtrix
 
@@ -23,12 +23,12 @@ IMPLICIT NONE
     REAL(DBL),ALLOCATABLE        :: Aij_pu(:),Aij_uu(:),Aij_up(:)
  !  connect to fasp variables
     Integer, allocatable         :: ia(:),ja(:),ib(:),jb(:),ic(:),jc(:)
-    real(dbl),allocatable        :: a(:),b(:),c(:),x(:)
+    real(dbl),allocatable        :: a(:),b(:),c(:),x(:),rhs_new(:)
     integer                      :: nA,nnzA,nB,nnzB,nC,nnzC,ntol
     
-    nA = Dim_unknown_P
+    nA = Dim_unknown_u+Dim_unknown_v 
     nB = Dim_unknown_u+Dim_unknown_v
-    nC = Dim_unknown_u+Dim_unknown_v
+    nC = Dim_unknown_P
     allocate(ia(nA + 1))
     allocate(ib(nB + 1))
     allocate(ic(nC + 1))
@@ -52,9 +52,9 @@ IMPLICIT NONE
     allocate(jglobal_pu(nnz_pu))
     allocate(Aij_pu(nnz_pu))
     !
-    nnzA = nnz_pu
-    allocate(ja(nnzA))
-    allocate(a(nnzA))
+    nnzC = nnz_pu
+    allocate(jc(nnzC))
+    allocate(c(nnzC))
     !
     nnz_up = 0
     nnz_uu = 0
@@ -77,9 +77,9 @@ IMPLICIT NONE
     nnzB = nnz_up
     allocate(jb(nnzB))
     allocate(b(nnzB))
-    nnzC = nnz_uu
-    allocate(jc(nnzC))
-    allocate(c(nnzC))
+    nnzA = nnz_uu
+    allocate(ja(nnzA))
+    allocate(a(nnzA))
     !
     iglobal_pu = 0
     iglobal_up = 0
@@ -129,11 +129,11 @@ IMPLICIT NONE
    !
    ia(1) = 1
    do i = 1, nA
-       ia(i+1) = ia(i) + iglobal_pu(i)
+       ia(i+1) = ia(i) + iglobal_uu(i)
    enddo
    do i = 1, nnzA
-       a(i) = Aij_pu(i)
-       ja(i) = jglobal_pu(i)
+       a(i) = Aij_uu(i)
+       ja(i) = jglobal_uu(i)
    enddo
    !forall(i = 1: nnzA) ja(i) = ja(i) -1 ! shift index for C
    !
@@ -151,28 +151,37 @@ IMPLICIT NONE
    ! 
    ! matrix c
    !
-   ic(1) = 1
+    ic(1) = 1
    do i = 1, nC
-       ic(i+1) = ic(i) + iglobal_uu(i)
+       ic(i+1) = ic(i) + iglobal_pu(i)
    enddo
    do i = 1, nnzC
-       c(i) = Aij_uu(i)
-       jc(i) = jglobal_uu(i)
+       c(i) = Aij_pu(i)
+       jc(i) = jglobal_pu(i)
    enddo
   ! forall(i = 1: nnzC) jc(i) = jc(i) -1 ! shift index for C 
 
 !---------------------------------------------------------------------
 !   Call Solver Here
 !---------------------------------------------------------------------
-    ntol = nA + nB
+    ntol = nA + nC
+    allocate(rhs_new(ntol))
+    ! reorder rhs: u p
+    forall(i = 1: nA) rhs_new(i) = rhs(i + nc)
+    forall(i = nA + 1: ntol) rhs_new(i) = rhs(i-nA) 
+    ! Now: the order of unknowns is: u and p
+    ! ia, ja, a, and nnzA are information of uu
+    ! ib, jb, b, and nnzB are information of up
+    ! ic, jc, c, and nnzC are informaiton of pu
     allocate(x(ntol))
     ! Initial guess
     x = 0.
-    call fasp_fwrapper_krylov_navier_stokes_nsym (nC,nnzC,ic,jc,c,     &
-                                                  nB,nA,nnzB,ib,jb,b,  &
-                                                  nA,nC,nnzA,ia,ja,a,  &
-                                                  rhs,x)
+    call fasp_fwrapper_krylov_navier_stokes_nsym (nA,nnzA,ia,ja,a,    &
+                                                  nB,nC,nnzB,ib,jb,b, &
+                                                  nC,nB,nnzC,ic,jc,c, &
+                                                  rhs_new,x)
 
+    forall (i = 1 : ntol) rhs(i) = x(i)
 !-----------------------------------------------------------------------------------
 !  Clean up memory
 !-----------------------------------------------------------------------------------
@@ -195,7 +204,6 @@ IMPLICIT NONE
     deallocate(b)
     deallocate(c)
     deallocate(x)
-
 END SUBROUTINE matrixsolverFasp
 
 
