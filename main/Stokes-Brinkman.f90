@@ -1,15 +1,14 @@
-!  StokesBrinkman.f90 
+!  StokesBrinkman.f90
 !
 !  FUNCTIONS:
 !  StokesBrinkman - Entry point of console application.
 !
+
 !****************************************************************************
 !
 !  PROGRAM: StokesBrinkman
 !
-!  PURPOSE: Entry point for the console application.
-!
-!  AUTHOR:  Yuan Tao 03/18/2018
+!  PURPOSE:  Entry point for the console application.
 !
 !****************************************************************************
 
@@ -35,6 +34,7 @@ program StokesBrinkman
     INTEGER                      :: Dim_unknown_P,Dim_unknown_u,Dim_unknown_v                   ! dimension of unknowns
     REAL(DBL),ALLOCATABLE        :: rhs(:),perm(:,:),permx(:,:),permy(:,:)
     REAL(DBL),ALLOCATABLE        :: a(:)
+!    REAL(DBL),ALLOCATABLE        :: a1u(:,:),a1v(:,:),a2p(:,:),a2u(:,:),a2v(:,:),a3p(:,:),a3u(:,:),a3v(:,:)
     integer,allocatable          :: imapp(:),imapu(:),imapv(:),iglobal(:),jglobal(:)
     integer,allocatable          :: ivmapp(:),ivmapu(:),ivmapv(:)
     INTEGER                      :: totalNNZ,nnzindex
@@ -43,10 +43,15 @@ program StokesBrinkman
     real(dbl),allocatable        :: poro2D(:,:),poro(:)
     REAL(DBL),PARAMETER          :: dm = 0.000038                                               ! grain size m
 
+     ! open the file 
+     filporo    = TRIM('porosity.dat')//CHAR(0)
+     !readporo   = trim('porouniform(-0.15,0.15)_withfrac.txt')//char(0)
+     OPEN (LUW1, FILE=filporo, STATUS='REPLACE', ACCESS='SEQUENTIAL', FORM='FORMATTED') 
+     !OPEN (lur1, FILE=readporo, STATUS='old', ACCESS='SEQUENTIAL', FORM='FORMATTED')   
     Lx = 0.1
     Ly = 0.1
-    nx = 300
-    ny = 300
+    nx = 100
+    ny = 100
     dx = Lx / nx
     dy = Ly / ny
     nb = nx * ny
@@ -75,7 +80,14 @@ program StokesBrinkman
     allocate(permy(nx,ny-1))
     allocate(poro2D(nx,ny))
     allocate(poro(nb))
-
+    !allocate(a1u(Dim_unknown_P,Dim_unknown_u))
+    !allocate(a1v(Dim_unknown_P,Dim_unknown_v))
+    !allocate(a2p(Dim_unknown_u,Dim_unknown_p))
+    !allocate(a2u(Dim_unknown_u,Dim_unknown_u))
+    !allocate(a2v(Dim_unknown_u,Dim_unknown_v))
+    !allocate(a3p(Dim_unknown_v,Dim_unknown_p))
+    !allocate(a3u(Dim_unknown_v,Dim_unknown_u))
+    !allocate(a3v(Dim_unknown_v,Dim_unknown_v))
 !   calculate the maximum number of nnz
     totalNNZ = Dim_unknown_P * 4 + Dim_unknown_u * 12 + Dim_unknown_v * 12
     allocate (a(totalNNZ))
@@ -83,7 +95,7 @@ program StokesBrinkman
     allocate(jglobal(totalNNZ))
     iglobal = 0
     jglobal = 0
-!   initial
+    ! initial
     pressure = 0.
     vx = 0.
     vy = 0.
@@ -92,73 +104,36 @@ program StokesBrinkman
     visc = 1
     visc_star = 1
     perm_matrix = 1E-15
-    perm_frac = 1E+8
+    perm_frac = 1E-9
     perm      = perm_matrix
-    !do j = 1, ny
-    !    read(lur1, *) (poro2D(i,j),i=1,nx)
-    !enddo
-    poro2D = 0.2
-    do j = 1, ny
-        do i = 1, nx
-            im = (j-1) * nx + i
-            if(poro2D(i,j) < 1) then
-                poro(im) = 0.2 + poro2D(i,j)
-            else
-                poro(im) = poro2D(i,j)
-            endif
-            
-        enddo
-    enddo
-    !poro = 0.2
+
     do j = 1, ny
         do i = 1, nx
             im = (j -1) * nx + i
-            if(poro(im) <1) then
-                perm(i,j)  = (dm ** 2/ 180.) * poro(im) **2/(1-poro(im))**2
-            else
-                perm(i,j)  = 1E-9
-                
+            r = sqrt((real(i)-50)**2 + (real(j)-50)**2)
+            if (r < 10) then
+                perm(i,j) = perm_frac
+            endif
+            r = sqrt((real(i)-25)**2 + (real(j)-25)**2)
+            if (r < 10) then
+                perm(i,j) = perm_frac
+            endif 
+            r = sqrt((real(i)-25)**2 + (real(j)-75)**2)
+            if (r < 10) then
+                perm(i,j) = perm_frac
+            endif 
+            r = sqrt((real(i)-75)**2 + (real(j)-25)**2)
+            if (r < 10) then
+                perm(i,j) = perm_frac
+            endif
+            r = sqrt((real(i)-75)**2 + (real(j)-75)**2)
+            if (r < 10) then
+                perm(i,j) = perm_frac
             endif            
         enddo
     enddo
-    perm = perm_matrix
-    !do j = 1, ny
-    !    do i = 1, nx
-    !        im = (j -1) * nx + i
-    !        !r = sqrt((real(i)-50)**2 + (real(j)-25)**2)
-    !        !if (r < 10) perm(i,j) = perm_frac * 100
-    !        !if (r < 15  .and. r>=10) perm(i,j) = perm_frac * 10
-    !        r = sqrt((real(i)-25)**2 + (real(j)-25)**2)
-    !        if (r < 6) then
-    !            perm(i,j) = perm_frac
-    !        endif
-    !        !if (r>=6 .and. r<=8) then
-    !        !    perm(i,j) = perm_frac
-    !        !endif
-    !        !r = sqrt((real(i)-75)**2 + (real(j)-35)**2)
-    !        !if (r < 6) then
-    !        !    perm(i,j) = 10 * perm_frac
-    !        !endif
-    !        !if (r>=6 .and. r<=8) then
-    !        !    perm(i,j) = perm_frac
-    !        !endif  
-    !        !r = sqrt((real(i)-25)**2 + (real(j)-35)**2)
-    !        !if (r < 6) then
-    !        !    perm(i,j) = 10 * perm_frac
-    !        !endif
-    !        !if (r>=6 .and. r<=8) then
-    !        !    perm(i,j) = perm_frac
-    !        !endif
-    !        !r = sqrt((real(i)-75)**2 + (real(j)-15)**2)
-    !        !if (r < 6) then
-    !        !    perm(i,j) = 10 * perm_frac
-    !        !endif
-    !        !if (r>=6 .and. r<=8) then
-    !        !    perm(i,j) = perm_frac
-    !        !endif             
-    !    enddo
-    !enddo
 
+    
     !
     ! harmonic average
     !
@@ -173,7 +148,8 @@ program StokesBrinkman
             permy(i,j) = 2./(1./perm(i,j) + 1./perm(i,j+1))
         enddo
     enddo
-
+    
+    
     ! outlet pressure
     do j = 1, ny
         im = (j - 1) * nx + nx
@@ -184,13 +160,13 @@ program StokesBrinkman
         im = (j - 1) * (nx + 1) + 1
         vx(im) = 0.01/86400
     enddo
-    do j = 1, ny
-        do i = 1, nx
-            im = i + (j-1) * nx
-            x(im) = i * dx
-            y(im) = j * dy
-        enddo
-    enddo
+        DO j = 1, ny
+            do i = 1, nx
+                im = i + (j-1) * nx
+                x(im) = i * dx 
+                y(im) = j * dy 
+            enddo
+        enddo    
     ! setup imapp, imapu,impv
     imapp = 0
     imapu = 0
@@ -926,34 +902,28 @@ program StokesBrinkman
             endif unKnownsV
         enddo
     enddo
-    
-    ! do i= 1, nnzindex
-    !    write(10,*) a(i), jglobal(i)
-    !enddo
-    !do i = 1, (Dim_unknown_P+Dim_unknown_u+Dim_unknown_v)
-    !    write(11,*) rhs(i), iglobal(i)
-    !enddo   
+     
  !   
  ! Matrix solver
  !
     call matrixsolverFasp(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
 
-    do i = 1, Dim_unknown_P
-        im = ivmapp(i)
-        pressure(im) = rhs(i)
-    enddo
-    do i = Dim_unknown_P+1, Dim_unknown_P+Dim_unknown_u
-        im = ivmapu(i-Dim_unknown_P)
+    do i = 1, Dim_unknown_u
+        im = ivmapu(i)
         vx(im) = rhs(i)
     enddo
-    do i = Dim_unknown_P+Dim_unknown_u + 1, Dim_unknown_P+Dim_unknown_u + Dim_unknown_v
-        im = ivmapv(i - Dim_unknown_P -Dim_unknown_u)
+    do i = Dim_unknown_u+1, Dim_unknown_v+Dim_unknown_u
+        im = ivmapv(i-Dim_unknown_u)
         vy(im) = rhs(i)
     enddo
-! update boundary condition
-!
-! u
-! 
+    do i = Dim_unknown_v+Dim_unknown_u + 1, Dim_unknown_P+Dim_unknown_u + Dim_unknown_v
+        im = ivmapp(i - Dim_unknown_v -Dim_unknown_u)
+        pressure(im) = rhs(i)
+    enddo
+    ! update boundary condition
+    ! 
+    ! u
+    ! 
     do j = 1, ny
         im = (j - 1) * (nx+1) + nx
         vx(im+1) = vx(im)

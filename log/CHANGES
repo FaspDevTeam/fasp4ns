@@ -1,7 +1,10 @@
 File Name: CHANGES
 
-03/21/2018 FASP4NS 0.2.1:
+03/22/2018 FASP4NS 0.2.1:
 - Fix interface to Stokes-Brinkman; solver works now.
+- Update S-B test example.
+- Update ns.dat for S-B test example.
+- Fix make.inc.example for new UMFPACK.
 
 03/18/2018 FASP4NS 0.2.0:
 =======================================

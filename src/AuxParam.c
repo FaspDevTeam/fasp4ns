@@ -433,7 +433,7 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     // iterative solver parameter for the pressure block
     itsparam->itsolver_type_p  = inparam->itsolver_type_p;
     itsparam->precond_type_p   = inparam->precond_type_p;
-    itsparam->pre_restart_p        = inparam->pre_restart_p;
+    itsparam->pre_restart_p    = inparam->pre_restart_p;
     
     if (itsparam->itsolver_type_p == SOLVER_AMG) {
         itsparam->pre_tol_p    = inparam->AMG_tol_p;
@@ -446,15 +446,10 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     
     if (itsparam->print_level > 2) {
         itsparam->print_level_v = itsparam->print_level-3;
+        itsparam->print_level_p = itsparam->print_level-3;
     }
     else {
         itsparam->print_level_v = 0;
-    }
-    
-    if (itsparam->print_level > 3) {
-        itsparam->print_level_p = itsparam->print_level-4;
-    }
-    else {
         itsparam->print_level_p = 0;
     }
     
