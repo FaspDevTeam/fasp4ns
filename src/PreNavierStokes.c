@@ -18,7 +18,7 @@
 #include "fasp4ns.h"
 #include "fasp4ns_functs.h"
 
-#define INEXACT  ON
+#define USE_EXACT_SOLVE OFF
 
 /*---------------------------------*/
 /*--      Public Functions       --*/
@@ -67,7 +67,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     const INT   maxitv = itparam_v->maxit, restartv = itparam_v->restart;
     const SHORT prtlvlv = itparam_v->print_level;
 
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v, amgparam_v);
@@ -76,7 +76,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0) printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A,&rv,&zv,&pc_v,tolv,maxitv,restartv,1,prtlvlv);
     
 #else
@@ -97,7 +97,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -188,7 +188,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -224,7 +224,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -311,7 +311,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -369,7 +369,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     const INT   maxitv = itparam_v->maxit, restartv = itparam_v->restart;
     const SHORT prtlvlv = itparam_v->print_level;
 
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -431,7 +431,7 @@ void fasp_precond_ns_blu (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -440,7 +440,7 @@ void fasp_precond_ns_blu (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -463,7 +463,7 @@ void fasp_precond_ns_blu (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -513,11 +513,11 @@ void fasp_precond_ns_blu (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     fasp_darray_set(colA, zv.val, 0.0);
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -528,7 +528,7 @@ void fasp_precond_ns_blu (REAL *r,
     
 #endif
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     // restore r
     fasp_darray_cp(col, tempr, r);
     
@@ -575,7 +575,7 @@ void fasp_precond_ns_simple (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -584,7 +584,7 @@ void fasp_precond_ns_simple (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -607,7 +607,7 @@ void fasp_precond_ns_simple (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -662,7 +662,7 @@ void fasp_precond_ns_simple (REAL *r,
     fasp_blas_darray_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
     
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     //-------------------
     // restore r
     //-------------------
@@ -725,7 +725,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -777,7 +777,7 @@ void fasp_precond_ns_simpler (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -786,7 +786,7 @@ void fasp_precond_ns_simpler (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -814,7 +814,7 @@ void fasp_precond_ns_simpler (REAL *r,
     // Solve Schur complement
     //-------------------------
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -873,7 +873,7 @@ void fasp_precond_ns_simpler (REAL *r,
     
     fasp_blas_darray_axpy (colA, -1.0, rv.val, zv.val); // zu = zu - rv
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     //-------------------
     // restore r
     //-------------------
@@ -924,7 +924,7 @@ void fasp_precond_ns_uzawa (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -933,7 +933,7 @@ void fasp_precond_ns_uzawa (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -957,7 +957,7 @@ void fasp_precond_ns_uzawa (REAL *r,
     REAL omega = -1.0;
     fasp_blas_darray_axpy(colB, omega, rs.val,zs.val);
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     // restore r
     fasp_darray_cp(col, tempr, r);
     
@@ -1002,7 +1002,7 @@ void fasp_precond_ns_projection (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -1011,7 +1011,7 @@ void fasp_precond_ns_projection (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -1035,7 +1035,7 @@ void fasp_precond_ns_projection (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -1090,7 +1090,7 @@ void fasp_precond_ns_projection (REAL *r,
     fasp_darray_cp(colB, predata->sp->val, zs.val);
     
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     // restore r
     fasp_darray_cp(col, tempr, r);
 }
@@ -1134,7 +1134,7 @@ void fasp_precond_ns_DGS (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -1143,7 +1143,7 @@ void fasp_precond_ns_DGS (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -1166,7 +1166,7 @@ void fasp_precond_ns_DGS (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -1221,7 +1221,7 @@ void fasp_precond_ns_DGS (REAL *r,
     fasp_blas_dcsr_aAxpy(1.0, predata->S, predata->sp->val, zs.val);
     
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     // restore r
     fasp_darray_cp(col, tempr, r);
 }
@@ -1265,7 +1265,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //-------------------
     // Solve velocity
     //-------------------
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     precond_data pcdata_v;
     fasp_param_amg_to_prec(&pcdata_v,amgparam_v);
@@ -1274,7 +1274,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    if(itparam_v->print_level > 0)  printf(COLOR_RESET "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
     fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
@@ -1297,7 +1297,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -1364,7 +1364,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     // Solve Schur complement
     //-------------------------
     
-#if INEXACT
+#if USE_EXACT_SOLVE==OFF
     
     if (itparam_p->precond_type == 1) {
         precond pc_s;
@@ -1414,7 +1414,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     //fasp_blas_darray_ax(colB,-1.0,zs.val);
     
     
-    if(itparam_v->print_level > 0)  printf(COLOR_GREEN "\n");
+    if (itparam_v->print_level > 0) printf(COLOR_GREEN "\n");
     // restore r
     fasp_darray_cp(col, tempr, r);
 }
