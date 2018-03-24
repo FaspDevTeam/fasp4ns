@@ -936,7 +936,7 @@ program StokesBrinkman
  !   
  ! Matrix solver
  !
-    call matrixsolverFasp(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+    call SBInterfaceBLC(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
 
     do i = 1, Dim_unknown_P
         im = ivmapp(i)

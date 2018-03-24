@@ -69,7 +69,14 @@ program ns
 
   !===> Initial guess
   allocate(u(1:ntol))
-  u = 0.0d0 
+  u = 0.0d0
+  !===> Shift indices for C convention
+  ia = ia - 1
+  ja = ja - 1
+  ib = ib - 1
+  jb = jb - 1
+  ic = ic - 1
+  jc = jc - 1
 
   call fasp_fwrapper_krylov_navier_stokes_sym (nA,nnzA,ia,ja,a,  &
                                                nB,nnzB,ib,jb,b,  &
