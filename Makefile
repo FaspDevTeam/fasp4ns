@@ -158,9 +158,9 @@ NavierStokesFortran:
 	@echo 'Building executable $@'
 
 StokesBrinkman:
-	@$(FC) $(CFLAGS) -c main/matrixsolverFasp.f90 -o main/matrixsolverFasp.o
+	@$(FC) $(CFLAGS) -c main/SBInterfaceBLC.f90 -o main/SBInterfaceBLC.o
 	@$(FC) $(CFLAGS) -c main/Stokes-Brinkman.f90 -o main/Stokes-Brinkman.o
-	@$(FC) -o sb.ex main/matrixsolverFasp.o main/Stokes-Brinkman.o $(FLFLAGS)
+	@$(FC) -o sb.ex main/SBInterfaceBLC.o main/Stokes-Brinkman.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
 ########################################################################
