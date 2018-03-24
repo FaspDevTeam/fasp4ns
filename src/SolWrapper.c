@@ -5,6 +5,10 @@
  *  \note  This file contains Level-5 (Sol) functions. It requires:
  *         AuxInput.c, AuxParam.c, and SolNavierStokes.c
  *
+ *  \note  IMPORTANT: The wrappers DO NOT change the original matrix data. Users
+ *         should shift the matrix indices in order to make the IA and JA to start
+ *         from 0 instead of 1.
+ *
  *---------------------------------------------------------------------------------
  *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
@@ -131,14 +135,6 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
     // generate an empty matrix
     fasp_dcsr_alloc(*nC,*nC,1,&matA22);
 
-    // shift the index to start from 0 (for C routines)
-    for ( i=0; i<matA11.row+1; i++ ) matA11.IA[i]--;
-    for ( i=0; i<matA12.row+1; i++ ) matA12.IA[i]--;
-    for ( i=0; i<matA21.row+1; i++ ) matA21.IA[i]--;
-    for ( i=0; i<matA11.nnz;   i++ ) matA11.JA[i]--;
-    for ( i=0; i<matA12.nnz;   i++ ) matA12.JA[i]--;
-    for ( i=0; i<matA21.nnz;   i++ ) matA21.JA[i]--;
-
     // initialize rhs and sol vectors
     rhs.row = *nA+*nC; rhs.val = b;
     sol.row = *nA+*nC; sol.val = u;
@@ -251,14 +247,6 @@ void fasp_fwrapper_krylov_navier_stokes_sym_ (INT *nA,
 
     matA22.row = *nC; matA22.col = *nC; matA22.nnz = *nnzC;
     matA22.IA  = ic;  matA22.JA  = jc;  matA22.val = cval;
-    
-    // shift the index to start from 0 (for C routines)
-    for ( i=0; i<matA11.row+1; i++ ) matA11.IA[i]--;
-    for ( i=0; i<matA21.row+1; i++ ) matA21.IA[i]--;
-    for ( i=0; i<matA22.row+1; i++ ) matA22.IA[i]--;
-    for ( i=0; i<matA11.nnz;   i++ ) matA11.JA[i]--;
-    for ( i=0; i<matA21.nnz;   i++ ) matA21.JA[i]--;
-    for ( i=0; i<matA22.nnz;   i++ ) matA22.JA[i]--;
 
     // get transform of B
     fasp_dcsr_trans(&matA21, &matA12);

@@ -1,4 +1,4 @@
-SUBROUTINE matrixsolverFasp(aij,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+SUBROUTINE SBInterfaceBLC(aij,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
     
 ! This subroutine sets the matrix in CSR format, and solve the maxtrix
 
@@ -176,12 +176,21 @@ IMPLICIT NONE
     allocate(x(ntol))
     ! Initial guess
     x = 0.
+    ! shift indices for C convention
+    ia = ia - 1
+    ja = ja - 1
+    ib = ib - 1
+    jb = jb - 1
+    ic = ic - 1
+    jc = jc - 1
+    ! call solver
     call fasp_fwrapper_krylov_navier_stokes_nsym (nA,nnzA,ia,ja,a,    &
                                                   nB,nC,nnzB,ib,jb,b, &
                                                   nC,nB,nnzC,ic,jc,c, &
                                                   rhs_new,x)
-
+    ! save solution
     forall (i = 1 : ntol) rhs(i) = x(i)
+
 !-----------------------------------------------------------------------------------
 !  Clean up memory
 !-----------------------------------------------------------------------------------
@@ -204,6 +213,7 @@ IMPLICIT NONE
     deallocate(b)
     deallocate(c)
     deallocate(x)
-END SUBROUTINE matrixsolverFasp
+
+END SUBROUTINE SBInterfaceBLC
 
 
