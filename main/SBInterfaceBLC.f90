@@ -184,10 +184,11 @@ IMPLICIT NONE
     ic = ic - 1
     jc = jc - 1
     ! call solver
-    call fasp_fwrapper_krylov_navier_stokes_nsym (nA,nnzA,ia,ja,a,    &
-                                                  nB,nC,nnzB,ib,jb,b, &
-                                                  nC,nB,nnzC,ic,jc,c, &
-                                                  rhs_new,x)
+    call fasp_fwrapper_dblc_krylov_nstokes (nA,nnzA,ia,ja,a,    &
+                                            nB,nC,nnzB,ib,jb,b, &
+                                            nC,nB,nnzC,ic,jc,c, &
+                                            rhs_new,x)
+
     ! save solution
     forall (i = 1 : ntol) rhs(i) = x(i)
 
