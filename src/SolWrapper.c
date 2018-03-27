@@ -26,13 +26,14 @@
 /*---------------------------------*/
 
 /**
- * \fn void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA, INT *nnzA, INT *ia,
- *                                                    INT *ja, REAL *aval, INT *nB,
- *                                                    INT *mB, INT *nnzB, INT *ib,
- *                                                    INT *jb, REAL *bval, INT *nC,
- *                                                    INT *mC, INT *nnzC, INT *ic,
- *                                                    INT *jc, REAL *cval, REAL *b,
- *                                                    REAL *u)
+ * \fn void fasp_fwrapper_dblc_krylov_nstokes_ (INT *nA, INT *nnzA, INT *ia,
+ *                                              INT *ja, REAL *aval, INT *nB,
+ *                                              INT *mB, INT *nnzB, INT *ib,
+ *                                              INT *jb, REAL *bval, INT *nC,
+ *                                              INT *mC, INT *nnzC, INT *ic,
+ *                                              INT *jc, REAL *cval,
+ *                                              REAL *b, REAL *u)
+ *
  * \brief Solve [A B; C O] u = b by Krylov method with block preconditioners
  *
  * \param nA       num of rows/cols of A
@@ -59,26 +60,27 @@
  * \date   03/20/2014
  *
  * Modified by Chensong Zhang on 03/16/2018: Fixed format problem
+ * Modified by Chensong Zhang on 03/26/2018: Change file name
  */
-void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
-                                               INT *nnzA,
-                                               INT *ia,
-                                               INT *ja,
-                                               REAL *aval,
-                                               INT *nB,
-                                               INT *mB,
-                                               INT *nnzB,
-                                               INT *ib,
-                                               INT *jb,
-                                               REAL *bval,
-                                               INT *nC,
-                                               INT *mC,
-                                               INT *nnzC,
-                                               INT *ic,
-                                               INT *jc,
-                                               REAL *cval,
-                                               REAL *b,
-                                               REAL *u)
+void fasp_fwrapper_dblc_krylov_nstokes_ (INT *nA,
+                                         INT *nnzA,
+                                         INT *ia,
+                                         INT *ja,
+                                         REAL *aval,
+                                         INT *nB,
+                                         INT *mB,
+                                         INT *nnzB,
+                                         INT *ib,
+                                         INT *jb,
+                                         REAL *bval,
+                                         INT *nC,
+                                         INT *mC,
+                                         INT *nnzC,
+                                         INT *ic,
+                                         INT *jc,
+                                         REAL *cval,
+                                         REAL *b,
+                                         REAL *u)
 {
     dBLCmat A; // coefficient matrix
     dCSRmat matA11, matA21, matA12, matA22;
@@ -149,12 +151,13 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
 }
 
 /**
- * \fn void fasp_fwrapper_krylov_navier_stokes_sym_ (INT *nA, INT *nnzA, INT *ia,
- *                                                   INT *ja, REAL *aval, INT *nB,
- *                                                   INT *nnzB, INT *ib, INT *jb,
- *                                                   REAL *bval, INT *nC, INT *nnzC,
- *                                                   INT *ic, INT *jc, REAL *cval,
- *                                                   REAL *b, REAL *u)
+ * \fn void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA, INT *nnzA, INT *ia,
+ *                                              INT *ja, REAL *aval, INT *nB,
+ *                                              INT *nnzB, INT *ib, INT *jb,
+ *                                              REAL *bval, INT *nC, INT *nnzC,
+ *                                              INT *ic, INT *jc, REAL *cval,
+ *                                              REAL *b, REAL *u)
+ *
  * \brief Solve [A B'; B C] u = b by Krylov method with block preconditioners
  *
  * \param nA       num of cols of A
@@ -179,24 +182,25 @@ void fasp_fwrapper_krylov_navier_stokes_nsym_ (INT *nA,
  * \date   03/14/2012
  *
  * Modified by Chensong Zhang on 03/16/2018: Fixed format problem
+ * Modified by Chensong Zhang on 03/26/2018: Change file name
  */
-void fasp_fwrapper_krylov_navier_stokes_sym_ (INT *nA,
-                                              INT *nnzA,
-                                              INT *ia,
-                                              INT *ja,
-                                              REAL *aval,
-                                              INT *nB,
-                                              INT *nnzB,
-                                              INT *ib,
-                                              INT *jb,
-                                              REAL *bval,
-                                              INT *nC,
-                                              INT *nnzC,
-                                              INT *ic,
-                                              INT *jc,
-                                              REAL *cval,
-                                              REAL *b,
-                                              REAL *u)
+void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA,
+                                         INT *nnzA,
+                                         INT *ia,
+                                         INT *ja,
+                                         REAL *aval,
+                                         INT *nB,
+                                         INT *nnzB,
+                                         INT *ib,
+                                         INT *jb,
+                                         REAL *bval,
+                                         INT *nC,
+                                         INT *nnzC,
+                                         INT *ic,
+                                         INT *jc,
+                                         REAL *cval,
+                                         REAL *b,
+                                         REAL *u)
 {
     dBLCmat A; // coefficient matrix
     dCSRmat matA11, matA21, matA12, matA22;

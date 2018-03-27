@@ -78,10 +78,10 @@ program ns
   ic = ic - 1
   jc = jc - 1
 
-  call fasp_fwrapper_krylov_navier_stokes_sym (nA,nnzA,ia,ja,a,  &
-                                               nB,nnzB,ib,jb,b,  &
-                                               nC,nnzC,ic,jc,c,  &
-                                               rhs,u)
+  call fasp_fwrapper_dblc_krylov_sstokes (nA,nnzA,ia,ja,a,  &
+                                          nB,nnzB,ib,jb,b,  &
+                                          nC,nnzC,ic,jc,c,  &
+                                          rhs,u)
 
   ! Step 3: Clean up memory
   deallocate(ia,ja,a)
