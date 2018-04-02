@@ -1,4 +1,4 @@
-!  StokesBrinkman.f90 
+!  StokesBrinkman2D.f90
 !
 !  FUNCTIONS:
 !  StokesBrinkman - Entry point of console application.
@@ -13,7 +13,7 @@
 !
 !****************************************************************************
 
-program StokesBrinkman
+program sb2
 
     implicit none
 
@@ -45,8 +45,8 @@ program StokesBrinkman
 
     Lx = 0.1
     Ly = 0.1
-    nx = 100
-    ny = 100
+    nx = 10
+    ny = 10
     dx = Lx / nx
     dy = Ly / ny
     nb = nx * ny
@@ -93,7 +93,7 @@ program StokesBrinkman
     visc_star = 1
     perm_matrix = 1E-15
     perm_frac = 1E-9
-    perm      = perm_matrix
+    perm = perm_matrix
     !do j = 1, ny
     !    read(lur1, *) (poro2D(i,j),i=1,nx)
     !enddo
@@ -117,8 +117,7 @@ program StokesBrinkman
                 perm(i,j)  = (dm ** 2/ 180.) * poro(im) **2/(1-poro(im))**2
             else
                 perm(i,j)  = 1E-9
-                
-            endif            
+            endif
         enddo
     enddo
     perm = perm_matrix
@@ -926,17 +925,11 @@ program StokesBrinkman
             endif unKnownsV
         enddo
     enddo
-    
-    ! do i= 1, nnzindex
-    !    write(10,*) a(i), jglobal(i)
-    !enddo
-    !do i = 1, (Dim_unknown_P+Dim_unknown_u+Dim_unknown_v)
-    !    write(11,*) rhs(i), iglobal(i)
-    !enddo   
+
  !   
  ! Matrix solver
  !
-    call SBInterfaceBLC(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+    call SB2DInterfaceBLC(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
 
     do i = 1, Dim_unknown_P
         im = ivmapp(i)
@@ -974,5 +967,5 @@ program StokesBrinkman
         enddo
     enddo
 
-end program StokesBrinkman
+end program sb2
 

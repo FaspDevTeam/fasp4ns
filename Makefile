@@ -128,7 +128,7 @@ ALLPROG=$(TESTLIB) NavierStokes
 # Link
 ########################################################################
 
-all: $(ALLPROG) NavierStokes NavierStokesFortran StokesBrinkman
+all: $(ALLPROG) NavierStokes NavierStokesF StokesBrinkman2 StokesBrinkman3
 
 Default: 
 	NavierStokes
@@ -148,19 +148,25 @@ lib: $(OBJSC) $(OBJSF)
 ########################################################################
 
 NavierStokes:
-	@$(CC) $(CFLAGS) -c main/ns.c -o main/ns.o
-	@$(FC) $(LOPT) main/ns.o $(FLFLAGS) -o ns.ex
+	@$(CC) $(CFLAGS) -c main/NavierStokes.c -o main/NavierStokes.o
+	@$(FC) $(LOPT) -o ns.ex main/NavierStokes.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
-NavierStokesFortran:
-	@$(FC) $(CFLAGS) -c main/ns.f90 -o main/nsf.o
-	@$(FC) -o nsf.ex main/nsf.o $(FLFLAGS)
+NavierStokesF:
+	@$(FC) $(CFLAGS) -c main/NavierStokes.f90 -o main/NavierStokesF.o
+	@$(FC) -o nsf.ex main/NavierStokesF.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
-StokesBrinkman:
-	@$(FC) $(CFLAGS) -c main/SBInterfaceBLC.f90 -o main/SBInterfaceBLC.o
-	@$(FC) $(CFLAGS) -c main/Stokes-Brinkman.f90 -o main/Stokes-Brinkman.o
-	@$(FC) -o sb.ex main/SBInterfaceBLC.o main/Stokes-Brinkman.o $(FLFLAGS)
+StokesBrinkman2:
+	@$(FC) $(CFLAGS) -c main/SB2DInterfaceBLC.f90 -o main/SB2DInterfaceBLC.o
+	@$(FC) $(CFLAGS) -c main/StokesBrinkman2D.f90 -o main/StokesBrinkman2D.o
+	@$(FC) -o sb2.ex main/SB2DInterfaceBLC.o main/StokesBrinkman2D.o $(FLFLAGS)
+	@echo 'Building executable $@'
+
+StokesBrinkman3:
+	@$(FC) $(CFLAGS) -c main/SB3DInterfaceBLC.f90 -o main/SB3DInterfaceBLC.o
+	@$(FC) $(CFLAGS) -c main/StokesBrinkman3D.f90 -o main/StokesBrinkman3D.o
+	@$(FC) -o sb3.ex main/SB3DInterfaceBLC.o main/StokesBrinkman3D.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
 ########################################################################

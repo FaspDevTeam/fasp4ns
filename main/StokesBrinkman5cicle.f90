@@ -1,4 +1,4 @@
-!  StokesBrinkman.f90
+!  StokesBrinkman5circle.f90
 !
 !  FUNCTIONS:
 !  StokesBrinkman - Entry point of console application.
@@ -12,7 +12,7 @@
 !
 !****************************************************************************
 
-program StokesBrinkman
+program sb
 
     implicit none
 
@@ -906,7 +906,7 @@ program StokesBrinkman
  !   
  ! Matrix solver
  !
-    call SBInterfaceBLC(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+    call SB2DInterfaceBLC(a,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
 
     do i = 1, Dim_unknown_u
         im = ivmapu(i)
@@ -944,5 +944,5 @@ program StokesBrinkman
         enddo
     enddo
 
-end program StokesBrinkman
+end program sb
 

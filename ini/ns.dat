@@ -6,7 +6,7 @@
 
 workdir = ./data/       % work directory, no more than 128 characters
 problem_num    = 602    % Problem number 
-print_level    = 1      % How much information to print out 
+print_level    = 3      % How much information to print out 
 output_type    = 0      % output_type: 0 Standard output | >0 File
 
 %----------------------------------------------%
