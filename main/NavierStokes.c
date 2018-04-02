@@ -1,4 +1,4 @@
-/*! \file ns.c
+/*! \file NavierStokes.c
  *  \brief Test solvers for (Navier-)Stokes problems
  */
 

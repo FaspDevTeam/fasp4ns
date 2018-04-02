@@ -1,4 +1,4 @@
-!> \file ns.f90
+!> \file NavierStokes.f90
 !> \brief Test function for F90 interfaces
 
 program ns

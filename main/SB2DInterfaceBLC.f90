@@ -1,4 +1,4 @@
-SUBROUTINE SBInterfaceBLC(aij,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
+SUBROUTINE SB2DInterfaceBLC(aij,rhs,Dim_unknown_P,Dim_unknown_u,Dim_unknown_v,totalnnz,iglobal,jglobal)
     
 ! This subroutine sets the matrix in CSR format, and solve the maxtrix
 
@@ -215,6 +215,6 @@ IMPLICIT NONE
     deallocate(c)
     deallocate(x)
 
-END SUBROUTINE SBInterfaceBLC
+END SUBROUTINE SB2DInterfaceBLC
 
 
