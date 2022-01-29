@@ -51,9 +51,9 @@ void fasp_dblc_read (char *fileA11,
                      dBLCmat *A,
                      dvector *r)
 {
-    int numA, nnz, numB, nnzb, nnzc;
+    int numA,nnz,numB,nnzb,nnzc;
     int i, k, n;
-    int ivalue, wall;
+    int ivalue,wall;
     double value;
     
     // read matrix A11
@@ -181,9 +181,8 @@ void fasp_dblc_read1 (char *fileA11,
                       dBLCmat *A,
                       dvector *r)
 {
-    int numA, nnz, numB, nnzb, nnzc;
-    int i, k, n;
-    int ivalue, wall;
+    int numA,nnz,numB,nnzb,nnzc;
+    int i,ivalue,wall;
     double value;
     
     // read matrix A11
