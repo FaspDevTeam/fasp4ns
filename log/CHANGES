@@ -1,5 +1,11 @@
 File Name: CHANGES
 
+01/29/2021 FASP4NS 0.2.2:
+- Add VS2022 + Intel2022 oneAPI solution;
+- Fix some warnings given by oneAPI;
+- Replace Makefile with cmake;
+- Compile on Mac OSX 12.2 and GCC11.2.
+
 03/22/2018 FASP4NS 0.2.1:
 - Fix interface to Stokes-Brinkman; solver works now.
 - Update S-B test example.

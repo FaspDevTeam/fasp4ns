@@ -1,6 +1,0 @@
-CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=1 -DWITH_SuperLU=0
-
-UMFPACKDIR = /Users/zhangcs/Packages
-UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
-UMFPACKLIB = -L$(UMFPACKDIR)/lib -lsuitesparseconfig -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd
-
