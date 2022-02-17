@@ -116,7 +116,7 @@ install(TARGETS fasp4ns
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-# Compile and line NavierStokes.ex
+# Compile and link NavierStokes.ex
 add_executable(NavierStokes.ex main/NavierStokes.c)
 target_link_libraries(NavierStokes.ex fasp4ns 
                       ${FASP_LIBRARIES}
@@ -125,7 +125,7 @@ target_link_libraries(NavierStokes.ex fasp4ns
                       ${SUPERLU_LIBRARIES} 
                       ${MUMPS_LIBRARIES}
                       ${MKL_LIBRARIES}
-                      ${ADD_STDLIBS} m)
+                      ${ADD_STDLIBS})
 
 install(TARGETS NavierStokes.ex 
         DESTINATION ${PROJECT_SOURCE_DIR})
