@@ -19,12 +19,13 @@ TESTLIB=../lib/libfasp4ns.a
 BLASLIB=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -framework Accelerate
 FSRCDIR=.
 
-########################################################################      
-# Directory to UMFPACK
-########################################################################        
 UMFPACKDIR = /Users/zhangcs/Packages
 UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
 UMFPACKLIB = -L$(UMFPACKDIR)/lib -lsuitesparseconfig -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd
+
+########################################################################
+# Do not modify beyond this line
+########################################################################
 
 ########################################################################      
 # Compiling options                                                             
