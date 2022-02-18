@@ -1,19 +1,20 @@
 # CMakeLists for FASP 
 # 
 # Author            Date           Action
-# -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Chensong Zhang    Jan/29/2022    Create CMakeLists
+# Chensong Zhang    Feb/18/2022    Fix math.lib linkage problem
 #
 # Some sample usages:
-#   cmake .                                 // build in default configuration
-#   cmake -DCMAKE_BUILD_TYPE=Release .      // build in Release configuration
-#   cmake -DCMAKE_BUILD_TYPE=Debug .        // build in Debug configuration
-#   cmake -DCMAKE_VERBOSE_MAKEFILE=ON .     // build with verbose on
-#   cmake -DUSE_UMFPACK=ON .                // build with UMFPACK package support
+#   cmake .                             // build in default configuration
+#   cmake -DCMAKE_BUILD_TYPE=Release .  // build in Release configuration
+#   cmake -DCMAKE_BUILD_TYPE=Debug .    // build in Debug configuration
+#   cmake -DCMAKE_VERBOSE_MAKEFILE=ON . // build with verbose on
+#   cmake -DUSE_UMFPACK=ON .            // build with UMFPACK package support
 
-#####################################################################################
+###############################################################################
 ## General environment setting
-#####################################################################################
+###############################################################################
 
 # Minimum cmake version needed
 cmake_minimum_required(VERSION 2.8.12)
@@ -32,9 +33,9 @@ project(fasp4ns C CXX)
 # Set module path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/modules)
 
-#####################################################################################
+###############################################################################
 ## Set configuration types and their default compiler flags
-#####################################################################################
+###############################################################################
 
 set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "Configs" FORCE)
 if (MSVC)
@@ -46,7 +47,8 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W4 /WX")
 else()
     # Compiler flags for Linux or Mac OS X
-    set(ADD_STDLIBS "m")
+    set(ADD_STDLIBS "${ADD_STDLIBS} m")
+    string(STRIP ${ADD_STDLIBS} ADD_STDLIBS)
     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -g")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
@@ -59,11 +61,11 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Set build type to ${CMAKE_BUILD_TYPE} configuration")
 
-#######################################################################
+###############################################################################
 # OpenMP : defined on command line in the top Makefile
 # For cmake since 3.9, we can use find_package(OpenMP REQUIRED)
 # We keep this for older cmake versions!!!
-#######################################################################
+###############################################################################
 
 if(USE_OPENMP)
     if(CMAKE_VERSION VERSION_GREATER 3)
@@ -80,9 +82,9 @@ if(USE_OPENMP)
     endif(OPENMP_FOUND)
 endif(USE_OPENMP)
 
-#####################################################################################
+###############################################################################
 ## Project specific parameters
-#####################################################################################
+###############################################################################
 
 # Find source files required for PennSim library
 file(GLOB S1 ${PROJECT_SOURCE_DIR}/src/*.c)
@@ -102,14 +104,15 @@ else(FASP_FOUND)
     message("   ERROR: FASP was requested but not supported!")
 endif(FASP_FOUND)
 
-#####################################################################################
+###############################################################################
 ## External libraries
-#####################################################################################
+###############################################################################
+
 include(external)
 
-#####################################################################################
+###############################################################################
 ## Targets for examples and installation
-#####################################################################################
+###############################################################################
 
 # Set install location for fasp4ns library
 set(CMAKE_INSTALL_LIBDIR "${PROJECT_SOURCE_DIR}/lib/")
