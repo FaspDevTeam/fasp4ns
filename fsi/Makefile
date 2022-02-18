@@ -112,7 +112,7 @@ OBJSC := $(patsubst %.c,%.o,$(CSRC))
 # List of all programs to be compiled
 ########################################################################
 
-.DEFAULT_GOAL := fasp4ns
+.DEFAULT_GOAL := all
 
 # Everything
 $(TESTLIB): $(OBJSC) $(OBJSF)
