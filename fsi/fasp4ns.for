@@ -185,7 +185,7 @@ c      CLOSE(2)
       DEALLOCATE(na)
       DEALLOCATE(A)
 
-      call fasp_fwrapper_dblc_krylov_nstokes(nvar_A,maxa_A,numcol_A,
+      call fasp_fwrapper_dblc_krylov_sstokes(nvar_A,maxa_A,numcol_A,
      &na_A,a_A,nvar_B,maxa_B,numcol_B,na_B,a_B,nvar_C,maxa_C,numcol_C,
      &na_C,a_C,f,u);
 
