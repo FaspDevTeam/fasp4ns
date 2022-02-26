@@ -1,6 +1,10 @@
+.DS_Store
 config.mk*
 FASP.mk*
 *.ex
-make.inc
-include/
+.vscode/
+.VSCode**/
+Build/
+BUILD_FASP/
 lib/
+include/

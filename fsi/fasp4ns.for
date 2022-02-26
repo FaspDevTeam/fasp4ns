@@ -106,7 +106,7 @@ c            print *,i,j,na(j)
             if (na(j).le.nvar_A) then
                numcol_A(i+1)=j-n0+1+numcol_A(i)
                maxa_A=maxa_A+1
-               na_A(maxa_A)=na(j)
+               na_A(maxa_A)=na(j)-1
                a_A(maxa_A)=a(j)
 c               print *,maxa_A,na_A(maxa_A)
             else
@@ -127,7 +127,7 @@ c            print *,i,j,na(j),n0,n1
             if (na(j).le.nvar_A) then
                 numcol_B(i+1)=j-n0+1+numcol_B(i)
                 maxa_B=maxa_B+1
-                na_B(maxa_B)=na(j)
+                na_B(maxa_B)=na(j)-1
                 a_B(maxa_B)=a(j)
 c                print *,maxa_B,numcol_B(i+1),numcol_B(i)
             else
@@ -136,7 +136,7 @@ c                print *,maxa_B,numcol_B(i+1),numcol_B(i)
                 numcol_C(i+1)=j-n0+1-numcol_B(i+1)+numcol_B(i)+
      &                        numcol_C(i)
                 maxa_C=maxa_C+1
-                na_C(maxa_C)=na(j)-nvar_A
+                na_C(maxa_C)=na(j)-nvar_A-1
                 a_C(maxa_C)=a(j)
 c                print *,maxa_C,j,a_C(maxa_C),numcol_C(i+1),numcol_C(i)
             endif
