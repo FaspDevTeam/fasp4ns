@@ -9,19 +9,41 @@
 # Compilers and dependences
 ########################################################################
 AR=ar ruc
-CC=gcc
-CPP=g++
-FC=gfortran
+
+##########################
+# Use GNU compilers
+##########################
+# CC=gcc
+# CPP=g++
+# FC=gfortran
+
+##########################
+# Use Intel compilers
+##########################
+CC=icx
+CPP=icx
+FC=ifx
 
 INCLUDE=-I ../../faspsolver/base/include -I ../include
 FASPLIB=../../faspsolver/lib/libfasp.a
 TESTLIB=../lib/libfasp4ns.a
-BLASLIB=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -framework Accelerate
 FSRCDIR=.
 
-UMFPACKDIR = /Users/zhangcs/Packages
-UMFPACKINCLUDE = -I$(UMFPACKDIR)/include
-UMFPACKLIB = -L$(UMFPACKDIR)/lib -lsuitesparseconfig -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd
+#BLASLIB=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -framework Accelerate
+
+##########################
+# Use UMFPACK solver
+##########################
+#SOLVERDIR = /Users/zhangcs/Packages
+#SOLVERLIB = -L$(SOLVERDIR)/lib -lsuitesparseconfig -lumfpack -lamd -lcholmod -lcolamd -lcamd -lccolamd
+
+##########################
+# Use MKL solver
+##########################
+SOLVERDIR = /public1/soft/oneAPI/2022.1/mkl/latest
+SOLVERLIB = /public1/soft/oneAPI/2022.1/mkl/latest/lib/intel64/libmkl_rt.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libiomp5.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
+
+SOLVERINCLUDE = -I$(SOLVERDIR)/include
 
 ########################################################################
 # Do not modify beyond this line
@@ -34,7 +56,7 @@ BOPT=-O3 #-g -Wall #-fopenmp
 
 COPTS=$(BOPT)
 CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=1 -DWITH_SuperLU=0
-CINCLUDES=$(INCLUDE) $(UMFPACKINCLUDE)
+CINCLUDES=$(INCLUDE) $(SOLVERINCLUDE)
 CFLAGS=$(CDEFS) $(COPTS) $(CINCLUDES)
 
 FOPTS=$(BOPT)
@@ -45,7 +67,7 @@ FFLAGS=$(FDEFS) $(FOPTS) $(FINCLUDES)
 ########################################################################
 # Set libraries
 ########################################################################
-LIBS=$(TESTLIB) $(FASPLIB) $(BLASLIB) $(UMFPACKLIB) 
+LIBS=$(TESTLIB) $(FASPLIB) $(BLASLIB) $(SOLVERLIB) 
 
 ########################################################################
 # Link options
