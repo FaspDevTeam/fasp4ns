@@ -134,6 +134,12 @@ void fasp_fwrapper_dblc_krylov_nstokes_ (INT *nA,
     matA21.row = *nC; matA21.col = *mC; matA21.nnz = *nnzC;
     matA21.IA  = ic;  matA21.JA  = jc;  matA21.val = cval;
 
+    if (print_level > 9) {
+        fasp_dcsr_write_coo("A11.coo", &matA11);
+        fasp_dcsr_write_coo("A12.coo", &matA12);
+        fasp_dcsr_write_coo("A21.coo", &matA21);
+    }
+
     // generate an empty matrix
     fasp_dcsr_alloc(*nC,*nC,1,&matA22);
 
@@ -148,6 +154,12 @@ void fasp_fwrapper_dblc_krylov_nstokes_ (INT *nA,
 
     flag = fasp_solver_dblc_krylov_navier_stokes(&A, &rhs, &sol, &itparam,
                                                  &amgparam, &iluparam, &swzparam);
+
+    if (print_level > 9) {
+        fasp_dvec_write("rhs.vec", &rhs);
+        fasp_dvec_write("sol.vec", &sol);
+        printf("Press ENTER to continue..."); getchar();
+    }
 }
 
 /**
@@ -252,6 +264,12 @@ void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA,
     matA22.row = *nC; matA22.col = *nC; matA22.nnz = *nnzC;
     matA22.IA  = ic;  matA22.JA  = jc;  matA22.val = cval;
 
+    if (print_level > 9) {
+        fasp_dcsr_write_coo("A11.coo", &matA11);
+        fasp_dcsr_write_coo("A21.coo", &matA21);
+        fasp_dcsr_write_coo("A22.coo", &matA22);
+    }
+
     // get transform of B
     fasp_dcsr_trans(&matA21, &matA12);
     
@@ -265,6 +283,12 @@ void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA,
     
     flag = fasp_solver_dblc_krylov_navier_stokes(&A, &rhs, &sol, &itparam,
                                                  &amgparam, &iluparam, &swzparam);
+
+    if (print_level > 9) {
+        fasp_dvec_write("rhs.vec", &rhs);
+        fasp_dvec_write("sol.vec", &sol);
+        printf("Press ENTER to continue..."); getchar();
+    }
 }
 
 /*---------------------------------*/

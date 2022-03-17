@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "StokesBrinkman2D", "StokesBrinkman2D\StokesBrinkman2D.vfproj", "{F6956280-AC4F-4313-A6FF-7368738BBC5E}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -21,6 +21,11 @@ Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "HemoFSIfasp4ell", "HemoFSIf
 	EndProjectSection
 EndProject
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "HemoFSIfasp4ns", "HemoFSIfasp4ns\HemoFSIfasp4ns.vfproj", "{FDC151D7-9D34-4475-84A8-AAFE92A157E7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D281BB32-968F-47EA-BA1F-84A30122BDFF} = {D281BB32-968F-47EA-BA1F-84A30122BDFF}
+	EndProjectSection
+EndProject
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "fasp4ns", "DldFSIfasp4ns\fasp4ns.vfproj", "{C79A414E-3717-405B-AFF5-24C5300BCB6B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D281BB32-968F-47EA-BA1F-84A30122BDFF} = {D281BB32-968F-47EA-BA1F-84A30122BDFF}
 	EndProjectSection
@@ -73,6 +78,14 @@ Global
 		{FDC151D7-9D34-4475-84A8-AAFE92A157E7}.Release|Win32.Build.0 = Release|Win32
 		{FDC151D7-9D34-4475-84A8-AAFE92A157E7}.Release|x64.ActiveCfg = Release|x64
 		{FDC151D7-9D34-4475-84A8-AAFE92A157E7}.Release|x64.Build.0 = Release|x64
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Debug|Win32.Build.0 = Debug|Win32
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Debug|x64.ActiveCfg = Debug|x64
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Debug|x64.Build.0 = Debug|x64
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|Win32.ActiveCfg = Release|Win32
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|Win32.Build.0 = Release|Win32
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|x64.ActiveCfg = Release|x64
+		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

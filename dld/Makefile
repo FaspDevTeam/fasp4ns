@@ -1,7 +1,7 @@
 ########################################################################
 # Fast Auxiliary Space Preconditioners (FASP)
 # 
-# This is the Makefile for (Navier-)Stokes test problems! 
+# This is the Makefile for DLD test problems! 
 #
 ########################################################################
 
@@ -143,7 +143,7 @@ $(TESTLIB): $(OBJSC) $(OBJSF)
 # Link
 ########################################################################
 
-all: $(TESTLIB) fasp4ns fasp4ell
+all: $(TESTLIB) fasp4ns
 
 ########################################################################
 # Some test problems
@@ -151,10 +151,6 @@ all: $(TESTLIB) fasp4ns fasp4ell
 
 fasp4ns:
 	@$(FC) -o fasp4ns.ex fasp4ns.o $(FLFLAGS)
-	@echo 'Building executable $@'
-
-fasp4ell:
-	@$(FC) -o fasp4ell.ex fasp4ell.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
 ########################################################################
