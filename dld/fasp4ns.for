@@ -1,4 +1,4 @@
-ccccc   Last edit time:  202203171708
+ccccc   Last edit time:  202203251108
       implicit real*8 (a-h,o-z)
       integer,allocatable::numcol_A(:),na_A(:),numcol_B(:),na_B(:),
      *numcol_C(:),na_C(:),NUMCOL(:),na(:)
@@ -11,8 +11,9 @@ c========================  new add begin
       character*50 fname
 c======================== new add end
 
-      maxt=200000000
-
+c========================  new add begin 2
+c      maxt=1000000000
+c======================== new add end 2
 
 c========================  new add begin
       inquire(file='..\input\showmatrixstep.dat',exist=filflg)
@@ -43,11 +44,16 @@ c======================== new add end
       CLOSE(2)
 
       neq1=neq+1
-      maxcol=maxt/neq
+c========================  new add begin 2
+c      maxcol=maxt/neq
+c======================== new add end 2
+
 
       ALLOCATE(numcol(neq1),STAT=ierror)
-      ALLOCATE(na(maxt),STAT=ierror)
-      ALLOCATE(A(maxt),STAT=ierror)
+c========================  new add begin 2
+c      ALLOCATE(na(maxt),STAT=ierror)
+c      ALLOCATE(A(maxt),STAT=ierror)
+c======================== new add end 2
       ALLOCATE(f(neq),STAT=ierror)
       ALLOCATE(u(neq),STAT=ierror)
 c========================  new add begin
@@ -58,10 +64,12 @@ c======================== new add end
       do i=1,neq1
          numcol(i)=0
       enddo
-      do i=1,maxt
-         na(i)=0
-         a(i)=0.d0
-      enddo
+c========================  new add begin 2
+c      do i=1,maxt
+c         na(i)=0
+c         a(i)=0.d0
+c      enddo
+c======================== new add end 2
 
 C.......OPEN F FILE
         OPEN(2,FILE='f',FORM='UNFORMATTED',STATUS='OLD')
@@ -79,6 +87,17 @@ C.......OPEN EINFORM & ESTIFF FILE
 c========================  new add begin
 c        CALL ACLH(NEQ1,NUMEL,NUMCOL,NA,1,MAXCOL)
 c        CALL BCLH(NEQ,NUMCOL,NA,MAXCOL)
+
+c========================  new add begin 2
+        call acln(neq,numel,numcol,1)
+        maxt = int(numcol(neq+1)*1.1)
+        ALLOCATE(na(maxt),STAT=ierror)
+        ALLOCATE(A(maxt),STAT=ierror) 
+        do i=1,maxt
+          na(i)=0
+          a(i)=0.d0
+        enddo               
+c======================== new add end 2
 
         call aclh(neq,numel,jnz,numcol,na,1,maxt)
         call bclh(neq,numel,jnz,numcol,na,maxt)
