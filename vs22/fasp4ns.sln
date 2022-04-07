@@ -25,10 +25,12 @@ Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "HemoFSIfasp4ns", "HemoFSIfa
 		{D281BB32-968F-47EA-BA1F-84A30122BDFF} = {D281BB32-968F-47EA-BA1F-84A30122BDFF}
 	EndProjectSection
 EndProject
-Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "fasp4ns", "DldFSIfasp4ns\fasp4ns.vfproj", "{C79A414E-3717-405B-AFF5-24C5300BCB6B}"
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "DLDfasp4ns", "DldFSIfasp4ns\DLDfasp4ns.vfproj", "{C79A414E-3717-405B-AFF5-24C5300BCB6B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D281BB32-968F-47EA-BA1F-84A30122BDFF} = {D281BB32-968F-47EA-BA1F-84A30122BDFF}
 	EndProjectSection
+EndProject
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "DLDfasp4ell", "DldFSIfasp4ell\DLDfasp4ell.vfproj", "{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +88,14 @@ Global
 		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|Win32.Build.0 = Release|Win32
 		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|x64.ActiveCfg = Release|x64
 		{C79A414E-3717-405B-AFF5-24C5300BCB6B}.Release|x64.Build.0 = Release|x64
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Debug|Win32.Build.0 = Debug|Win32
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Debug|x64.ActiveCfg = Debug|x64
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Debug|x64.Build.0 = Debug|x64
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Release|Win32.ActiveCfg = Release|Win32
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Release|Win32.Build.0 = Release|Win32
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Release|x64.ActiveCfg = Release|x64
+		{67847B7F-5FBF-41CD-A5FD-DA32318EC7BF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
