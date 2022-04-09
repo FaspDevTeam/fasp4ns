@@ -52,10 +52,10 @@ SOLVERINCLUDE = -I$(SOLVERDIR)/include
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
-BOPT=-O3 -fopenmp #-g -Wall
+BOPT=-O3 -fopenmp -fpscomp filesfromcmd #-g -Wall
 
 COPTS=$(BOPT)
-CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=1 -DWITH_SuperLU=0
+CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=0 -DWITH_SuperLU=0 -DWITH_PARDISO=1
 CINCLUDES=$(INCLUDE) $(SOLVERINCLUDE)
 CFLAGS=$(CDEFS) $(COPTS) $(CINCLUDES)
 
@@ -143,7 +143,7 @@ $(TESTLIB): $(OBJSC) $(OBJSF)
 # Link
 ########################################################################
 
-all: $(TESTLIB) fasp4ns
+all: $(TESTLIB) fasp4ns fasp4ell
 
 ########################################################################
 # Some test problems
@@ -151,6 +151,10 @@ all: $(TESTLIB) fasp4ns
 
 fasp4ns:
 	@$(FC) -o fasp4ns.ex fasp4ns.o $(FLFLAGS)
+	@echo 'Building executable $@'
+
+fasp4ell:
+	@$(FC) -o fasp4ell.ex fasp4ell.o $(FLFLAGS)
 	@echo 'Building executable $@'
 
 ########################################################################
