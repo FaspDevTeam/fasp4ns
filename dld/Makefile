@@ -29,6 +29,7 @@ FASPLIB=../../faspsolver/lib/libfasp.a
 TESTLIB=../lib/libfasp4ns.a
 FSRCDIR=.
 
+# For Mac OSX users, uncomment the following line:
 #BLASLIB=-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -framework Accelerate
 
 ##########################
