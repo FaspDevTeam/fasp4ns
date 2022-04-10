@@ -93,7 +93,6 @@ c      close(2)
 
       forall (i=1:maxa+1) na(i) = na(i) - 1
 
-
       tol=1.d-10
       maxit=1000
       info=3
@@ -110,7 +109,5 @@ c      close(2)
       deallocate(jnz)
       deallocate(na)
       deallocate(a)
-
-      
 
       end program
