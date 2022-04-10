@@ -4,7 +4,7 @@
 % must have spaces around the equal sign "="   %
 %----------------------------------------------%
 
-print_level    = 3      % How much information to print out 
+print_level    = 1      % How much information to print out 
 output_type    = 0      % output_type: 0 Standard output | >0 File
 
 %----------------------------------------------%
