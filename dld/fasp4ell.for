@@ -94,7 +94,7 @@ c      close(2)
       forall (i=1:maxa+1) na(i) = na(i) - 1
 
 
-      tol=1.d-20
+      tol=1.d-10
       maxit=1000
       info=3
       call fasp_fwrapper_dcsr_krylov_amg(neq,maxa,numcol,na,a,f,u,tol,
