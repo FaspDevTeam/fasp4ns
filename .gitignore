@@ -8,3 +8,4 @@ Build/
 BUILD_FASP/
 lib/
 include/
+dld/*.o
