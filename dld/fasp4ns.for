@@ -296,6 +296,23 @@ c========================  new add begin
       endif
 c======================== new add end
 
+c========================  new add begin 3
+      inquire(file='u',exist=filflg)
+      if(filflg) then
+      open (3,file='u',form='unformatted',status='old')
+      read (3) (u(i),i=1,neq)
+      close (3)
+c      esum = 0d0
+c      do i=1,neq
+c      esum = esum+abs(u(i))
+c      enddo
+      endif
+
+c      print*,filflg,esum
+c      pause
+c======================== new add end 3
+
+
       call fasp_fwrapper_dblc_krylov_sstokes(nvar_A,maxa_A,numcol_A,
      &na_A,a_A,nvar_B,maxa_B,numcol_B,na_B,a_B,nvar_C,maxa_C,numcol_C,
      &na_C,a_C,f,u);
