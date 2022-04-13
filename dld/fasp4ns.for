@@ -1,5 +1,6 @@
-ccccc   Last edit time:  202203251108
+ccccc   Last edit time:  202204130845
       implicit real*8 (a-h,o-z)
+
       integer,allocatable::numcol_A(:),na_A(:),numcol_B(:),na_B(:),
      *numcol_C(:),na_C(:),NUMCOL(:),na(:)
       double precision,allocatable::a(:),a_A(:),a_B(:),a_C(:),f(:),u(:)
@@ -11,55 +12,40 @@ c========================  new add begin
       character*50 fname
 c======================== new add end
 
-c========================  new add begin 2
-c      maxt=1000000000
-c======================== new add end 2
-
 c========================  new add begin
       inquire(file='..\input\showmatrixstep.dat',exist=filflg)
       if(filflg) then
-        ndebug = .true.
+         ndebug = .true.
       else
-        ndebug = .false.
-        nshow = .false.
+         ndebug = .false.
+         nshow = .false.
       endif
 c      print*,ndebug,filflg
       if (ndebug) then
-        OPEN(1,FILE='time',FORM='UNFORMATTED')
-        READ(1) TMAX,DT,TIME,IT
-        close(1)
-        open (343,file='..\input\showmatrixstep.dat',form='formatted')
-        read(343,*)  numstep,(nshowmatrixstep(i),i=1,numstep)
-        close(343)
-        nshow = .false.
-        do i=1,numstep
+         OPEN(1,FILE='time',FORM='UNFORMATTED')
+         READ(1) TMAX,DT,TIME,IT
+         close(1)
+         open (343,file='..\input\showmatrixstep.dat',form='formatted')
+         read(343,*)  numstep,(nshowmatrixstep(i),i=1,numstep)
+         close(343)
+         nshow = .false.
+         do i=1,numstep
             if (IT .eq. nshowmatrixstep(i)) nshow=.true.
-        enddo
+         enddo
       endif
 c======================== new add end
- 
 
       OPEN (2,FILE='sys',FORM='UNFORMATTED',STATUS='OLD')
       READ(2) NUMEL,NEQ,nskip3,nskip4,nvar_A
       CLOSE(2)
 
       neq1=neq+1
-c========================  new add begin 2
-c      maxcol=maxt/neq
-c======================== new add end 2
-
-
       ALLOCATE(numcol(neq1),STAT=ierror)
-c========================  new add begin 2
-c      ALLOCATE(na(maxt),STAT=ierror)
-c      ALLOCATE(A(maxt),STAT=ierror)
-c======================== new add end 2
       ALLOCATE(f(neq),STAT=ierror)
       ALLOCATE(u(neq),STAT=ierror)
 c========================  new add begin
-      allocate(jnz(neq+1),stat=ierror)  
+      allocate(jnz(neq+1),stat=ierror)
 c======================== new add end
- 
 
       do i=1,neq1
          numcol(i)=0
@@ -72,44 +58,42 @@ c      enddo
 c======================== new add end 2
 
 C.......OPEN F FILE
-        OPEN(2,FILE='f',FORM='UNFORMATTED',STATUS='OLD')
+      OPEN(2,FILE='f',FORM='UNFORMATTED',STATUS='OLD')
       READ (2) (F(I),I=1,NEQ)
       CLOSE (2)
 C     WRITE(*,*) ' F ='
 C     WRITE(*,7) (F(I),I=1,NEQ)
       DO 400 I=1,NEQ
-400   U(I)=0.0
- 
+  400 U(I)=0.0
+
 C.......OPEN SM FILE
 C.......OPEN EINFORM & ESTIFF FILE
-        OPEN (1,FILE='einform',FORM='UNFORMATTED',STATUS='OLD')
-        OPEN (2,FILE='estiff',FORM='UNFORMATTED',STATUS='OLD')
+      OPEN (1,FILE='einform',FORM='UNFORMATTED',STATUS='OLD')
+      OPEN (2,FILE='estiff',FORM='UNFORMATTED',STATUS='OLD')
 c========================  new add begin
 c        CALL ACLH(NEQ1,NUMEL,NUMCOL,NA,1,MAXCOL)
 c        CALL BCLH(NEQ,NUMCOL,NA,MAXCOL)
-
 c========================  new add begin 2
-        call acln(neq,numel,numcol,1)
-        maxt = int(numcol(neq+1)*1.1)
-        ALLOCATE(na(maxt),STAT=ierror)
-        ALLOCATE(A(maxt),STAT=ierror) 
-        do i=1,maxt
-          na(i)=0
-          a(i)=0.d0
-        enddo               
+      call acln(neq,numel,numcol,1)
+      maxt = int(numcol(neq+1)*1.1)
+      ALLOCATE(na(maxt),STAT=ierror)
+      ALLOCATE(A(maxt),STAT=ierror)
+      do i=1,maxt
+         na(i)=0
+         a(i)=0.d0
+      enddo
 c======================== new add end 2
 
-        call aclh(neq,numel,jnz,numcol,na,1,maxt)
-        call bclh(neq,numel,jnz,numcol,na,maxt)
-c======================== 
+      call aclh(neq,numel,jnz,numcol,na,1,maxt)
+      call bclh(neq,numel,jnz,numcol,na,maxt)
 
-        MAXA=NUMCOL(NEQ+1)
- 
-        IF (MAXA.GT.MAXT) THEN
-          WRITE(*,*) 'MATRIX A EXCEED CORE MEMORY....',MAXT,maxa
-          STOP 0000
-        ENDIF
- 
+      MAXA=NUMCOL(NEQ+1)
+
+      IF (MAXA.GT.MAXT) THEN
+         WRITE(*,*) 'MATRIX A EXCEED CORE MEMORY....',MAXT,maxa
+         STOP 0000
+      ENDIF
+
 C      WRITE (*,*) 'NUMCOL ='
 C      WRITE (*,*) (NUMCOL(I),I=1,NEQ+1)
 C      WRITE (*,*) 'NA ='
@@ -119,7 +103,6 @@ c========================  new add begin
 c      CALL ADDA(NA,A,NUMCOL,NEQ,MAXA,NUMEL,1,2)
       call adda(na,a,numcol,estif,neq,maxa,numel,1,2)
 c======================== new add end
- 
 
 c      WRITE (*,*) 'A ='
 c      WRITE (*,*) (A(I),I=1,MAXA)
@@ -179,7 +162,7 @@ c               print *,maxa_A,na_A(maxa_A)
                goto 101
             endif
          enddo
-101      continue
+  101    continue
 c         print *,'##',i,numcol_A(i+1)
       enddo
 
@@ -191,19 +174,19 @@ c         print *,'##',i,numcol_A(i+1)
          do j=n0,n1
 c            print *,i,j,na(j),n0,n1
             if (na(j).le.nvar_A) then
-                numcol_B(i+1)=j-n0+1+numcol_B(i)
-                maxa_B=maxa_B+1
-                na_B(maxa_B)=na(j)
-                a_B(maxa_B)=a(j)
+               numcol_B(i+1)=j-n0+1+numcol_B(i)
+               maxa_B=maxa_B+1
+               na_B(maxa_B)=na(j)
+               a_B(maxa_B)=a(j)
 c                print *,maxa_B,numcol_B(i+1),numcol_B(i)
             else
 
-                if (numcol_B(i+1).eq.0) numcol_B(i+1)=numcol_B(i)
-                numcol_C(i+1)=j-n0+1-numcol_B(i+1)+numcol_B(i)+
-     &                        numcol_C(i)
-                maxa_C=maxa_C+1
-                na_C(maxa_C)=na(j)-nvar_A
-                a_C(maxa_C)=a(j)
+               if (numcol_B(i+1).eq.0) numcol_B(i+1)=numcol_B(i)
+               numcol_C(i+1)=j-n0+1-numcol_B(i+1)+numcol_B(i)+
+     &                       numcol_C(i)
+               maxa_C=maxa_C+1
+               na_C(maxa_C)=na(j)-nvar_A
+               a_C(maxa_C)=a(j)
 c                print *,maxa_C,j,a_C(maxa_C),numcol_C(i+1),numcol_C(i)
             endif
          enddo
@@ -253,23 +236,21 @@ c      DEALLOCATE(na)
 c      DEALLOCATE(A)
 c======================== new add end
 
-
-
       forall (i=1:maxa_A+1) na_A(i) = na_A(i) - 1
       forall (i=1:maxa_B+1) na_B(i) = na_B(i) - 1
       forall (i=1:maxa_C+1) na_C(i) = na_C(i) - 1
 
-c========================  new add begin 
+c========================  new add begin
       if (nshow) then
          inquire(file='iterate',exist=filflg)
          if (filflg) then
-         OPEN(1,FILE='iterate',FORM='FORMATTED')
-         READ(1,*) iterate
-         close(1)
+            OPEN(1,FILE='iterate',FORM='FORMATTED')
+            READ(1,*) iterate
+            close(1)
          else
-         iterate = 1
-         endif     
-        
+            iterate = 1
+         endif
+
          fname = 'faspmatrix_a'
          call getname(fname,IT)
          call getname(fname,iterate)
@@ -280,7 +261,7 @@ c========================  new add begin
          write(2,*) (a_a(i),i=1,maxa_a)
          close(2)
          fname = 'faspmatrix_b'
-         call getname(fname,IT)      
+         call getname(fname,IT)
          call getname(fname,iterate)
          open (2,file=fname,form='formatted',status='unknown')
          write(2,*) nvar_b,maxa_b
@@ -289,7 +270,7 @@ c========================  new add begin
          write(2,*) (a_b(i),i=1,maxa_b)
          close(2)
          fname = 'faspmatrix_c'
-         call getname(fname,IT)      
+         call getname(fname,IT)
          call getname(fname,iterate)
          open (2,file=fname,form='formatted',status='unknown')
          write(2,*) nvar_c,maxa_c
@@ -298,7 +279,7 @@ c========================  new add begin
          write(2,*) (a_c(i),i=1,maxa_c)
          close(2)
          fname = 'faspmatrix'
-         call getname(fname,IT)    
+         call getname(fname,IT)
          call getname(fname,iterate)
          open (2,file=fname,form='formatted',status='unknown')
          write(2,*) neq,maxa
@@ -307,16 +288,13 @@ c========================  new add begin
          write(2,*) (a(i),i=1,maxa)
          close(2)
          fname = 'fasprhs'
-         call getname(fname,IT)   
-         call getname(fname,iterate)         
+         call getname(fname,IT)
+         call getname(fname,iterate)
          open (2,file=fname,form='formatted',status='unknown')
          write(2,*) (f(i),i=1,neq)
          close(2)
       endif
 c======================== new add end
-
-
-        
 
       call fasp_fwrapper_dblc_krylov_sstokes(nvar_A,maxa_A,numcol_A,
      &na_A,a_A,nvar_B,maxa_B,numcol_B,na_B,a_B,nvar_C,maxa_C,numcol_C,
@@ -343,6 +321,5 @@ c========================  new add begin
       DEALLOCATE(na)
       DEALLOCATE(A)
 c======================== new add end
-      
 
       END

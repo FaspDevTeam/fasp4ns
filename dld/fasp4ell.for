@@ -1,5 +1,6 @@
-ccccc   last edit time: 202204081401
+ccccc   last edit time: 202204130801
       implicit real*8 (a-h,o-z)
+      
       integer,allocatable::numcol(:),na(:)
       double precision,allocatable::a(:),f(:),u(:)
 c========================  new add begin
@@ -7,9 +8,9 @@ c========================  new add begin
       real*8,allocatable :: jnz(:)
       character*50 fname
 c======================== new add end
-c========================  new add begin 
+c========================  new add begin
 c      maxt=20000000
-c======================== new add end 
+c======================== new add end
       open (2,file=' ',form='unformatted',status='old')
       read(2) numel,neq
       close(2)
@@ -20,9 +21,8 @@ c======================== new add end
       allocate(numcol(neq1),stat=ierror)
       allocate(f(neq),stat=ierror)
       allocate(u(neq),stat=ierror)
-c========================  new add begin 
-      allocate(jnz(neq1),stat=ierror)  
-
+c========================  new add begin
+      allocate(jnz(neq1),stat=ierror)
 
       do i=1,neq1
          numcol(i)=0
@@ -33,41 +33,41 @@ c         a(i)=0.d0
 c      enddo
 
 c.......open f file
-        open(2,file=' ',form='unformatted',status='old')
+      open(2,file=' ',form='unformatted',status='old')
       read (2) (f(i),i=1,neq)
       close (2)
 c     write(*,*) ' f ='
 c     write(*,7) (f(i),i=1,neq)
       do 400 i=1,neq
-400   u(i)=0.0
- 
+  400 u(i)=0.0
+
 c.......open sm file
 c.......open einform & estiff file
-        open (1,file=' ',form='unformatted',status='old')
-        open (2,file=' ',form='unformatted',status='old')
-c========================  new add begin 
-        call acln(neq,numel,numcol,1)
-        maxt = int(numcol(neq+1)*1.1)
-        allocate(na(maxt),stat=ierror)
-        allocate(a(maxt),stat=ierror) 
-        do i=1,maxt
-          na(i)=0
-          a(i)=0.d0
-        enddo      
-        print*,maxt
-c======================== new add end 
+      open (1,file=' ',form='unformatted',status='old')
+      open (2,file=' ',form='unformatted',status='old')
+c========================  new add begin
+      call acln(neq,numel,numcol,1)
+      maxt = int(numcol(neq+1)*1.1)
+      allocate(na(maxt),stat=ierror)
+      allocate(a(maxt),stat=ierror)
+      do i=1,maxt
+         na(i)=0
+         a(i)=0.d0
+      enddo
+      print*,maxt
+c======================== new add end
 
-        call aclh(neq,numel,jnz,numcol,na,1,maxt)
-        call bclh(neq,numel,jnz,numcol,na,maxt)
-c======================== 
+      call aclh(neq,numel,jnz,numcol,na,1,maxt)
+      call bclh(neq,numel,jnz,numcol,na,maxt)
+c========================
 
-        maxa=numcol(neq+1)
- 
-        if (maxa.gt.maxt) then
-          write(*,*) 'matrix a exceed core memory....',maxt,maxa
-          stop 0000
-        endif
- 
+      maxa=numcol(neq+1)
+
+      if (maxa.gt.maxt) then
+         write(*,*) 'matrix a exceed core memory....',maxt,maxa
+         stop 0000
+      endif
+
 c      write (*,*) 'numcol ='
 c      write (*,*) (numcol(i),i=1,neq+1)
 c      write (*,*) 'na ='
