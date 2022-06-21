@@ -297,16 +297,16 @@ c========================  new add begin
 c======================== new add end
 
 c========================  new add begin 3
-      inquire(file='u',exist=filflg)
-      if(filflg) then
-      open (3,file='u',form='unformatted',status='old')
-      read (3) (u(i),i=1,neq)
-      close (3)
-c      esum = 0d0
-c      do i=1,neq
-c      esum = esum+abs(u(i))
-c      enddo
-      endif
+cc      inquire(file='u',exist=filflg)
+cc      if(filflg) then
+cc      open (3,file='u',form='unformatted',status='old')
+cc      read (3) (u(i),i=1,neq)
+cc      close (3)
+cc      esum = 0d0
+cc      do i=1,neq
+cc      esum = esum+abs(u(i))
+cc      enddo
+cc      endif
 
 c      print*,filflg,esum
 c      pause
