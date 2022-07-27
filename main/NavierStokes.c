@@ -513,7 +513,6 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/saed/W10H025-NI50NJ50/A.dat";
         char *fileB   = "data/saed/W10H025-NI50NJ50/B.dat";
         char *fileBt  = "data/saed/W10H025-NI50NJ50/Bt.dat";
-        char *fileC   = "data/saed/W10H025-NI50NJ50/C.dat";
         char *filerhs = "data/saed/W10H025-NI50NJ50/rhs.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
@@ -530,7 +529,6 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/saed/W10H025-NI50NJ50-C/A.dat";
         char *fileB   = "data/saed/W10H025-NI50NJ50-C/B.dat";
         char *fileBt  = "data/saed/W10H025-NI50NJ50-C/Bt.dat";
-        char *fileC   = "data/saed/W10H025-NI50NJ50-C/C.dat";
         char *filerhs = "data/saed/W10H025-NI50NJ50-C/rhs.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
@@ -547,7 +545,6 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/saed/W100H025-NI50NJ50-C/A.dat";
         char *fileB   = "data/saed/W100H025-NI50NJ50-C/B.dat";
         char *fileBt  = "data/saed/W100H025-NI50NJ50-C/Bt.dat";
-        char *fileC   = "data/saed/W100H025-NI50NJ50-C/C.dat";
         char *filerhs = "data/saed/W100H025-NI50NJ50-C/rhs.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
@@ -564,7 +561,6 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/saed/W100H025-NI100NJ100-C/A.dat";
         char *fileB   = "data/saed/W100H025-NI100NJ100-C/B.dat";
         char *fileBt  = "data/saed/W100H025-NI100NJ100-C/Bt.dat";
-        char *fileC   = "data/saed/W100H025-NI100NJ100-C/C.dat";
         char *filerhs = "data/saed/W100H025-NI100NJ100-C/rhs.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);
@@ -581,7 +577,6 @@ int main (int argc, const char * argv[])
         char *fileA   = "data/saed/W200H025-NI100NJ100-C/A.dat";
         char *fileB   = "data/saed/W200H025-NI100NJ100-C/B.dat";
         char *fileBt  = "data/saed/W200H025-NI100NJ100-C/Bt.dat";
-        char *fileC   = "data/saed/W200H025-NI100NJ100-C/C.dat";
         char *filerhs = "data/saed/W200H025-NI100NJ100-C/rhs.dat";
         
         fasp_dcoo_read(fileA, A.blocks[0]);

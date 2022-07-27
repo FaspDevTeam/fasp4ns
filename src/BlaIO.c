@@ -150,6 +150,8 @@ void fasp_dblc_read (char *fileA11,
         wall = fscanf(fp, "%le", &value);
         r->val[i]=value;
     }
+    if (wall < 0) 
+        printf("### ERROR: Something wrong when reading vaules!\n");
     fclose(fp);
 }
 
@@ -279,6 +281,8 @@ void fasp_dblc_read1 (char *fileA11,
         wall = fscanf(fp, "%le", &value);
         r->val[i]=value;
     }
+    if (wall < 0)
+        printf("### ERROR: Something wrong when reading vaules!\n");
     fclose(fp);
 }
 

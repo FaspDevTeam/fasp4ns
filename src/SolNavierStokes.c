@@ -175,15 +175,12 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     dvector diag_A;
     dvector diag_S;
     dCSRmat BABt;
-    
-    // local variable
-    clock_t solver_start, solver_end, setup_start, setup_end;
-    REAL solver_duration, setup_duration;
-    SHORT status = FASP_SUCCESS;
-    
+        
     //------ setup phase ------//
-    setup_start = clock();
-    
+    SHORT status = FASP_SUCCESS;
+    REAL solver_start, solver_end, setup_start, setup_end;
+    fasp_gettime(&setup_start);
+
 #if DEBUG_MODE > 0
     printf("### DEBUG: n = %d, m = %d, nnz = %d\n", n, m, nnzA);
 #endif
@@ -429,12 +426,12 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     setup_end = clock();
     
     if (PrtLvl>0) {
-        setup_duration = (double)(setup_end - setup_start)/(double)(CLOCKS_PER_SEC);
-        printf("Setup costs %f.\n", setup_duration);
+        fasp_gettime(&setup_end);
+        fasp_cputime("NS setup costs", setup_end - setup_start);
     }
     
     //------ solve phase ------//
-    solver_start = clock();
+    fasp_gettime(&solver_start);
 
     switch (precond_type) {
         case 0:
@@ -443,13 +440,11 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
             status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
     }
 
-    solver_end = clock();
-    
     if (PrtLvl>0) {
-        solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
+        fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        printf("Solver costs %f seconds.\n", solver_duration);
-        printf("Total costs %f seconds.\n", setup_duration + solver_duration);
+        fasp_cputime("NS solve costs", solver_end - solver_start);
+        fasp_cputime("NS total costs", solver_end - setup_start);
     }
     
     // clean up memory
@@ -527,18 +522,15 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     SWZ_data schwarz_data;
     dvector diag_S;
     
-    // local variable
-    clock_t solver_start, solver_end, setup_start, setup_end;
-    REAL    solver_duration, setup_duration;
-    SHORT   status = FASP_SUCCESS;
-    
 #if DEBUG_MODE > 0
     printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
 #endif
     
     //------ setup phase ------//
-    setup_start = clock();
-    
+    SHORT status = FASP_SUCCESS;
+    REAL solver_start, solver_end, setup_start, setup_end;
+    fasp_gettime(&setup_start);
+
     //-----------------------//
     // setup AMG for velocity
     //-----------------------//
@@ -687,20 +679,19 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     setup_end = clock();
     
     if (PrtLvl>0) {
-        setup_duration = (double)(setup_end - setup_start)/(double)(CLOCKS_PER_SEC);
-        printf("Setup costs %f.\n", setup_duration);
+        fasp_gettime(&setup_end);
+        fasp_cputime("NS setup costs", setup_end - setup_start);
     }
     
     //------ solver phase ------//
-    solver_start = clock();
-    status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
-    solver_end = clock();
+    fasp_gettime(&solver_start);
+    status = fasp_ns_solver_itsolver(Mat, b, x, &prec, itsparam);
     
     if (PrtLvl>0) {
-        solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
+        fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        printf("Solver costs %f seconds.\n", solver_duration);
-        printf("Total costs %f seconds.\n", setup_duration + solver_duration);
+        fasp_cputime("NS solve costs", solver_end - solver_start);
+        fasp_cputime("NS total costs", solver_end - setup_start);
     }
     
     // clean up memory
@@ -776,19 +767,16 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     dCSRmat S,P;
     SWZ_data schwarz_data;
     dvector diag_S;
-    
-    // local variable
-    clock_t solver_start, solver_end, setup_start, setup_end;
-    REAL solver_duration, setup_duration;
-    SHORT status=FASP_SUCCESS;
 
 #if DEBUG_MODE > 0
     printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
 #endif
 
     //------ setup phase ------//
-    setup_start = clock();
-    
+    SHORT status = FASP_SUCCESS;
+    REAL solver_start, solver_end, setup_start, setup_end;
+    fasp_gettime(&setup_start);
+
     //-----------------------//
     // setup AMG for velocity
     //-----------------------//
@@ -944,20 +932,19 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     setup_end = clock();
     
     if (PrtLvl>0) {
-        setup_duration = (double)(setup_end - setup_start)/(double)(CLOCKS_PER_SEC);
-        printf("Setup costs %f.\n", setup_duration);
+        fasp_gettime(&setup_end);
+        fasp_cputime("NS setup costs", setup_end - setup_start);
     }
     
     //------ solver phase ------//
-    solver_start=clock();
-    status=fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
-    solver_end=clock();
+    fasp_gettime(&solver_start);
+    status = fasp_ns_solver_itsolver(Mat, b, x, &prec, itsparam);
     
     if (PrtLvl>0) {
-        solver_duration = (double)(solver_end - solver_start)/(double)(CLOCKS_PER_SEC);
+        fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        printf("Solver costs %f seconds.\n", solver_duration);
-        printf("Total costs %f seconds.\n", setup_duration + solver_duration);
+        fasp_cputime("NS solve costs", solver_end - solver_start);
+        fasp_cputime("NS total costs", solver_end - setup_start);
     }
     
     // clean up memory
