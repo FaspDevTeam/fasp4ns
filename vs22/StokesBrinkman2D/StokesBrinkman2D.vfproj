@@ -43,6 +43,26 @@
 				<Tool Name="VFPreLinkEventTool"/>
 				<Tool Name="VFPreBuildEventTool"/>
 				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="ReleaseOMP|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" PrefetchInsertionOpt="prefetchAggressive" BufferedIO="true" InterproceduralOptimizations="ipoSingleFile" MatrixLibrary="mlNo" ExternalNameInterpretation="extNameLowerCase" CallingConvention="callConventionCRef" ExternalNameUnderscore="true" UseMkl="mklSequential"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="../../lib/x64;../../../faspsolver/lib/x64;../../../../lib/x64;%(AdditionalLibraryDirectories)" GenerateManifest="false" SubSystem="subSystemConsole" AdditionalDependencies="faspbase-vs19.lib"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="ReleaseOMP|x64" WholeProgramOptimization="true">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Parallelization="true" PrefetchInsertionOpt="prefetchAggressive" BufferedIO="true" InterproceduralOptimizations="ipoSingleFile" MatrixLibrary="mlNo" EnableEnhancedInstructionSet="codeArchSSE3" OpenMP="OpenMPParallelCode" CallingConvention="callConventionCRef" ExternalNameUnderscore="true" UseMkl="mklParallel"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="../../lib;../../../faspsolver/lib/x64;../../../../lib/x64;%(AdditionalLibraryDirectories)" GenerateManifest="false" SubSystem="subSystemConsole" AdditionalDependencies="faspbase-omp.lib"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
 	<Files>
 		<Filter Name="Header Files" Filter="fi;fd"/>
