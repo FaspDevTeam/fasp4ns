@@ -427,7 +427,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&setup_end);
-        fasp_cputime("NS setup costs", setup_end - setup_start);
+        fasp_cputime("NS Setup", setup_end - setup_start);
     }
     
     //------ solve phase ------//
@@ -443,8 +443,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        fasp_cputime("NS solve costs", solver_end - solver_start);
-        fasp_cputime("NS total costs", solver_end - setup_start);
+        fasp_cputime("NS Solve", solver_end - solver_start);
+        fasp_cputime("NS Total", solver_end - setup_start);
     }
     
     // clean up memory
@@ -680,7 +680,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&setup_end);
-        fasp_cputime("NS setup costs", setup_end - setup_start);
+        fasp_cputime("NS Setup", setup_end - setup_start);
     }
     
     //------ solver phase ------//
@@ -690,8 +690,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        fasp_cputime("NS solve costs", solver_end - solver_start);
-        fasp_cputime("NS total costs", solver_end - setup_start);
+        fasp_cputime("NS Solve", solver_end - solver_start);
+        fasp_cputime("NS Total", solver_end - setup_start);
     }
     
     // clean up memory
@@ -933,7 +933,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&setup_end);
-        fasp_cputime("NS setup costs", setup_end - setup_start);
+        fasp_cputime("NS Setup", setup_end - setup_start);
     }
     
     //------ solver phase ------//
@@ -943,8 +943,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
         printf(COLOR_RESET);
-        fasp_cputime("NS solve costs", solver_end - solver_start);
-        fasp_cputime("NS total costs", solver_end - setup_start);
+        fasp_cputime("NS Solve", solver_end - solver_start);
+        fasp_cputime("NS Total", solver_end - setup_start);
     }
     
     // clean up memory
