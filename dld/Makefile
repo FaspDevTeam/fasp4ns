@@ -22,7 +22,7 @@ AR=ar ruc
 ##########################
 CC=icx
 CPP=icx
-FC=ifx
+FC=ifort
 
 INCLUDE=-I ../../faspsolver/base/include -I ../include
 FASPLIB=../../faspsolver/lib/libfasp.a
@@ -41,10 +41,10 @@ FSRCDIR=.
 ##########################
 # Use MKL solver
 ##########################
-# SOLVERDIR = /public1/soft/oneAPI/2022.1/mkl/latest
-# SOLVERLIB = /public1/soft/oneAPI/2022.1/mkl/latest/lib/intel64/libmkl_rt.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libiomp5.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
-SOLVERDIR = /opt/intel/oneapi/mkl/2021.4.0
-SOLVERLIB = /opt/intel/oneapi/mkl/2021.4.0/lib/intel64/libmkl_rt.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libiomp5.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
+SOLVERDIR = /public1/soft/oneAPI/2022.1/mkl/latest
+SOLVERLIB = /public1/soft/oneAPI/2022.1/mkl/latest/lib/intel64/libmkl_rt.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libiomp5.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
+#SOLVERDIR = /opt/intel/oneapi/mkl/2021.4.0
+#SOLVERLIB = /opt/intel/oneapi/mkl/2021.4.0/lib/intel64/libmkl_rt.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libiomp5.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
 
 SOLVERINCLUDE = -I$(SOLVERDIR)/include
 
