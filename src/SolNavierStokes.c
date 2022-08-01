@@ -442,7 +442,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
 
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
-        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }
@@ -689,7 +688,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
-        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }
@@ -942,7 +940,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
-        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }

@@ -2,6 +2,7 @@ File Name: CHANGES
 
 07/30/2022 FASP4NS 0.2.3:
 - Fix NS solver timer;
+- Remove COLOR_RESET;
 - Add VS22 OpenMP support.
 
 01/29/2021 FASP4NS 0.2.2:
