@@ -43,7 +43,7 @@ static inline void get_schur_pmass (dCSRmat *, dCSRmat *, dCSRmat *,
  * \param b        pointer to the dvector of right hand side
  * \param x        pointer to the dvector of dofs
  * \param prec     pointer to the preconditioner data
- * \param itsparam  pointer to parameters for iterative solvers
+ * \param itsparam pointer to parameters for iterative solvers
  *
  * \return         the number of iterations
  *
@@ -128,7 +128,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
  * \param Mat       pointer to the dBLCmat matrix
  * \param b         pointer to the dvector of right hand side
  * \param x         pointer to the dvector of dofs
- * \param itsparam   pointer to parameters for iterative solvers
+ * \param itsparam  pointer to parameters for iterative solvers
  * \param amgparam  pionter to AMG parameters for N-S
  * \param iluparam  pionter to ILU parameters
  * \param swzparam  pionter to Schwarz parameters
@@ -964,6 +964,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
 /*---------------------------------*/
 /*--      Private Functions      --*/
 /*---------------------------------*/
+
 /**
  * \fn static inline void get_schur_diagA (dCSRmat *B,dCSRmat *Bt,dCSRmat *A,
  *                                         dCSRmat *C,dCSRmat *S)
