@@ -1,9 +1,10 @@
 File Name: CHANGES
 
-07/30/2022 FASP4NS 0.2.3:
+08/02/2022 FASP4NS 0.2.3:
 - Fix NS solver timer;
 - Remove COLOR_RESET;
-- Add VS22 OpenMP support.
+- Add VS22 OpenMP support;
+- Add mkl=sequential for DLD solver.
 
 01/29/2021 FASP4NS 0.2.2:
 - Add VS2022 + Intel2022 oneAPI solution;

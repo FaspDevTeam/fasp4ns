@@ -13,9 +13,9 @@ AR=ar ruc
 ##########################
 # Use GNU compilers
 ##########################
-# CC=gcc
-# CPP=g++
-# FC=gfortran
+#CC=gcc
+#CPP=g++
+#FC=gfortran
 
 ##########################
 # Use Intel compilers
@@ -55,7 +55,8 @@ SOLVERINCLUDE = -I$(SOLVERDIR)/include
 ########################################################################      
 # Compiling options                                                             
 ########################################################################        
-BOPT=-O3 -fopenmp -fpscomp filesfromcmd #-g -Wall
+BOPT=-O3 -fpscomp filesfromcmd -qmkl=sequential 
+#BOPT=-g -Wall
 
 COPTS=$(BOPT)
 CDEFS=-DWITH_BLAS=1 -DWITH_UMFPACK=0 -DWITH_SuperLU=0 -DWITH_PARDISO=1

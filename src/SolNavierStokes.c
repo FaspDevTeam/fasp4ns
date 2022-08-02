@@ -188,8 +188,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //-------------------------//
     // setup AMG for velocity  //
     //-------------------------//
-    AMG_data *mgl_v=fasp_amg_data_create(amgparam->param_v.max_levels);
-    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA);
+    AMG_data *mgl_v = fasp_amg_data_create(amgparam->param_v.max_levels);
+    mgl_v[0].A = fasp_dcsr_create(n,n,nnzA);
     
     if (precond_type > 10) {
         
@@ -197,7 +197,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
         fasp_blas_dcsr_mxm(Bt, B, &BtB);
         
         REAL gamma = 10;
-        fasp_blas_dcsr_add (A, 1.0, &BtB, gamma, &mgl_v[0].A);
+        fasp_blas_dcsr_add(A, 1.0, &BtB, gamma, &mgl_v[0].A);
         
         fasp_dcsr_free(&BtB);
         
