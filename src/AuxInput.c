@@ -266,6 +266,28 @@ void fasp_ns_param_input (char *filenm,
             fscanf(fp, "%*[^\n]"); // skip rest of line
         }
         
+        else if (strcmp(buffer,"IRsolver_tol")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%lf",&dbuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->IRsolver_tol = dbuff;
+            fscanf(fp, "%*[^\n]"); // skip rest of line
+        }
+        
+        else if (strcmp(buffer,"IRsolver_maxit")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->IRsolver_maxit = ibuff;
+            fscanf(fp, "%*[^\n]"); // skip rest of line
+        }
+        
         else if (strcmp(buffer,"solver_type_v")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {

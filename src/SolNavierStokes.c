@@ -43,7 +43,7 @@ static inline void get_schur_pmass (dCSRmat *, dCSRmat *, dCSRmat *,
  * \param b        pointer to the dvector of right hand side
  * \param x        pointer to the dvector of dofs
  * \param prec     pointer to the preconditioner data
- * \param itsparam pointer to parameters for iterative solvers
+ * \param itsparam  pointer to parameters for iterative solvers
  *
  * \return         the number of iterations
  *
@@ -117,6 +117,113 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
     return iter;
 }
 
+
+/**
+ * \fn SHORT fasp_ns_IRSolver(dBLCmat *Mat, dvector *b,
+ *                                                        dvector *x,
+ *                                                        itsolver_ns_param *itsparam,
+ *                                                        precond *prec)
+ * \brief Solve Ax=b by IR methods for NS equations
+ *
+ * \param Mat       pointer to the dBLCmat matrix
+ * \param b	        pointer to the dvector of right hand side
+ * \param x	        pointer to the dvector of dofs
+ * \param itsparam  pointer to parameters for iterative solvers
+ * \param prec      pointer to parameters for  preconditioner
+
+ * \return          number of iterations
+ *
+ * \author           Ting Lai
+ * \date   012/08/2022
+ *
+ */
+SHORT fasp_ns_IRsolver (dBLCmat *Mat,
+                        dvector *b,
+                        dvector *x,
+                        precond *prec ,
+                        itsolver_ns_param *itsparam)
+{
+ 
+
+    INT      i,j;
+    INT col;
+    SHORT      iter = 0;
+    SHORT      num_IRiter=0;
+    SHORT status = FASP_SUCCESS;
+    
+    LONGREAL rrn;
+    LONGREAL   bnorm,rnorm;
+    LONGREAL *ser_x ;
+
+    REAL  *r_data;
+    LONGREAL  *r1_data;
+    REAL     *x_data ;
+    REAL *ser_b;
+
+    const SHORT precond_type = itsparam->precond_type;
+    const INT IRmaxit = itsparam->IRmaxit;
+    const REAL IRtol = itsparam->IRtol;
+    
+  
+    col=b->row;
+    r_data = (REAL  *)malloc(sizeof(REAL ) * col);
+    ser_x = (LONGREAL  *)malloc(sizeof(LONGREAL ) * col);
+    r1_data = (LONGREAL  *)malloc(sizeof(LONGREAL ) * col);
+    //bnorm
+    ser_b = b->val;
+    bnorm = fasp_blas_darray_norm2(col,ser_b);
+    rrn = 1.0;
+    for(i = 0; i < col; i++) {  
+            ser_x[i] = 0;
+    }     
+
+    //IR Solve
+    while(rrn>IRtol){
+        switch (precond_type) {
+            case 0:
+                status = fasp_ns_solver_itsolver(Mat,b,x,NULL,itsparam); break;
+            default:
+                status = fasp_ns_solver_itsolver(Mat,b,x,prec,itsparam);
+        }
+        
+        
+        //x=x-y;
+        x_data = x->val; 
+        for(i = 0; i < col; i++) {  
+                ser_x[i] += x_data[i];
+        } 
+        
+        //b-Ax long double
+        fasp_darray_cp(col,ser_b,r_data);
+        fasp_blas_ldblc_aAxpy(-1.0,Mat,ser_x,r_data);
+        
+        //rrn
+        rnorm = fasp_blas_darray_norm2(col, r_data);
+        rrn = rnorm/bnorm;
+
+        
+        iter +=status;
+        num_IRiter++;
+        if(num_IRiter >= IRmaxit || rrn < IRtol) {
+            printf("\n Number of IR iterations = %d with IR tol relative residual %Le . \n", iter, rrn);      
+            break; 
+        }
+
+        for(i = 0; i < col; i++){
+            x_data[i] = 0;
+        }
+        x->val = x_data;
+        b->val = r_data;
+    }
+    
+    for(i = 0; i < col; i++){
+            x_data[i] = ser_x[i];
+    }
+    x->val = x_data;
+
+    return iter;
+}
+
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat, dvector *b, dvector *x,
  *                                                  itsolver_ns_param *itsparam,
@@ -128,7 +235,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
  * \param Mat       pointer to the dBLCmat matrix
  * \param b         pointer to the dvector of right hand side
  * \param x         pointer to the dvector of dofs
- * \param itsparam  pointer to parameters for iterative solvers
+ * \param itsparam   pointer to parameters for iterative solvers
  * \param amgparam  pionter to AMG parameters for N-S
  * \param iluparam  pionter to ILU parameters
  * \param swzparam  pionter to Schwarz parameters
@@ -188,8 +295,8 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     //-------------------------//
     // setup AMG for velocity  //
     //-------------------------//
-    AMG_data *mgl_v = fasp_amg_data_create(amgparam->param_v.max_levels);
-    mgl_v[0].A = fasp_dcsr_create(n,n,nnzA);
+    AMG_data *mgl_v=fasp_amg_data_create(amgparam->param_v.max_levels);
+    mgl_v[0].A=fasp_dcsr_create(n,n,nnzA);
     
     if (precond_type > 10) {
         
@@ -197,7 +304,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
         fasp_blas_dcsr_mxm(Bt, B, &BtB);
         
         REAL gamma = 10;
-        fasp_blas_dcsr_add(A, 1.0, &BtB, gamma, &mgl_v[0].A);
+        fasp_blas_dcsr_add (A, 1.0, &BtB, gamma, &mgl_v[0].A);
         
         fasp_dcsr_free(&BtB);
         
@@ -432,16 +539,11 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     //------ solve phase ------//
     fasp_gettime(&solver_start);
-
-    switch (precond_type) {
-        case 0:
-            status = fasp_ns_solver_itsolver(Mat,b,x,NULL,itsparam); break;
-        default:
-            status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
-    }
+    status = fasp_ns_IRsolver(Mat,b,x,&prec,itsparam);
 
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
+        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }
@@ -464,6 +566,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
 
     return status;
 }
+
 
 /**
  * \fn SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat, dvector *b,
@@ -688,6 +791,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
     
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
+        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }
@@ -936,10 +1040,13 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
     
     //------ solver phase ------//
     fasp_gettime(&solver_start);
+
     status = fasp_ns_solver_itsolver(Mat, b, x, &prec, itsparam);
-    
+
+
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
+        printf(COLOR_RESET);
         fasp_cputime("NS Solve", solver_end - solver_start);
         fasp_cputime("NS Total", solver_end - setup_start);
     }
@@ -964,7 +1071,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes_schur_pmass (dBLCmat *Mat,
 /*---------------------------------*/
 /*--      Private Functions      --*/
 /*---------------------------------*/
-
 /**
  * \fn static inline void get_schur_diagA (dCSRmat *B,dCSRmat *Bt,dCSRmat *A,
  *                                         dCSRmat *C,dCSRmat *S)
