@@ -175,7 +175,11 @@ typedef struct {
 	SHORT stop_type;     /**< stopping criteria type */
 	INT   maxit;         /**< max number of iterations */
 	REAL  tol;           /**< convergence tolerance */
-	INT   restart;       /**< number of steps for restarting: for GMRES etc */
+	
+    INT   IRmaxit;         /**< IR max number of iterations */
+	REAL  IRtol;           /**< IR convergence tolerance */
+	
+    INT   restart;       /**< number of steps for restarting: for GMRES etc */
 	SHORT print_level;   /**< print level: 0--10 */
     
     /*------------------------------------------------------*/
@@ -195,7 +199,8 @@ typedef struct {
 	SHORT precond_type_p;  /**< preconditioner type: see message.h */
 	INT   pre_maxit_p;         /**< max number of iterations */
 	REAL  pre_tol_p;           /**< convergence tolerance */
-	INT   pre_restart_p;       /**< number of steps for restarting: for GMRES etc */
+	
+    INT   pre_restart_p;       /**< number of steps for restarting: for GMRES etc */
 	SHORT print_level_p;   /**< print level: 0--10 */
     
 	
@@ -346,6 +351,10 @@ typedef struct {
 	SHORT stop_type;     /**< type of stopping criteria for iterative solvers */
 	REAL itsolver_tol;   /**< tolerance for iterative linear solver */
 	INT itsolver_maxit;  /**< maximal number of iterations for iterative solvers */
+
+    REAL IRsolver_tol;   /**< IR tolerance for iterative linear solver */
+	INT IRsolver_maxit;  /**< IR maximal number of iterations for iterative solvers */
+
 	INT restart;         /**< restart number used in GMRES */
 	
     /*---------------------------------------------------*/
