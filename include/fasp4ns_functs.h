@@ -161,6 +161,12 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
                                precond *prec,
                                itsolver_ns_param *itsparam);
 
+SHORT fasp_ns_IRsolver (dBLCmat *A,
+                        dvector *b,
+                        dvector *x,
+                        precond *prec,
+                        itsolver_ns_param *itsparam);
+
 SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                              dvector *b,
                                              dvector *x,
@@ -168,6 +174,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                              AMG_ns_param *amgparam,
                                              ILU_param *iluparam,
                                              SWZ_param *swzparam);
+
 
 SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
                                                    dvector *b,
