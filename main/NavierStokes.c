@@ -60,7 +60,7 @@ int main (int argc, const char * argv[])
 	const int itsolver_type = inparam.solver_type;
 	const int precond_type  = inparam.precond_type;
 	//const int output_type   = inparam.output_type;
-	
+	int  irmaxit = inparam.IRsolver_maxit;
 	printf("Test Problem %d\n", problem_num);
 	
 	/** Step 1. Assemble matrix and right-hand side */ 
