@@ -161,7 +161,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
                                precond *prec,
                                itsolver_ns_param *itsparam);
 
-SHORT fasp_ns_IRsolver (dBLCmat *A,
+SHORT fasp_ns_solver_IR (dBLCmat *A,
                         dvector *b,
                         dvector *x,
                         precond *prec,
