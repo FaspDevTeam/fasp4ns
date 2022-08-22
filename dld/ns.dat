@@ -4,7 +4,7 @@
 % must have spaces around the equal sign "="   %
 %----------------------------------------------%
 
-print_level    = 1      % How much information to print out 
+print_level    = 3      % How much information to print out 
 output_type    = 0      % output_type: 0 Standard output | >0 File
 
 %----------------------------------------------%
@@ -14,8 +14,10 @@ solver_type    = 6      % Solver type:   2 BiCGstab | 3 MinRes | 5 FGMRES | 6 VF
 precond_type   = 2      % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 BLU | 5 SIMPLE |
                         %                6 SIMPLER | 7 UZAWA | 8 Projection | 9 DGS | 10 LSCDGS 
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
-itsolver_tol   = 1e-8   % Solver tolerance 
-itsolver_maxit = 500    % Maximal iteration number 
+IRsolver_tol   = 1e-10  % IR solver tolerance 
+IRsolver_maxit = 10     % IR maximal iteration number 
+itsolver_tol   = 1e-5   % Inner Solver tolerance 
+itsolver_maxit = 500    % Inner Solver Maximal iteration number 
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
@@ -60,7 +62,7 @@ AMG_presmooth_iter_v       = 1     % number of presmoothing
 AMG_postsmooth_iter_v      = 1     % number of postsmoothing
 AMG_coarse_dof_v           = 500   % max number of coarse degrees of freedom
 AMG_coarse_solver_v        = 34    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
-AMG_tol_v                  = 1e-8  % tolerance for AMG
+AMG_tol_v                  = 1e-5  % tolerance for AMG
 AMG_maxit_v                = 1    % number of AMG iterations
 AMG_coarse_scaling_v	   = OFF   % switch of scaling of the coarse grid correction 
 AMG_amli_degree_v          = 2	   % degree of the polynomial used by AMLI cycle
@@ -126,7 +128,7 @@ AMG_presmooth_iter_p       = 1     % number of presmoothing
 AMG_postsmooth_iter_p      = 1     % number of postsmoothing
 AMG_coarse_dof_p           = 500   % max number of coarse degrees of freedom
 AMG_coarse_solver_p        = 34    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
-AMG_tol_p                  = 1e-8  % tolerance for AMG
+AMG_tol_p                  = 1e-5  % tolerance for AMG
 AMG_maxit_p                = 1     % number of AMG iterations
 AMG_coarse_scaling_p	   = OFF   % switch of scaling of the coarse grid correction 
 AMG_amli_degree_p          = 2	   % degree of the polynomial used by AMLI cycle
