@@ -119,7 +119,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
 
 
 /**
- * \fn SHORT fasp_ns_IRSolver(dBLCmat *Mat, dvector *b,
+ * \fn SHORT fasp_ns_solver_IR(dBLCmat *Mat, dvector *b,
  *                                                        dvector *x,
  *                                                        itsolver_ns_param *itsparam,
  *                                                        precond *prec)
@@ -137,7 +137,7 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
  * \date   012/08/2022
  *
  */
-SHORT fasp_ns_IRsolver (dBLCmat *Mat,
+SHORT fasp_ns_solver_IR (dBLCmat *Mat,
                         dvector *b,
                         dvector *x,
                         precond *prec ,
@@ -161,7 +161,7 @@ SHORT fasp_ns_IRsolver (dBLCmat *Mat,
     REAL *ser_b;
 
     const SHORT precond_type = itsparam->precond_type;
-    const INT IRmaxit = itsparam->IRmaxit;
+    const INT maxit_IR = itsparam->IRmaxit;
     const REAL IRtol = itsparam->IRtol;
     
   
@@ -187,7 +187,7 @@ SHORT fasp_ns_IRsolver (dBLCmat *Mat,
         }
         
         
-        //x=x-y;
+        //x=x+y;
         x_data = x->val; 
         for(i = 0; i < col; i++) {  
                 ser_x[i] += x_data[i];
@@ -204,7 +204,7 @@ SHORT fasp_ns_IRsolver (dBLCmat *Mat,
         
         iter +=status;
         num_IRiter++;
-        if(num_IRiter >= IRmaxit || rrn < IRtol) {
+        if(num_IRiter >= maxit_IR || rrn < IRtol) {
             printf("\n Number of IR iterations = %d with IR tol relative residual %Le . \n", iter, rrn);      
             break; 
         }
@@ -539,7 +539,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     //------ solve phase ------//
     fasp_gettime(&solver_start);
-    status = fasp_ns_IRsolver(Mat,b,x,&prec,itsparam);
+    status = fasp_ns_solver_IR(Mat,b,x,&prec,itsparam);
 
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
