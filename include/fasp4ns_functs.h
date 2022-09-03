@@ -3,7 +3,7 @@
  *  \brief Function decoration for the FASP package
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2008--2018 by the FASP team. All rights reserved.                
+ *  Copyright (C) 2008--Present by the FASP team. All rights reserved.             
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  *
@@ -50,29 +50,29 @@ void fasp_ns_param_swz_set (SWZ_param *swzparam,
 
 /*-------- In file: BlaIO.c --------*/
 
-void fasp_dblc_read (char *fileA11,
+void fasp_dblc_read(char *fileA11,
+                    char *fileA21,
+                    char *fileA22,
+                    char *filerhs,
+                    dBLCmat *A,
+                    dvector *r);
+
+void fasp_dblc_read3(char *fileA11,
                      char *fileA21,
                      char *fileA22,
                      char *filerhs,
                      dBLCmat *A,
                      dvector *r);
 
-void fasp_dblc_read1 (char *fileA11,
-                      char *fileA21,
-                      char *fileA22,
-                      char *filerhs,
-                      dBLCmat *A,
-                      dvector *r);
-
-void fasp_dblc_read_ruth (char *fileA11,
-                          char *fileA12,
-                          char *fileA21,
-                          char *fileA22,
-                          char *filerhs,
-                          char *filex0,
-                          dBLCmat *A,
-                          dvector *r,
-                          dvector *x0);
+void fasp_dblc_read_ruth(char *fileA11,
+                         char *fileA12,
+                         char *fileA21,
+                         char *fileA22,
+                         char *filerhs,
+                         char *filex0,
+                         dBLCmat *A,
+                         dvector *r,
+                         dvector *x0);
 
 
 /*-------- In file: PreNavierStokes.c --------*/
@@ -161,10 +161,10 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
                                precond *prec,
                                itsolver_ns_param *itsparam);
 
-SHORT fasp_ns_solver_IR (dBLCmat *A,
+SHORT fasp_ns_solver_IR (dBLCmat *Mat,
                         dvector *b,
                         dvector *x,
-                        precond *prec,
+                        precond *prec ,
                         itsolver_ns_param *itsparam);
 
 SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
@@ -174,7 +174,6 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
                                              AMG_ns_param *amgparam,
                                              ILU_param *iluparam,
                                              SWZ_param *swzparam);
-
 
 SHORT fasp_solver_dblc_krylov_navier_stokes_pmass (dBLCmat *Mat,
                                                    dvector *b,
