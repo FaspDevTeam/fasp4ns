@@ -4,7 +4,8 @@ File Name: CHANGES
 - Add IR support;
 - Add a new test problem from DLD;
 - Add a new read function for BLC;
-- Test DLD solver.
+- Test DLD solver;
+- Update cmake support.
 
 08/02/2022 FASP4NS 0.2.3:
 - Fix NS solver timer;

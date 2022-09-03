@@ -3,9 +3,6 @@
 ##################################################################
 if(USE_UMFPACK)
 
-    # set the path to find specific modules
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules")
-
     # set some path to the UMFPACK pacakge
     # metis is not part of suitesparse, so theremay be also some other metis dir.
     set(METIS_DIR "${SUITESPARSE_DIR}")
@@ -26,8 +23,6 @@ endif(USE_UMFPACK)
 if(USE_SUPERLU)
 
     # set the path to find specific modules
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules")
-
     set(SUPERLU_DIR "${SUPERLU_DIR}")
 
     # try to find SuperLU
@@ -48,11 +43,10 @@ endif(USE_SUPERLU)
 if(USE_MUMPS)
 
     # set the path to find specific modules
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules")
-
     set(MUMPS_DIR "${MUMPS_DIR}")
 
-    # try to find MUMPS
+    # try to find MUMPS and METIS (as dependency)
+    find_package(METIS)
     find_package(MUMPS)
 
     if (MUMPS_FOUND)
@@ -70,8 +64,6 @@ endif(USE_MUMPS)
 if(USE_PARDISO)
 
     # set the path to find specific modules
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules")
-
     set(MKL_DIR "${MKL_DIR}")
 
     # try to find MKL
