@@ -268,6 +268,7 @@ void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA,
         fasp_dcsr_write_coo("A11.coo", &matA11);
         fasp_dcsr_write_coo("A21.coo", &matA21);
         fasp_dcsr_write_coo("A22.coo", &matA22);
+        fasp_dvec_write("rhs.vec", &rhs);
     }
 
     // get transform of B
@@ -285,7 +286,6 @@ void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA,
                                                  &amgparam, &iluparam, &swzparam);
 
     if (print_level > 9) {
-        fasp_dvec_write("rhs.vec", &rhs);
         fasp_dvec_write("sol.vec", &sol);
         printf("Press ENTER to continue..."); getchar();
     }
