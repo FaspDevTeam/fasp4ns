@@ -10,14 +10,17 @@ output_type    = 0      % output_type: 0 Standard output | >0 File
 %----------------------------------------------%
 % parameters for solvers for whole system      %
 %----------------------------------------------%
-solver_type    = 6      % Solver type:   2 BiCGstab | 3 MinRes | 5 FGMRES | 6 VFGMRES | 8 GCR
+solver_type    = 6     % Solver type:   2 BiCGstab | 3 MinRes | 5 VGMRES | 6 VFGMRES | 8 GCR
 precond_type   = 2      % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 BLU | 5 SIMPLE |
                         %                6 SIMPLER | 7 UZAWA | 8 Projection | 9 DGS | 10 LSCDGS 
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
-IRsolver_tol   = 1e-10  % IR solver tolerance 
-IRsolver_maxit = 10     % IR maximal iteration number 
-itsolver_tol   = 1e-5   % Inner Solver tolerance 
-itsolver_maxit = 500    % Inner Solver Maximal iteration number 
+ 
+itsolver_tol   = 1e-10   % Inner Solver tolerance 
+itsolver_maxit = 1000    % Inner Solver Maximal iteration number 
+
+IR_type        = 0      % IR type : 0 No IR | 1 Iterative Refinement
+IRsolver_tol   = 1e-5  % IR solver tolerance 
+IRsolver_maxit = 10     % IR maximal iteration number
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
