@@ -176,6 +176,7 @@ typedef struct {
 	INT   maxit;         /**< max number of iterations */
 	REAL  tol;           /**< convergence tolerance */
 	
+    SHORT  IR_type;         /**< IR type : 0 No IR | 1 Iterative Refinement*/
     INT   IRmaxit;         /**< IR max number of iterations */
 	REAL  IRtol;           /**< IR convergence tolerance */
 	
@@ -352,6 +353,7 @@ typedef struct {
 	REAL itsolver_tol;   /**< tolerance for iterative linear solver */
 	INT itsolver_maxit;  /**< maximal number of iterations for iterative solvers */
 
+    SHORT IR_type;       /**< type of Iterative Refinement */
     REAL IRsolver_tol;   /**< IR tolerance for iterative linear solver */
 	INT IRsolver_maxit;  /**< IR maximal number of iterations for iterative solvers */
 
