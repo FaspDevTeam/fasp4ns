@@ -76,24 +76,19 @@ SHORT fasp_ns_solver_itsolver (dBLCmat *A,
 
     fasp_gettime(&solver_start);
 
-    switch (SolverType) {
-            
+    switch (SolverType) {  
         case SOLVER_BiCGstab:
             iter = fasp_solver_dblc_pbcgs(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
-            break;
-            
+            break;   
         case SOLVER_MinRes:
             iter = fasp_solver_dblc_pminres(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
-            break;
-            
+            break;   
         case SOLVER_VGMRES:
             iter = fasp_solver_dblc_pvgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
-            break;
-            
+            break;   
         case SOLVER_VFGMRES:
             iter = fasp_solver_dblc_pvfgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
             break;
-            
         case SOLVER_GCR:
             iter = fasp_solver_dblc_pgcr(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
             break;
@@ -151,31 +146,33 @@ SHORT fasp_ns_solver_IR (dBLCmat *Mat,
     SHORT      num_IRiter=0;
     SHORT status = FASP_SUCCESS;
     
-    LONGREAL rrn;
-    LONGREAL   bnorm,rnorm;
+    REAL rrn;
+    REAL   bnorm,rnorm;
     LONGREAL *ser_x ;
 
+
     REAL  *r_data;
-    LONGREAL  *r1_data;
     REAL     *x_data ;
     REAL *ser_b;
 
     const SHORT precond_type = itsparam->precond_type;
     const INT maxit_IR = itsparam->IRmaxit;
-    const REAL IRtol = itsparam->IRtol;
-    
+    const REAL IRtol = itsparam->tol;
+    itsparam->tol   = itsparam->IRtol;
+
+     
+ 
   
     col=b->row;
     r_data = (REAL  *)malloc(sizeof(REAL ) * col);
     ser_x = (LONGREAL  *)malloc(sizeof(LONGREAL ) * col);
-    r1_data = (LONGREAL  *)malloc(sizeof(LONGREAL ) * col);
     //bnorm
     ser_b = b->val;
     bnorm = fasp_blas_darray_norm2(col,ser_b);
     rrn = 1.0;
     for(i = 0; i < col; i++) {  
             ser_x[i] = 0;
-    }     
+    } 
 
     //IR Solve
     while(rrn>IRtol){
@@ -192,7 +189,7 @@ SHORT fasp_ns_solver_IR (dBLCmat *Mat,
         for(i = 0; i < col; i++) {  
                 ser_x[i] += x_data[i];
         } 
-        
+
         //b-Ax long double
         fasp_darray_cp(col,ser_b,r_data);
         fasp_blas_ldblc_aAxpy(-1.0,Mat,ser_x,r_data);
@@ -204,8 +201,9 @@ SHORT fasp_ns_solver_IR (dBLCmat *Mat,
         
         iter +=status;
         num_IRiter++;
+       
         if(num_IRiter >= maxit_IR || rrn < IRtol) {
-            printf("\n Number of IR iterations = %d with IR tol relative residual %Le . \n", iter, rrn);      
+            printf("\n Number of IR iterations = %d with IR tol relative residual %le . \n", iter, rrn);      
             break; 
         }
 
@@ -220,7 +218,6 @@ SHORT fasp_ns_solver_IR (dBLCmat *Mat,
             x_data[i] = ser_x[i];
     }
     x->val = x_data;
-
     return iter;
 }
 
@@ -259,9 +256,11 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     // parameters
     const SHORT PrtLvl       = itsparam->print_level;
     const SHORT precond_type = itsparam->precond_type;
+    const SHORT IR_type      = itsparam->IR_type;
     const INT schwarz_mmsize = swzparam->SWZ_mmsize;
     const INT schwarz_maxlvl = swzparam->SWZ_maxlvl;
     const INT schwarz_type   = swzparam->SWZ_type;
+   
     
 #if DEBUG_MODE > 0
     printf("### DEBUG: [-Begin-] %s ...\n", __FUNCTION__);
@@ -539,8 +538,20 @@ SHORT fasp_solver_dblc_krylov_navier_stokes (dBLCmat *Mat,
     
     //------ solve phase ------//
     fasp_gettime(&solver_start);
-    status = fasp_ns_solver_IR(Mat,b,x,&prec,itsparam);
 
+    if(IR_type >0){
+        status = fasp_ns_solver_IR(Mat,b,x,&prec,itsparam);
+    }
+    else{
+        switch (precond_type) {
+            case 0:
+                status = fasp_ns_solver_itsolver(Mat,b,x,NULL,itsparam); break;
+            default:
+                status = fasp_ns_solver_itsolver(Mat,b,x,&prec,itsparam);
+        }
+        
+    }
+    
     if (PrtLvl>0) {
         fasp_gettime(&solver_end);
         printf(COLOR_RESET);

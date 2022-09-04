@@ -266,6 +266,17 @@ void fasp_ns_param_input (char *filenm,
             fscanf(fp, "%*[^\n]"); // skip rest of line
         }
         
+        else if (strcmp(buffer,"IR_type")==0) {
+            val = fscanf(fp,"%s",buffer);
+            if (val!=1 || strcmp(buffer,"=")!=0) {
+                status = ERROR_INPUT_PAR; break;
+            }
+            val = fscanf(fp,"%d",&ibuff);
+            if (val!=1) { status = ERROR_INPUT_PAR; break; }
+            Input->IR_type = ibuff;
+            fscanf(fp, "%*[^\n]"); // skip rest of line
+        }
+
         else if (strcmp(buffer,"IRsolver_tol")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {

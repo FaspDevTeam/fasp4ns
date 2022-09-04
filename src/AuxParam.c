@@ -416,8 +416,12 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     itsparam->tol   = inparam->itsolver_tol;
     itsparam->maxit = inparam->itsolver_maxit;
     
+   
+    itsparam->IR_type   = inparam->IR_type;
     itsparam->IRtol   = inparam->IRsolver_tol;
     itsparam->IRmaxit = inparam->IRsolver_maxit;
+
+
     // iterative solver parameter for the velocity block
     itsparam->itsolver_type_v  = inparam->itsolver_type_v;
     itsparam->precond_type_v   = inparam->precond_type_v;
