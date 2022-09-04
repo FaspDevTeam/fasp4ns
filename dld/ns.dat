@@ -18,7 +18,7 @@ stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 |
 itsolver_tol   = 1e-10   % Inner Solver tolerance 
 itsolver_maxit = 1000    % Inner Solver Maximal iteration number 
 
-IR_type        = 0      % IR type : 0 No IR | 1 Iterative Refinement
+IR_type        = 1      % IR type : 0 No IR | 1 Iterative Refinement
 IRsolver_tol   = 1e-5  % IR solver tolerance 
 IRsolver_maxit = 10     % IR maximal iteration number
 
