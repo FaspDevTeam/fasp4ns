@@ -10,7 +10,7 @@
  *         from 0 instead of 1.
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
+ *  Copyright (C) 2012--Present by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  */
@@ -148,17 +148,6 @@ void fasp_fwrapper_dblc_krylov_nstokes_(INT *nA,
     matA21.JA = jc;
     matA21.val = cval;
 
-    if (print_level > 9)
-    {
-        fasp_dcsr_write_coo("A11.coo", &matA11);
-        fasp_dcsr_write_coo("A12.coo", &matA12);
-        fasp_dcsr_write_coo("A21.coo", &matA21);
-        fasp_dvec_write("rhs.vec", &rhs);
-    }
-
-    // generate an empty matrix
-    fasp_dcsr_alloc(*nC, *nC, 1, &matA22);
-
     // initialize rhs and sol vectors
     rhs.row = *nA + *nC;
     rhs.val = b;
@@ -171,6 +160,18 @@ void fasp_fwrapper_dblc_krylov_nstokes_(INT *nA,
         printf("Tolerance  = %e\n", inparam.itsolver_tol);
     }
 
+    if (print_level > 9)
+    {
+        fasp_dcsr_write_coo("A11.coo", &matA11);
+        fasp_dcsr_write_coo("A12.coo", &matA12);
+        fasp_dcsr_write_coo("A21.coo", &matA21);
+        fasp_dvec_write("rhs.vec", &rhs);
+    }
+
+    // generate an empty matrix
+    fasp_dcsr_alloc(*nC, *nC, 1, &matA22);
+
+    // solve the NS-like system
     flag = fasp_solver_dblc_krylov_navier_stokes(&A, &rhs, &sol, &itparam,
                                                  &amgparam, &iluparam, &swzparam);
 
@@ -298,17 +299,6 @@ void fasp_fwrapper_dblc_krylov_sstokes_(INT *nA,
     matA22.JA = jc;
     matA22.val = cval;
 
-    if (print_level > 9)
-    {
-        fasp_dcsr_write_coo("A11.coo", &matA11);
-        fasp_dcsr_write_coo("A21.coo", &matA21);
-        fasp_dcsr_write_coo("A22.coo", &matA22);
-        fasp_dvec_write("rhs.vec", &rhs);
-    }
-
-    // get transform of B
-    fasp_dcsr_trans(&matA21, &matA12);
-
     rhs.row = *nA + *nB;
     rhs.val = b;
     sol.row = *nA + *nB;
@@ -320,6 +310,18 @@ void fasp_fwrapper_dblc_krylov_sstokes_(INT *nA,
         printf("Tolerance  = %e\n", inparam.itsolver_tol);
     }
 
+    if (print_level > 9)
+    {
+        fasp_dcsr_write_coo("A11.coo", &matA11);
+        fasp_dcsr_write_coo("A21.coo", &matA21);
+        fasp_dcsr_write_coo("A22.coo", &matA22);
+        fasp_dvec_write("rhs.vec", &rhs);
+    }
+
+    // get transform of B
+    fasp_dcsr_trans(&matA21, &matA12);
+
+    // solve the Stokes-like system
     flag = fasp_solver_dblc_krylov_navier_stokes(&A, &rhs, &sol, &itparam,
                                                  &amgparam, &iluparam, &swzparam);
 
