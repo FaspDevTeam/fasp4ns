@@ -102,7 +102,7 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
     inparam->itsolver_tol               = 1e-6;
     inparam->itsolver_maxit             = 500;
     inparam->restart                    = 25;
-    inparam->abs_tol                    = 1e-8;
+    inparam->itsolver_abstol                    = 1e-8;
     // Velocity block parameters
     inparam->itsolver_type_v            = SOLVER_CG;
     inparam->precond_type_v             = PREC_AMG;
@@ -415,9 +415,8 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     itsparam->restart        = inparam->restart;
     
     itsparam->tol   = inparam->itsolver_tol;
-    itsparam->maxit = inparam->itsolver_maxit;
-    
-    itsparam->abstol =inparam->abs_tol;
+    itsparam->maxit = inparam->itsolver_maxit;  
+    itsparam->abstol =inparam->itsolver_abstol;
     itsparam->IR_type   = inparam->IR_type;
     itsparam->IRtol   = inparam->IRsolver_tol;
     itsparam->IRmaxit = inparam->IRsolver_maxit;

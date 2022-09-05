@@ -266,14 +266,14 @@ void fasp_ns_param_input (char *filenm,
             fscanf(fp, "%*[^\n]"); // skip rest of line
         }
         
-        else if (strcmp(buffer,"abs_tol")==0) {
+        else if (strcmp(buffer,"itsolver_abstol")==0) {
             val = fscanf(fp,"%s",buffer);
             if (val!=1 || strcmp(buffer,"=")!=0) {
                 status = ERROR_INPUT_PAR; break;
             }
             val = fscanf(fp,"%lf",&dbuff);
             if (val!=1) { status = ERROR_INPUT_PAR; break; }
-            Input->abs_tol = dbuff;
+            Input->itsolver_abstol = dbuff;
             fscanf(fp, "%*[^\n]"); // skip rest of line
         }
         else if (strcmp(buffer,"IR_type")==0) {
