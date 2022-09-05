@@ -4,20 +4,25 @@
 % must have spaces around the equal sign "="   %
 %----------------------------------------------%
 
-workdir = ./data/       % work directory, no more than 128 characters
-problem_num    = 602    % Problem number 
+workdir = ../data/      % work directory, no more than 128 characters
+problem_num    = 901    % Problem number 
 print_level    = 3      % How much information to print out 
 output_type    = 0      % output_type: 0 Standard output | >0 File
 
 %----------------------------------------------%
 % parameters for solvers for whole system      %
-%----------------------------------------------%
-solver_type    = 6      % Solver type:   2 BiCGstab | 3 MinRes | 5 FGMRES | 6 VFGMRES | 8 GCR
-precond_type   = 10     % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 BLU | 5 SIMPLE |
+%----------------------------------------------%              
+solver_type    = 6      % Solver type:   2 BiCGstab | 3 MinRes | 5 VGMRES | 6 VFGMRES | 8 GCR
+precond_type   = 2      % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 BLU | 5 SIMPLE |
                         %                6 SIMPLER | 7 UZAWA | 8 Projection | 9 DGS | 10 LSCDGS 
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
-itsolver_tol   = 1e-12  % Solver tolerance 
-itsolver_maxit = 500    % Maximal iteration number 
+ 
+itsolver_tol   = 1e-10   % Tolerance for iterative solver  
+itsolver_maxit = 1000   % Maximal iteration number for each IR step
+
+IR_type        = 1      % IR type : 0 No IR | 1 Iterative Refinement
+IRsolver_tol   = 1e-8   % Tolerance for inner IR iteration
+IRsolver_maxit = 10     % Maximal number of IR iteration
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
@@ -56,7 +61,7 @@ solver_type_v  	   = 4    % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes 
                           %--------------------------------------
                           %              31 SuperLU | 32 UMFPACK | 33 MUMPS | 34 PARDISO
 precond_type_v     = 2    % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_tol_v     = 1e-9 % Solver tolerance
+itsolver_tol_v     = 1e-3 % Solver tolerance
 itsolver_maxit_v   = 50   % Maximal iteration number
 itsolver_restart_v = 20   % Restart number for GMRES
 
@@ -70,14 +75,14 @@ AMG_cycle_type_v           = V     % V V-cycle | W W-cycle | A AMLI-cycle | NA N
 AMG_smoother_v             = GS    % GS | JACOBI | SGS SOR | SSOR | 
                                    % GSOR | SGSOR | POLY | L1DIAG | CG
 AMG_smooth_order_v         = CF    % NO: natural order | CF: CF order
-AMG_levels_v               = 10    % max number of levels
+AMG_levels_v               = 1    % max number of levels
 AMG_ILU_levels_v           = 0     % number of levels using ILU smoother
 AMG_schwarz_levels_v       = 0	   % number of levels using Schwarz smoother
 AMG_relaxation_v           = 1.1   % over relaxation parameter for SOR smoother 
 AMG_presmooth_iter_v       = 1     % number of presmoothing
 AMG_postsmooth_iter_v      = 1     % number of postsmoothing
 AMG_coarse_dof_v           = 1500  % max number of coarse degrees of freedom
-AMG_coarse_solver_v        = 32    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
+AMG_coarse_solver_v        = 34    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
 AMG_tol_v                  = 1e-8  % tolerance for AMG
 AMG_maxit_v                = 10    % number of AMG iterations
 AMG_coarse_scaling_v	   = OFF   % switch of scaling of the coarse grid correction 
@@ -122,7 +127,7 @@ solver_type_p  	   = 4    % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes 
                           %--------------------------------------
                           %              31 SuperLU | 32 UMFPACK | 33 MUMPS | 34 PARDISO
 precond_type_p     = 2    % Precond type: 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
-itsolver_tol_p     = 1e-9 % Solver tolerance 
+itsolver_tol_p     = 1e-3 % Solver tolerance 
 itsolver_maxit_p   = 100  % Maximal iteration number
 itsolver_restart_p = 20   % Restart number for GMRES
 
@@ -136,14 +141,14 @@ AMG_cycle_type_p           = V     % V V-cycle | W W-cycle | A AMLI-cycle | NA N
 AMG_smoother_p             = GS    % GS | JACOBI | SGS SOR | SSOR | 
                                    % GSOR | SGSOR | POLY | L1DIAG | CG
 AMG_smooth_order_p         = NO    % NO: natural order | CF: CF order
-AMG_levels_p               = 20    % max number of levels
+AMG_levels_p               = 1    % max number of levels
 AMG_ILU_levels_p           = 0     % number of levels using ILU smoother
 AMG_schwarz_levels_p       = 0	   % number of levels using Schwarz smoother
 AMG_relaxation_p           = 1.1   % over relaxation parameter for SOR smoother 
 AMG_presmooth_iter_p       = 1     % number of presmoothing
 AMG_postsmooth_iter_p      = 1     % number of postsmoothing
 AMG_coarse_dof_p           = 1000  % max number of coarse degrees of freedom
-AMG_coarse_solver_p        = 32    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
+AMG_coarse_solver_p        = 34    % coarse level solver: 31 SuperLU | 32 UMFPack | 33 MUMPS | 34 PARDISO
 AMG_tol_p                  = 1e-8  % tolerance for AMG
 AMG_maxit_p                = 1     % number of AMG iterations
 AMG_coarse_scaling_p	   = OFF   % switch of scaling of the coarse grid correction 

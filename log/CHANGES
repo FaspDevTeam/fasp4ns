@@ -1,7 +1,9 @@
 File Name: CHANGES
 
+09/05/2022 FASP4NS 0.2.5:
+- Add IR support for NS solver;
+
 09/03/2022 FASP4NS 0.2.4:
-- Add IR support;
 - Add a new test problem from DLD;
 - Add a new read function for BLC;
 - Test DLD solver;
