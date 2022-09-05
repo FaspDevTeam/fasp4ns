@@ -10,17 +10,18 @@ output_type    = 0      % output_type: 0 Standard output | >0 File
 %----------------------------------------------%
 % parameters for solvers for whole system      %
 %----------------------------------------------%
-solver_type    = 6      % Solver type:   2 BiCGstab | 3 MinRes | 5 VGMRES | 6 VFGMRES | 8 GCR
+solver_type    = 6     % Solver type:   2 BiCGstab | 3 MinRes | 5 VGMRES | 6 VFGMRES | 8 GCR
 precond_type   = 2      % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI | 4 BLU | 5 SIMPLE |
                         %                6 SIMPLER | 7 UZAWA | 8 Projection | 9 DGS | 10 LSCDGS 
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
  
-itsolver_tol   = 1e-10  % Tolerance for iterative solver  
-itsolver_maxit = 1000   % Maximal iteration number for each IR step
+itsolver_tol   = 1e-10   % Inner Solver tolerance 
+itsolver_maxit = 1000    % Inner Solver Maximal iteration number 
 
+abs_tol        = 1e-20
 IR_type        = 1      % IR type : 0 No IR | 1 Iterative Refinement
-IRsolver_tol   = 1e-5   % Tolerance for inner IR iteration
-IRsolver_maxit = 10     % Maximal number of IR iteration
+IRsolver_tol   = 1e-5  % IR solver tolerance 
+IRsolver_maxit = 10     % IR maximal iteration number
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
@@ -44,6 +45,7 @@ solver_type_v  	   = 4    % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes 
                           %              31 SuperLU | 32 UMFPACK | 33 MUMPS | 34 PARDISO
 precond_type_v     = 2    % Precond type:  % 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
 itsolver_tol_v     = 1e-3 % Solver tolerance
+itsolver_abstol_v     = 1e-8 % Solver tolerance
 itsolver_maxit_v   = 15    % Maximal iteration number
 itsolver_restart_v = 15    % Restart number for GMRES
 
@@ -110,6 +112,7 @@ solver_type_p  	   = 4    % Solver type: 1 CG | 2 BiCGstab | 3 MinRes | 4 GMRes 
                           %              31 SuperLU | 32 UMFPACK | 33 MUMPS | 34 PARDISO
 precond_type_p     = 2    % Precond type: 1 Diag | 2 AMG | 3 FMG | 4 ILU | 5 Schwarz
 itsolver_tol_p     = 1e-3 % Solver tolerance 
+itsolver_abstol_v     = 1e-8 % Solver tolerance
 itsolver_maxit_p   = 10    % Maximal iteration number
 itsolver_restart_p = 10    % Restart number for GMRES
 
