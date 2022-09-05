@@ -357,7 +357,7 @@ typedef struct
     REAL itsolver_tol;  /**< tolerance for iterative linear solver */
     INT itsolver_maxit; /**< maximal number of iterations for iterative solvers */
 
-    REAL abs_tol;       /**< tolerance for absolute residue */
+    REAL itsolver_abstol;       /**< tolerance for absolute residue */
     SHORT IR_type;      /**< type of Iterative Refinement */
     REAL IRsolver_tol;  /**< IR tolerance for iterative linear solver */
     INT IRsolver_maxit; /**< IR maximal number of iterations for iterative solvers */
