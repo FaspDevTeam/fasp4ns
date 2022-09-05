@@ -178,6 +178,8 @@ typedef struct
     SHORT stop_type;     /**< stopping criteria type */
     INT maxit;           /**< max number of iterations */
     REAL tol;            /**< convergence tolerance */
+
+    REAL  abstol;        /**< absolute residue tolerance */
     SHORT IR_type;       /**< IR type : 0 No IR | 1 Iterative Refinement*/
     INT IRmaxit;         /**< IR max number of iterations */
     REAL IRtol;          /**< IR convergence tolerance */
@@ -191,6 +193,7 @@ typedef struct
     SHORT precond_type_v;  /**< preconditioner type: see message.h */
     INT pre_maxit_v;       /**< max number of iterations */
     REAL pre_tol_v;        /**< convergence tolerance */
+    REAL pre_abstol_v;        /**< convergence tolerance */
     INT pre_restart_v;     /**< number of steps for restarting: for GMRES etc */
     SHORT print_level_v;   /**< print level: 0--10 */
 
@@ -201,6 +204,7 @@ typedef struct
     SHORT precond_type_p;  /**< preconditioner type: see message.h */
     INT pre_maxit_p;       /**< max number of iterations */
     REAL pre_tol_p;        /**< convergence tolerance */
+    REAL pre_abstol_p;        /**< convergence tolerance */
     INT pre_restart_p;     /**< number of steps for restarting: for GMRES etc */
     SHORT print_level_p;   /**< print level: 0--10 */
 
@@ -353,6 +357,7 @@ typedef struct
     REAL itsolver_tol;  /**< tolerance for iterative linear solver */
     INT itsolver_maxit; /**< maximal number of iterations for iterative solvers */
 
+    REAL abs_tol;       /**< tolerance for absolute residue */
     SHORT IR_type;      /**< type of Iterative Refinement */
     REAL IRsolver_tol;  /**< IR tolerance for iterative linear solver */
     INT IRsolver_maxit; /**< IR maximal number of iterations for iterative solvers */
@@ -365,6 +370,7 @@ typedef struct
     SHORT itsolver_type_v; /**< type of velocity block */
     SHORT precond_type_v;  /**< type of preconditioner for velocity block */
     REAL pre_tol_v;        /**< tolerance for velocity block */
+    REAL pre_abstol_v;        /**< abs tolerance for velocity block */
     INT pre_maxit_v;       /**< maximal number for velocity block */
     INT pre_restart_v;     /**< restart number for velocity block */
 
@@ -416,6 +422,7 @@ typedef struct
     SHORT itsolver_type_p; /**< type of pressure block */
     SHORT precond_type_p;  /**< type of preconditioner for pressure block */
     REAL pre_tol_p;        /**< tolerance for pressure block */
+     REAL pre_abstol_p;        /**< abs tolerance for pressure block */
     INT pre_maxit_p;       /**< maximal number for pressure block */
     INT pre_restart_p;     /**< restart number for pressure block */
 
