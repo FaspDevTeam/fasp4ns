@@ -64,6 +64,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     AMG_param *amgparam_v = predata->param_v;
     ITS_param *itparam_v = predata->ITS_param_v;
     const REAL  tolv = itparam_v->tol;
+    const REAL  abstolv = itparam_v->abstol;
     const INT   maxitv = itparam_v->maxit, restartv = itparam_v->restart;
     const SHORT prtlvlv = itparam_v->print_level;
 
@@ -77,7 +78,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     pc_v.fct = fasp_precond_amg;
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A,&rv,&zv,&pc_v,tolv,maxitv,restartv,1,prtlvlv);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A,&rv,&zv,&pc_v,tolv,abstolv,maxitv,restartv,1,prtlvlv);
     
 #else
     
@@ -94,6 +95,7 @@ void fasp_precond_ns_bdiag (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     const REAL  tolp = itparam_p->tol;
+    const REAL  abstolp = itparam_p->abstol;
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
@@ -104,7 +106,7 @@ void fasp_precond_ns_bdiag (REAL *r,
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
 
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 2){
@@ -118,7 +120,7 @@ void fasp_precond_ns_bdiag (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 4) {
@@ -128,7 +130,7 @@ void fasp_precond_ns_bdiag (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
     
 #else
@@ -173,6 +175,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     AMG_param *amgparam_v = predata->param_v;
     ITS_param *itparam_v = predata->ITS_param_v;
     const REAL  tolv = itparam_v->tol;
+    const REAL  abstolv = itparam_v->abstol;
     const INT   maxitv = itparam_v->maxit, restartv = itparam_v->restart;
     const SHORT prtlvlv = itparam_v->print_level;
 
@@ -199,7 +202,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A,&rv,&zv,&pc_v,tolv,maxitv,restartv,1,prtlvlv);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A,&rv,&zv,&pc_v,tolv,abstolv,maxitv,restartv,1,prtlvlv);
 
 #else
     
@@ -221,6 +224,7 @@ void fasp_precond_ns_low_btri (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     const REAL  tolp = itparam_p->tol;
+    const REAL  abstolp = itparam_p->abstol;
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
@@ -230,7 +234,7 @@ void fasp_precond_ns_low_btri (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 2){
@@ -244,7 +248,7 @@ void fasp_precond_ns_low_btri (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 4) {
@@ -253,7 +257,7 @@ void fasp_precond_ns_low_btri (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
     
 #else
@@ -308,6 +312,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     //-------------------------
     ITS_param *itparam_p = predata->ITS_param_p;
     const REAL  tolp = itparam_p->tol;
+    const REAL  abstolp = itparam_p->abstol;
     const INT   maxitp = itparam_p->maxit, restartp = itparam_p->restart;
     const SHORT prtlvlp = itparam_p->print_level;
 
@@ -317,7 +322,7 @@ void fasp_precond_ns_up_btri (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_s,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 2) {
@@ -331,7 +336,7 @@ void fasp_precond_ns_up_btri (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A,&rs,&zs,&pc_p,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
 
     else if (itparam_p->precond_type == 4) {
@@ -340,7 +345,7 @@ void fasp_precond_ns_up_btri (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,maxitp,restartp,1,prtlvlp);
+        fasp_solver_dcsr_pvfgmres(predata->S,&rs,&zs,&pc_ilu,tolp,abstolp,maxitp,restartp,1,prtlvlp);
     }
     
 #else
@@ -366,6 +371,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     AMG_param *amgparam_v = predata->param_v;
     ITS_param *itparam_v = predata->ITS_param_v;
     const REAL  tolv = itparam_v->tol;
+    const REAL  abstolv = itparam_v->abstol;
     const INT   maxitv = itparam_v->maxit, restartv = itparam_v->restart;
     const SHORT prtlvlv = itparam_v->print_level;
 
@@ -378,7 +384,7 @@ void fasp_precond_ns_up_btri (REAL *r,
     precond pc_v; pc_v.data = &pcdata_v;
     pc_v.fct = fasp_precond_amg;
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v,tolv,maxitv,restartv,1,prtlvlv);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v,tolv,abstolv,maxitv,restartv,1,prtlvlv);
     
 #else
 
@@ -442,7 +448,7 @@ void fasp_precond_ns_blu (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->abstol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -469,7 +475,7 @@ void fasp_precond_ns_blu (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -483,7 +489,7 @@ void fasp_precond_ns_blu (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -493,7 +499,7 @@ void fasp_precond_ns_blu (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -519,7 +525,7 @@ void fasp_precond_ns_blu (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol,itparam_v->abstol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     fasp_dcsr_trans(&mgl_v[0].A,ptrA);
@@ -586,7 +592,7 @@ void fasp_precond_ns_simple (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol,itparam_v->abstol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -613,7 +619,7 @@ void fasp_precond_ns_simple (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -627,7 +633,7 @@ void fasp_precond_ns_simple (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -637,7 +643,7 @@ void fasp_precond_ns_simple (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -731,7 +737,7 @@ void fasp_precond_ns_simpler (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -745,7 +751,7 @@ void fasp_precond_ns_simpler (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -755,7 +761,7 @@ void fasp_precond_ns_simpler (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -788,7 +794,7 @@ void fasp_precond_ns_simpler (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->abstol,itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     //dCSRmat tmpA;
@@ -820,7 +826,7 @@ void fasp_precond_ns_simpler (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -834,7 +840,7 @@ void fasp_precond_ns_simpler (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, deltaS, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, deltaS, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -844,7 +850,7 @@ void fasp_precond_ns_simpler (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, deltaS, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -935,7 +941,7 @@ void fasp_precond_ns_uzawa (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol,itparam_v->abstol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -1013,7 +1019,7 @@ void fasp_precond_ns_projection (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol,itparam_v->abstol,itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -1041,7 +1047,7 @@ void fasp_precond_ns_projection (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -1055,7 +1061,7 @@ void fasp_precond_ns_projection (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -1065,7 +1071,7 @@ void fasp_precond_ns_projection (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -1145,7 +1151,7 @@ void fasp_precond_ns_DGS (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->abstol,itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -1172,7 +1178,7 @@ void fasp_precond_ns_DGS (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -1186,7 +1192,7 @@ void fasp_precond_ns_DGS (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -1196,7 +1202,7 @@ void fasp_precond_ns_DGS (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -1276,7 +1282,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
     
     if (itparam_v->print_level > 0) printf(COLOR_RESET "\n");
     
-    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
+    fasp_solver_dcsr_pvfgmres(&mgl_v[0].A, &rv, &zv, &pc_v, itparam_v->tol, itparam_v->abstol,itparam_v->maxit, itparam_v->restart, 1, itparam_v->print_level);
 #else
     
     dCSRmat tmpA;
@@ -1303,7 +1309,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -1317,7 +1323,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, predata->sp, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -1327,7 +1333,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, predata->sp, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     
@@ -1370,7 +1376,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         precond pc_s;
         pc_s.data = predata->diag_S;
         pc_s.fct  = fasp_precond_diag;
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_s, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 2){
         // prepare  AMG preconditioner for S
@@ -1384,7 +1390,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         precond pc_p; pc_p.data = &pcdata_p;
         pc_p.fct = fasp_precond_amg;
         
-        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(&mgl_p[0].A, &rs, &zs, &pc_p, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
     }
     else if (itparam_p->precond_type == 4) {
         
@@ -1394,7 +1400,7 @@ void fasp_precond_ns_LSCDGS (REAL *r,
         pc_ilu.data = LU_p;
         pc_ilu.fct  = fasp_precond_ilu;
         
-        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
+        fasp_solver_dcsr_pvfgmres(predata->S, &rs, &zs, &pc_ilu, itparam_p->tol,itparam_p->abstol,itparam_p->maxit, itparam_p->restart, 1, itparam_p->print_level);
         
     }
     

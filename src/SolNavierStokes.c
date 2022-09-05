@@ -65,6 +65,7 @@ SHORT fasp_ns_solver_itsolver(dBLCmat *A,
     const SHORT MaxIt = itsparam->maxit;
     const SHORT restart = itsparam->restart;
     const REAL tol = itsparam->tol;
+    const REAL abstol = itsparam->abstol;
 
     INT iter = ERROR_SOLVER_TYPE;
     REAL solver_start, solver_end, solver_duration;
@@ -79,19 +80,19 @@ SHORT fasp_ns_solver_itsolver(dBLCmat *A,
     switch (SolverType)
     {
     case SOLVER_BiCGstab:
-        iter = fasp_solver_dblc_pbcgs(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
+        iter = fasp_solver_dblc_pbcgs(A, b, x, prec, tol,abstol, MaxIt, StopType, PrtLvl);
         break;
     case SOLVER_MinRes:
-        iter = fasp_solver_dblc_pminres(A, b, x, prec, tol, MaxIt, StopType, PrtLvl);
+        iter = fasp_solver_dblc_pminres(A, b, x, prec, tol, abstol,MaxIt, StopType, PrtLvl);
         break;
     case SOLVER_VGMRES:
-        iter = fasp_solver_dblc_pvgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
+        iter = fasp_solver_dblc_pvgmres(A, b, x, prec, tol, abstol,MaxIt, restart, StopType, PrtLvl);
         break;
     case SOLVER_VFGMRES:
-        iter = fasp_solver_dblc_pvfgmres(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
+        iter = fasp_solver_dblc_pvfgmres(A, b, x, prec, tol,abstol, MaxIt, restart, StopType, PrtLvl);
         break;
     case SOLVER_GCR:
-        iter = fasp_solver_dblc_pgcr(A, b, x, prec, tol, MaxIt, restart, StopType, PrtLvl);
+        iter = fasp_solver_dblc_pgcr(A, b, x, prec, tol, abstol,MaxIt, restart, StopType, PrtLvl);
         break;
 
     default:
@@ -163,7 +164,7 @@ SHORT fasp_ns_solver_IR(dBLCmat *Mat,
     bnorm = fasp_blas_darray_norm2(col, ser_b);
     rrn = 1.0;
 
-    for (i = 0; i < col; i++) ser_x[i] = 0.0; // TODO: x是输入的初值
+    fasp_ldarray_set(col,ser_x,0.0); // TODO: x是输入的初值
 
     // IR Solve
     while (rrn > IRtol)
@@ -179,7 +180,7 @@ SHORT fasp_ns_solver_IR(dBLCmat *Mat,
 
         // x=x+y;
         x_data = x->val;
-        for (i = 0; i < col; i++) ser_x[i] += x_data[i]; // TODO: Add functions for LONGREAL
+        fasp_blas_ldarray_axpy(col,1,x_data,ser_x); // TODO: Add functions for LONGREAL
 
         // b-Ax long double
         fasp_darray_cp(col, ser_b, r_data);
@@ -188,9 +189,16 @@ SHORT fasp_ns_solver_IR(dBLCmat *Mat,
         // rrn
         rnorm = fasp_blas_darray_norm2(col, r_data);
         rrn = rnorm / bnorm;
+        
+        
+        if (status<0) {
+            printf("\n### ERROR: IR Solver failed! Exit status = %d.\n\n", status);
+            break;
+        }else{
+            iter += status; // TODO: What if status < 0 (error in fasp_ns_solver_itsolver)
+            num_IRiter++;
+        }    
 
-        iter += status; // TODO: What if status < 0 (error in fasp_ns_solver_itsolver)
-        num_IRiter++;
 
         if (num_IRiter >= maxit_IR || rrn < IRtol)
         {
@@ -199,10 +207,7 @@ SHORT fasp_ns_solver_IR(dBLCmat *Mat,
         }
         // TODO: 算例901，IR没有作用
 
-        for (i = 0; i < col; i++)
-        {
-            x_data[i] = 0;
-        }
+        fasp_darray_set(col,x_data,0.0);
         x->val = x_data;
         b->val = r_data;
     }
@@ -448,6 +453,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes(dBLCmat *Mat,
     ITS_param_v.itsolver_type = itsparam->itsolver_type_v;
     ITS_param_v.restart = itsparam->pre_restart_v;
     ITS_param_v.tol = itsparam->pre_tol_v;
+    ITS_param_v.abstol = itsparam->pre_abstol_v;
     ITS_param_v.maxit = itsparam->pre_maxit_v;
     ITS_param_v.precond_type = itsparam->precond_type_v;
 
@@ -457,6 +463,7 @@ SHORT fasp_solver_dblc_krylov_navier_stokes(dBLCmat *Mat,
     ITS_param_p.itsolver_type = itsparam->itsolver_type_p;
     ITS_param_p.restart = itsparam->pre_restart_p;
     ITS_param_p.tol = itsparam->pre_tol_p;
+    ITS_param_p.abstol = itsparam->pre_abstol_p;
     ITS_param_p.maxit = itsparam->pre_maxit_p;
     ITS_param_p.precond_type = itsparam->precond_type_p;
 

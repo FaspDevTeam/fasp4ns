@@ -102,7 +102,7 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
     inparam->itsolver_tol               = 1e-6;
     inparam->itsolver_maxit             = 500;
     inparam->restart                    = 25;
-    
+    inparam->abs_tol                    = 1e-8;
     // Velocity block parameters
     inparam->itsolver_type_v            = SOLVER_CG;
     inparam->precond_type_v             = PREC_AMG;
@@ -370,6 +370,7 @@ void fasp_ns_param_solver_init (itsolver_ns_param *itsparam)
     itsparam->stop_type       = STOP_REL_RES;
     itsparam->maxit           = 100;
     itsparam->tol             = 1e-8;
+    itsparam->abstol          = 1e-8;
     itsparam->restart         = 20;
     itsparam->print_level     = 0;
     
@@ -416,7 +417,7 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     itsparam->tol   = inparam->itsolver_tol;
     itsparam->maxit = inparam->itsolver_maxit;
     
-   
+    itsparam->abstol =inparam->abs_tol;
     itsparam->IR_type   = inparam->IR_type;
     itsparam->IRtol   = inparam->IRsolver_tol;
     itsparam->IRmaxit = inparam->IRsolver_maxit;
@@ -429,10 +430,12 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     
     if (itsparam->itsolver_type_v == SOLVER_AMG) {
         itsparam->pre_tol_v    = inparam->AMG_tol_v;
+        itsparam->pre_abstol_v    = inparam->pre_abstol_v;
         itsparam->pre_maxit_v  = inparam->AMG_maxit_v;
     }
     else {
         itsparam->pre_tol_v    = inparam->pre_tol_v;
+        itsparam->pre_abstol_v    = inparam->pre_abstol_v;
         itsparam->pre_maxit_v  = inparam->pre_maxit_v;
     }
     
@@ -443,10 +446,12 @@ void fasp_ns_param_solver_set (itsolver_ns_param *itsparam,
     
     if (itsparam->itsolver_type_p == SOLVER_AMG) {
         itsparam->pre_tol_p    = inparam->AMG_tol_p;
+        itsparam->pre_abstol_p    = inparam->pre_abstol_p;
         itsparam->pre_maxit_p  = inparam->AMG_maxit_p;
     }
     else {
         itsparam->pre_tol_p    = inparam->pre_tol_p;
+        itsparam->pre_abstol_p    = inparam->pre_abstol_p;
         itsparam->pre_maxit_p  = inparam->pre_maxit_p;
     }
     

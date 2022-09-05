@@ -260,7 +260,7 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     //prec_pnp.fct = fasp_precond_dbsr_diag;
     
     //fasp_umfpack_solve(A_pnp_csr, &r0, &z0, LU_diag[0], 0);
-    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, NULL, 1e-3, 50, 50, 1, 0);
+    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, NULL, 1e-3,1e-8, 50, 50, 1, 0);
     //fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     //fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     
@@ -269,7 +269,7 @@ void fasp_precond_pnp_stokes_diag_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3,1e-8, 100, 100, 1, 0);
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
@@ -338,7 +338,7 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     //prec_pnp.fct = fasp_precond_dbsr_diag;
     
     //fasp_umfpack_solve(A_pnp_csr, &r0, &z0, LU_diag[0], 0);
-    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, NULL, 1e-3, 50, 50, 1, 0);
+    fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, NULL, 1e-3,1e-8,50, 50, 1, 0);
     //fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     //fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     
@@ -350,7 +350,7 @@ void fasp_precond_pnp_stokes_lower_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 1e-8,100, 100, 1, 0);
     
     // restore r
     fasp_darray_cp(N, tempr->val, r);
@@ -408,7 +408,7 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     prec_stokes.data = precdata_stokes;
     prec_stokes.fct = precdata->stokes_fct;
     
-    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 100, 100, 1, 0);
+    fasp_solver_dblc_pvfgmres(A_stokes_bcsr, &r1, &z1, &prec_stokes, 1e-3, 1e-8,100, 100, 1, 0);
     
     // r1 = r1 - A5*z2
     fasp_blas_dcsr_aAxpy(-1.0, A->blocks[1], z1.val, r0.val);
@@ -431,7 +431,7 @@ void fasp_precond_pnp_stokes_upper_inexact (REAL *r,
     //fasp_umfpack_solve(A_pnp_csr, &r0, &z0, LU_diag[0], 0);
     //fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, NULL, 1e-3, 50, 50, 1, 1);
     //fasp_solver_dbsr_pvgmres(A_pnp_bsr, &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
-    fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, NULL, 1e-3, 50, 50, 1, 0);
+    fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, NULL, 1e-3, 1e-8,50, 50, 1, 0);
     //fasp_solver_dcsr_pvgmres(A->blocks[0], &r0, &z0, &prec_pnp, 1e-3, 100, 100, 1, 1);
     
     // restore r
