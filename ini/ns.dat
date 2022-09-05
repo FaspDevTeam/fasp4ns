@@ -17,13 +17,12 @@ precond_type   = 2      % Precond type:  0 Null | 1 Diag | 2 LOW_TRI | 3 UP_TRI 
                         %                6 SIMPLER | 7 UZAWA | 8 Projection | 9 DGS | 10 LSCDGS 
 stop_type      = 1      % Stopping type: 1 ||r||/||b|| | 2 ||r||_M/||b||_M | 3 ||r||/||x||  
  
-itsolver_tol   = 1e-10   % Tolerance for iterative solver  
-itsolver_maxit = 1000   % Maximal iteration number for each IR step
-
-abs_tol         = 1e-40  % Tolerance for absolute residual 
-IR_type        = 1      % IR type : 0 No IR | 1 Iterative Refinement
-IRsolver_tol   = 1e-5   % Tolerance for inner IR iteration
-IRsolver_maxit = 10     % Maximal number of IR iteration
+itsolver_tol    = 1e-10   % Tolerance for iterative solver  
+itsolver_maxit  = 1000    % Maximal iteration number for each IR step
+itsolver_abstol = 1e-40   % Tolerance for absolute residual 
+IR_type         = 1       % IR type : 0 No IR | 1 Iterative Refinement
+IRsolver_tol    = 1e-5    % Tolerance for inner IR iteration
+IRsolver_maxit  = 10      % Maximal number of IR iteration
 
 %----------------------------------------------%
 % parameters for FGMRES/GCR method             %
