@@ -380,9 +380,9 @@ void fasp_ns_param_solver_init (itsolver_ns_param *itsparam)
     itsparam->restart         = 20;
     itsparam->print_level     = 0;
     
-    itsparam->IR_type         =0;
-    itsparam->IRtol           =1e-8;
-    itsparam->IRmaxit         =100;
+    itsparam->IR_type         = 0;
+    itsparam->IRtol           = 1e-8;
+    itsparam->IRmaxit         = 100;
     // iterative solver parameter for the velocity block
     itsparam->itsolver_type_v = SOLVER_CG;
     itsparam->precond_type_v  = PREC_AMG;
