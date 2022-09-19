@@ -5,7 +5,7 @@
  *  \note  This file contains Level-0 (Aux) functions.
  *
  *---------------------------------------------------------------------------------
- *  Copyright (C) 2012--Present by the FASP team. All rights reserved.
+ *  Copyright (C) 2012--2018 by the FASP team. All rights reserved.
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *---------------------------------------------------------------------------------
  */
@@ -102,7 +102,13 @@ void fasp_ns_param_input_init (input_ns_param *inparam)
     inparam->itsolver_tol               = 1e-6;
     inparam->itsolver_maxit             = 500;
     inparam->restart                    = 25;
-    inparam->itsolver_abstol                    = 1e-8;
+    inparam->itsolver_abstol            = 1e-8;
+    
+    //IR Solver parameters
+    inparam->IR_type                    = 0;      
+    inparam->IRsolver_tol               = 1e-8; 
+    inparam->IRsolver_maxit             = 100;    
+    
     // Velocity block parameters
     inparam->itsolver_type_v            = SOLVER_CG;
     inparam->precond_type_v             = PREC_AMG;
@@ -374,6 +380,9 @@ void fasp_ns_param_solver_init (itsolver_ns_param *itsparam)
     itsparam->restart         = 20;
     itsparam->print_level     = 0;
     
+    itsparam->IR_type         =0;
+    itsparam->IRtol           =1e-8;
+    itsparam->IRmaxit         =100;
     // iterative solver parameter for the velocity block
     itsparam->itsolver_type_v = SOLVER_CG;
     itsparam->precond_type_v  = PREC_AMG;
