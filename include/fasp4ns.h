@@ -211,7 +211,7 @@ typedef struct
 } itsolver_ns_param; /**< Parameters for iterative solvers */
 
 /**
- * \brief Parameters passed to the preconditioner for generalized Navier-Stokes problems
+ * \brief Parameters passed to the preconditioner for general Navier-Stokes problems
  *
  */
 typedef struct precond_ns_param
