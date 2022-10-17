@@ -15,7 +15,7 @@ c======================== new add begin
 c======================== new add end
 
 c======================== new add begin
-      inquire(file='..\input\showmatrixstep.dat',exist=filflg)
+      inquire(file='../input/showmatrixstep.dat',exist=filflg)
       if(filflg) then
          ndebug = .true.
       else
@@ -27,7 +27,7 @@ c      print*,ndebug,filflg
          OPEN(1,FILE='time',FORM='UNFORMATTED')
          READ(1) TMAX,DT,TIME,IT
          close(1)
-         open (343,file='..\input\showmatrixstep.dat',form='formatted')
+         open (343,file='../input/showmatrixstep.dat',form='formatted')
          read(343,*)  numstep,(nshowmatrixstep(i),i=1,numstep)
          close(343)
          nshow = .false.
@@ -196,6 +196,7 @@ c         print *,'##',numcol_B(i+1),numcol_C(i+1)
       forall (i=1:maxa_A+1) na_A(i) = na_A(i) - 1
       forall (i=1:maxa_B+1) na_B(i) = na_B(i) - 1
       forall (i=1:maxa_C+1) na_C(i) = na_C(i) - 1
+      forall (i=1:maxa+1) na(i) = na(i) - 1
 
 c========================  new add begin
       if (nshow) then
@@ -241,6 +242,36 @@ c========================  new add begin
          open (2,file=fname,form='formatted',status='unknown')
          write(2,*) (f(i),i=1,neq)
          close(2)
+         fname = 'faspmatrix'
+         call getname(fname,IT)    
+         call getname(fname,iterate)
+         open (2,file=fname,form='formatted',status='unknown')
+         write(2,*) neq,maxa
+         write(2,*) (numcol(i),i=1,neq+1)
+         write(2,*) (na(i),i=1,maxa)
+         write(2,*) (a(i),i=1,maxa)
+         close(2)
+         fname = 'faspmatrix_neq'
+         open (2,file=fname,form='formatted',status='unknown')
+         write(2,*) neq,maxa
+         close(2)
+         fname = 'faspmatrix_numcol'
+         open (2,file=fname,form='unformatted',status='unknown')
+         write(2) (numcol(i),i=1,neq+1)
+         close(2)
+         fname = 'faspmatrix_na'
+         open (2,file=fname,form='unformatted',status='unknown')
+         write(2) (na(i),i=1,maxa)
+         close(2)
+         fname = 'faspmatrix_a'
+         open (2,file=fname,form='unformatted',status='unknown')
+         write(2) (a(i),i=1,maxa)
+         close(2)
+         fname = 'fasprhs'
+         open (2,file=fname,form='unformatted',status='unknown')
+         write(2) (f(i),i=1,neq)
+         close(2)
+         
       endif
 c======================== new add end
 
@@ -260,9 +291,12 @@ c      print*,filflg,esum
 c      pause
 c======================== new add end 3
 
-      call fasp_fwrapper_dblc_krylov_sstokes(nvar_A,maxa_A,numcol_A,
-     &na_A,a_A,nvar_B,maxa_B,numcol_B,na_B,a_B,nvar_C,maxa_C,numcol_C,
-     &na_C,a_C,f,u);
+   !    call fasp_fwrapper_dblc_krylov_sstokes(nvar_A,maxa_A,numcol_A,
+   !   &na_A,a_A,nvar_B,maxa_B,numcol_B,na_B,a_B,nvar_C,maxa_C,numcol_C,
+   !   &na_C,a_C,f,u);
+
+      ! call fasp_fwrapper_dcsr_pardiso(neq,maxa,numcol,na,a,f,u,3);
+      call fasp_fwrapper_dcsr_strumpack(neq,maxa,numcol,na,a,f,u,3);
 
       OPEN (3,FILE='u',FORM='UNFORMATTED',STATUS='unknown')
       WRITE (3) (U(I),I=1,NEQ)
