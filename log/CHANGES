@@ -1,5 +1,10 @@
 File Name: CHANGES
 
+10/16/2022 FASP4NS 0.2.6:
+- Remove compiler ordering from cmake;
+- Update FindMETIS and FindMKL;
+- Update makefile structure in dld.
+
 09/21/2022 FASP4NS 0.2.5:
 - Add IR support for NS solver;
 - Update license info;
