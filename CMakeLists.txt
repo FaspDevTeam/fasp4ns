@@ -1,16 +1,4 @@
-# CMakeLists for FASP 
-# 
-# Author            Date           Action
-# -----------------------------------------------------------------------------
-# Chensong Zhang    Jan/29/2022    Create CMakeLists
-# Chensong Zhang    Feb/18/2022    Fix math.lib linkage problem
-#
-# Some sample usages:
-#   cmake .                             // build in default configuration
-#   cmake -DCMAKE_BUILD_TYPE=Release .  // build in Release configuration
-#   cmake -DCMAKE_BUILD_TYPE=Debug .    // build in Debug configuration
-#   cmake -DCMAKE_VERBOSE_MAKEFILE=ON . // build with verbose on
-#   cmake -DUSE_UMFPACK=ON .            // build with UMFPACK package support
+# CMakeLists for FASP4NS
 
 ###############################################################################
 ## General environment setting
@@ -18,14 +6,6 @@
 
 # Minimum cmake version needed
 cmake_minimum_required(VERSION 2.8.12)
-
-# Default C++ compiler look-up order
-find_program(THE_CXX NAMES $ENV{CXX} g++ clang++ icpc)
-set(CMAKE_CXX_COMPILER ${THE_CXX} CACHE INTERNAL "the CXX compiler" FORCE)
-
-# Default C compiler look-up order
-find_program(THE_C NAMES $ENV{CC} gcc clang icc)
-set(CMAKE_C_COMPILER ${THE_C} CACHE INTERNAL "the C compiler" FORCE)
 
 # Name of the project
 project(fasp4ns C CXX)
