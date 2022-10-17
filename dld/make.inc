@@ -39,12 +39,16 @@ FSRCDIR=.
 #SOLVERLIB_MKL = /public1/soft/oneAPI/2022.1/mkl/latest/lib/intel64/libmkl_rt.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libiomp5.so /public1/soft/oneAPI/2022.1/compiler/latest/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
 #SOLVERINCLUDE_MKL = -I$(SOLVERDIR_MKL)/include
 
+SOLVERDIR_MKL = /opt/intel/oneapi/mkl/2021.4.0
+SOLVERLIB_MKL = /opt/intel/oneapi/mkl/2021.4.0/lib/intel64/libmkl_rt.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libiomp5.so /opt/intel/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/libimf.so -lm -Wl,-rpath,::::::::::::::
+SOLVERINCLUDE_MKL = -I$(SOLVERDIR_MKL)/include
+
 ##########################
 # Use STRUMPACK solver
 ##########################
-#SOLVERDIR_STRUM = 
-#SOLVERLIB_STRUM = -I$(SOLVERDIR_STRUM)/lib
-#SOLVERINCLUDE_STRUM = -I$(SOLVERDIR_STRUM)/include
+SOLVERDIR_STRUM = /data/shared/Solver/STRUMPACK/install/
+SOLVERLIB_STRUM = $(SOLVERDIR_STRUM)/lib/libstrumpack.a /data/shared/Solver/metis-5.1.0/install/lib/libmetis.so -lstdc++
+SOLVERINCLUDE_STRUM = -I$(SOLVERDIR_STRUM)/include
 
 SOLVERLIB = $(SOLVERLIB_UMFPACK) $(SOLVERLIB_MKL) $(SOLVERLIB_STRUM)
 SOLVERINCLUDE = $(SOLVERINCLUDE_UMFPACK) $(SOLVERINCLUDE_MKL) $(SOLVERINCLUDE_STRUM)
