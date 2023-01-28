@@ -72,9 +72,11 @@ c      write(2,*) neq
 c      write(2,*) (f(I),I=1,neq)
 c      CLOSE(2)
 
-      tol=1.d-06
-      maxit=100
-      info=5
+      forall (i=1:maxa+1) na(i) = na(i) - 1
+
+      tol=1.d-10
+      maxit=1000      
+      info=3
       call fasp_fwrapper_dcsr_krylov_amg(neq,maxa,numcol,na,a,f,u,tol,
      *maxit,info)
 
