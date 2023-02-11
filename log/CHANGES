@@ -1,7 +1,8 @@
 File Name: CHANGES
 
-01/27/2023 FASP4NS 0.2.7:
-- Update fasp4ell.for by Pengtao.
+02/12/2023 FASP4NS 0.2.7:
+- Update fasp4ell.for by Pengtao;
+- Update NS stablized wrapper.
 
 10/16/2022 FASP4NS 0.2.6:
 - Remove compiler ordering from cmake;

@@ -96,7 +96,7 @@ void fasp_fwrapper_dblc_krylov_nstokes_(INT *nA,
     ILU_param iluparam;        // parameters for ILU
     SWZ_param swzparam;        // parameters for Schwarz
 
-    /** Step 0. Read input parameters */
+    // Read input parameters
     fasp_ns_param_input(inputfile, &inparam);
     fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &swzparam);
 
@@ -184,6 +184,178 @@ void fasp_fwrapper_dblc_krylov_nstokes_(INT *nA,
 }
 
 /**
+ * \fn void fasp_fwrapper_dblc_krylov_nstokes4_ (INT *nA, INT *nnzA, INT *ia,
+ *                                               INT *ja, REAL *aval, INT *nB,
+ *                                               INT *mB, INT *nnzB, INT *ib,
+ *                                               INT *jb, REAL *bval, INT *nC,
+ *                                               INT *mC, INT *nnzC, INT *ic,
+ *                                               INT *jc, REAL *cval,INT *nD,
+ *                                               INT *nnzD, INT *id, INT *jd,
+ *                                               REAL *dval, REAL *b, REAL *u)
+ *
+ * \brief Solve [A B; C D] u = b by Krylov method with block preconditioners
+ *
+ * \param nA       num of rows/cols of A
+ * \param nnzA     num of nonzeros of A
+ * \param ia       IA of A in CSR format
+ * \param ja       JA of A in CSR format
+ * \param aval     VAL of A in CSR format
+ * \param nB       num of rows of B
+ * \param mB       num of cols of B
+ * \param nnzB     num of nonzeros of B
+ * \param ib       IA of B in CSR format
+ * \param jb       JA of B in CSR format
+ * \param bval     VAL of B in CSR format
+ * \param nC       num of rows of C
+ * \param mC       num of cols of C
+ * \param nnzC     num of nonzeros of C
+ * \param ic       IA of C in CSR format
+ * \param jc       JA of C in CSR format
+ * \param cval     VAL of C in CSR format
+ * \param nD       num of rows/cols of D
+ * \param nnzD     num of nonzeros of D
+ * \param id       IA of D in CSR format
+ * \param jd       JA of D in CSR format
+ * \param dval     VAL of D in CSR format
+ * \param b        rhs vector
+ * \param u        solution vector
+ *
+ * \author Chensong Zhang
+ * \date   02/12/2023
+ */
+void fasp_fwrapper_dblc_krylov_nstokes4_(INT *nA,
+                                         INT *nnzA,
+                                         INT *ia,
+                                         INT *ja,
+                                         REAL *aval,
+                                         INT *nB,
+                                         INT *mB,
+                                         INT *nnzB,
+                                         INT *ib,
+                                         INT *jb,
+                                         REAL *bval,
+                                         INT *nC,
+                                         INT *mC,
+                                         INT *nnzC,
+                                         INT *ic,
+                                         INT *jc,
+                                         REAL *cval,
+                                         INT *nD,
+                                         INT *nnzD,
+                                         INT *id,
+                                         INT *jd,
+                                         REAL *dval,
+                                         REAL *b,
+                                         REAL *u)
+{
+    dBLCmat A; // coefficient matrix
+    dCSRmat matA11, matA21, matA12, matA22;
+    dvector rhs, sol;         // right-hand-side, solution
+    precond_ns_param psparam; // parameters for ns precond
+    precond_ns_data psdata;   // data for ns precond
+    int i, flag;
+
+    char *inputfile = "ini/ns.dat";
+    input_ns_param inparam;    // parameters from input files
+    itsolver_ns_param itparam; // parameters for itsolver
+    AMG_ns_param amgparam;     // parameters for AMG
+    ILU_param iluparam;        // parameters for ILU
+    SWZ_param swzparam;        // parameters for Schwarz
+
+    // Read input parameters
+    fasp_ns_param_input(inputfile, &inparam);
+    fasp_ns_param_init(&inparam, &itparam, &amgparam, &iluparam, &swzparam);
+
+    // Set local parameters
+    const int print_level = inparam.print_level;
+    const int problem_num = inparam.problem_num;
+    const int itsolver_type = inparam.solver_type;
+    const int precond_type = inparam.precond_type;
+
+#if DEBUG_MODE > 0
+    printf("### DEBUG: nA = %d\n", *nA);
+    printf("### DEBUG: nB = %d, mB = %d\n", *nB, *mB);
+    printf("### DEBUG: nC = %d, mc = %d\n", *nC, *mC);
+    printf("### DEBUG: nD = %d\n", *nD);
+#endif
+
+    // initialize dBLCmat pointer
+    A.brow = 2;
+    A.bcol = 2;
+    A.blocks = (dCSRmat **)calloc(4, sizeof(dCSRmat *));
+    if (A.blocks == NULL)
+    {
+        printf("### ERROR: Cannot allocate memory %s!\n", __FUNCTION__);
+        exit(ERROR_ALLOC_MEM);
+    }
+    A.blocks[0] = &matA11;
+    A.blocks[1] = &matA12;
+    A.blocks[2] = &matA21;
+    A.blocks[3] = &matA22;
+
+    // initialize matrix
+    matA11.row = *nA;
+    matA11.col = *nA;
+    matA11.nnz = *nnzA;
+    matA11.IA = ia;
+    matA11.JA = ja;
+    matA11.val = aval;
+
+    matA12.row = *nB;
+    matA12.col = *mB;
+    matA12.nnz = *nnzB;
+    matA12.IA = ib;
+    matA12.JA = jb;
+    matA12.val = bval;
+
+    matA21.row = *nC;
+    matA21.col = *mC;
+    matA21.nnz = *nnzC;
+    matA21.IA = ic;
+    matA21.JA = jc;
+    matA21.val = cval;
+
+    matA22.row = *nD;
+    matA22.col = *nD;
+    matA22.nnz = *nnzD;
+    matA22.IA = id;
+    matA22.JA = jd;
+    matA22.val = dval;
+
+    // initialize rhs and sol vectors
+    rhs.row = *nA + *nC;
+    rhs.val = b;
+    sol.row = *nA + *nC;
+    sol.val = u;
+
+    if (print_level > 0)
+    {
+        printf("Max it num = %d\n", inparam.itsolver_maxit);
+        printf("Tolerance  = %e\n", inparam.itsolver_tol);
+    }
+
+    if (print_level > 9)
+    {
+        fasp_dcsr_write_coo("A11.coo", &matA11);
+        fasp_dcsr_write_coo("A12.coo", &matA12);
+        fasp_dcsr_write_coo("A21.coo", &matA21);
+        fasp_dcsr_write_coo("A22.coo", &matA22);
+        fasp_dvec_write("rhs.vec", &rhs);
+    }
+
+    // solve the NS-like system
+    flag = fasp_solver_dblc_krylov_navier_stokes(&A, &rhs, &sol, &itparam,
+                                                 &amgparam, &iluparam, &swzparam);
+
+    if (print_level > 9)
+    {
+        fasp_dvec_write("sol.vec", &sol);
+        printf("Press ENTER to continue...");
+        getchar();
+    }
+}
+
+/**
  * \fn void fasp_fwrapper_dblc_krylov_sstokes_ (INT *nA, INT *nnzA, INT *ia,
  *                                              INT *ja, REAL *aval, INT *nB,
  *                                              INT *nnzB, INT *ib, INT *jb,
@@ -242,7 +414,7 @@ void fasp_fwrapper_dblc_krylov_sstokes_(INT *nA,
     precond_ns_data psdata;   // data for ns precond
     int i, flag;
 
-    /** Step 0. Read input parameters */
+    // Read input parameters
     char *inputfile = "ini/ns.dat";
     input_ns_param inparam;    // parameters from input files
     itsolver_ns_param itparam; // parameters for itsolver
